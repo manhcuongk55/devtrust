@@ -74,6 +74,10 @@
         <a href="#" class="sidebar__link" data-view="learning" id="nav-learning">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
           <span>Học tập</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="ideas" id="nav-ideas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+          <span>Idea Space</span>
           <span class="sidebar__badge sidebar__badge--new">MỚI</span>
         </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
@@ -97,18 +101,18 @@
       </nav>
       <div class="sidebar__divider"></div>
       <div class="sidebar__shortcuts">
-        <h4 class="sidebar__heading">Nhóm của bạn</h4>
+        <h4 class="sidebar__heading">Coding House</h4>
         <a href="#" class="sidebar__link sidebar__link--group">
           <div class="avatar avatar--xs"><img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech" alt="" /></div>
-          <span>Tech Startup VN</span>
+          <span>Coding House HN</span>
         </a>
         <a href="#" class="sidebar__link sidebar__link--group">
           <div class="avatar avatar--xs"><img src="https://api.dicebear.com/7.x/shapes/svg?seed=design" alt="" /></div>
-          <span>UI/UX Design Club</span>
+          <span>Coding House SG</span>
         </a>
         <a href="#" class="sidebar__link sidebar__link--group">
           <div class="avatar avatar--xs"><img src="https://api.dicebear.com/7.x/shapes/svg?seed=coffee" alt="" /></div>
-          <span>Cà Phê & Code</span>
+          <span>Coding House ĐN</span>
         </a>
       </div>
     </aside>
@@ -379,6 +383,199 @@
         </div>
       </section>
 
+      <!-- ===== IDEA SPACE VIEW ===== -->
+      <section class="view view--ideas" id="view-ideas">
+        <!-- Smile House Creative Space Hero -->
+        <div class="ideas-hero">
+          <div class="ideas-hero__glow"></div>
+          <div class="ideas-hero__content">
+            <div class="ideas-hero__badge">🏠 Smile House × DevTrust</div>
+            <h1 class="ideas-hero__title">Creative <span>Space</span></h1>
+            <p class="ideas-hero__desc">Không gian sáng tạo cho những ý tưởng cải tạo thế giới. Post ý tưởng, vote, tìm đồng đội, và biến giấc mơ thành hiện thực.</p>
+            <div class="ideas-hero__actions">
+              <button class="btn btn--primary btn--lg" id="btn-submit-idea">💡 Đăng ý tưởng mới</button>
+              <button class="btn btn--glass btn--lg" id="btn-join-warriors">⚔️ Tuyển Chiến Binh</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Idea Tabs -->
+        <div class="ideas-tabs" id="ideas-tabs">
+          <button class="ideas-tab active" data-itab="all">🔥 Tất cả</button>
+          <button class="ideas-tab" data-itab="tech">💻 Công nghệ</button>
+          <button class="ideas-tab" data-itab="edu">🎓 Giáo dục</button>
+          <button class="ideas-tab" data-itab="social">🌍 Xã hội</button>
+          <button class="ideas-tab" data-itab="business">💰 Kinh doanh</button>
+        </div>
+
+        <!-- Idea Cards -->
+        <div class="ideas-grid" id="ideas-grid">
+          <!-- JS populated -->
+        </div>
+
+        <!-- Coding House Map -->
+        <div class="codinghouse-map-section">
+          <div class="codinghouse-map-header">
+            <h3>🗺️ Coding House & Dev Network</h3>
+            <p>Xem vị trí các Coding House và dev gần bạn. Kết nối, hẹn gặp, code cùng nhau!</p>
+          </div>
+          <div class="codinghouse-map-wrap">
+            <div id="coding-house-map" style="width:100%;height:400px;border-radius:12px;"></div>
+          </div>
+          <div class="codinghouse-map-legend">
+            <span class="legend-item"><span class="legend-dot legend-dot--house"></span> Coding House</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--dev"></span> Dev online</span>
+            <span class="legend-item"><span class="legend-dot legend-dot--offline"></span> Dev offline</span>
+          </div>
+        </div>
+
+        <!-- ============ INFRASTRUCTURE WARRIORS SECTION ============ -->
+        <div class="warriors-section" id="warriors-section">
+
+          <!-- Warriors Hero -->
+          <div class="warriors-hero" id="warriors-hero">
+            <div class="warriors-hero__particles" id="warrior-particles"></div>
+            <div class="warriors-hero__glow"></div>
+            <div class="warriors-hero__content">
+              <div class="warriors-hero__badge">⚔️ Sứ mệnh cải tạo nhân loại</div>
+              <h1 class="warriors-hero__title">Chiến Binh <span>Hạ Tầng Kết Nối</span></h1>
+              <p class="warriors-hero__subtitle">Cải tạo hạ tầng kết nối nhân loại cho trong sạch hơn</p>
+              <p class="warriors-hero__desc">Thế giới cần những chiến binh code — những người dám xây dựng mạng lưới kết nối <strong>phi tập trung, minh bạch, không kiểm duyệt</strong>. Chúng tôi tìm Trust Devs — những người có tâm, có tầm, sẵn sàng cống hiến cho một internet trong sạch.</p>
+              <div class="warriors-hero__actions">
+                <button class="btn btn--warrior btn--lg" id="btn-warrior-signup" onclick="startWarriorChallenge()">⚔️ Thử Thách & Đăng Ký</button>
+                <button class="btn btn--glass btn--lg" id="btn-warrior-missions">🎯 Xem Nhiệm Vụ</button>
+                <button class="btn btn--glass btn--lg" onclick="generateReferralLink()">🔗 Tạo Link Giới Thiệu</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Marketing Metrics Dashboard -->
+          <div class="mkt-dashboard-wrap" id="mkt-dashboard"></div>
+
+          <!-- Mission Pillars -->
+          <div class="warriors-pillars" id="warriors-pillars">
+            <h3 class="warriors-section-title"><span>🏛️</span> Bốn Trụ Cột Sứ Mệnh</h3>
+            <div class="pillars-grid">
+              <div class="pillar-card" data-pillar="network">
+                <div class="pillar-card__icon-wrap"><div class="pillar-card__icon">🌐</div></div>
+                <h4>Mạng Sạch P2P</h4>
+                <p>Xây dựng hạ tầng mạng phi tập trung — không big tech kiểm soát, không theo dõi</p>
+                <div class="pillar-card__tech">Gun.js · IPFS · WebRTC · LibP2P</div>
+              </div>
+              <div class="pillar-card" data-pillar="edu">
+                <div class="pillar-card__icon-wrap"><div class="pillar-card__icon">📚</div></div>
+                <h4>Giáo Dục Toàn Dân</h4>
+                <p>Bình dân học vụ số — phổ cập kỹ năng số offline cho mọi người, mọi nơi</p>
+                <div class="pillar-card__tech">Offline-first · P2P Sync · BDHVS</div>
+              </div>
+              <div class="pillar-card" data-pillar="truth">
+                <div class="pillar-card__icon-wrap"><div class="pillar-card__icon">🔍</div></div>
+                <h4>Chống Fake & Sự Thật</h4>
+                <p>Trust Score xác minh nguồn tin — AI phát hiện deepfake, tin giả, nội dung độc hại</p>
+                <div class="pillar-card__tech">Trust Engine · AI Detection · ZK-Proof</div>
+              </div>
+              <div class="pillar-card" data-pillar="connect">
+                <div class="pillar-card__icon-wrap"><div class="pillar-card__icon">🤝</div></div>
+                <h4>Kết Nối Nhân Loại</h4>
+                <p>Phá vỡ rào cản ngôn ngữ, văn hóa — kết nối dev toàn cầu vì hòa bình</p>
+                <div class="pillar-card__tech">Translation P2P · Cross-culture · Peace</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Warrior Stats -->
+          <div class="warriors-stats" id="warriors-stats">
+            <div class="warrior-stat" data-target="47">
+              <div class="warrior-stat__number" id="stat-warriors">0</div>
+              <div class="warrior-stat__label">Chiến Binh</div>
+              <div class="warrior-stat__sub">Trust Score ≥ 70</div>
+            </div>
+            <div class="warrior-stat" data-target="12">
+              <div class="warrior-stat__number" id="stat-missions">0</div>
+              <div class="warrior-stat__label">Nhiệm Vụ</div>
+              <div class="warrior-stat__sub">Đang hoạt động</div>
+            </div>
+            <div class="warrior-stat" data-target="5">
+              <div class="warrior-stat__number" id="stat-countries">0</div>
+              <div class="warrior-stat__label">Quốc Gia</div>
+              <div class="warrior-stat__sub">Kết nối P2P</div>
+            </div>
+            <div class="warrior-stat" data-target="3280">
+              <div class="warrior-stat__number" id="stat-users">0</div>
+              <div class="warrior-stat__label">Người Dùng</div>
+              <div class="warrior-stat__sub">Được bảo vệ</div>
+            </div>
+          </div>
+
+          <!-- Warrior Roles -->
+          <div class="warriors-roles" id="warriors-roles">
+            <h3 class="warriors-section-title"><span>⚔️</span> Vai Trò Chiến Binh — Tìm Trust Devs</h3>
+            <p class="warriors-section-desc">Mỗi vai trò đều quan trọng. Chúng tôi tìm những dev có Trust Score cao, tâm huyết, sẵn sàng cống hiến lâu dài.</p>
+            <div class="warrior-roles-grid" id="warrior-roles-grid">
+              <!-- JS populated -->
+            </div>
+          </div>
+
+          <!-- Active Missions -->
+          <div class="warriors-missions" id="warriors-missions">
+            <h3 class="warriors-section-title"><span>🎯</span> Nhiệm Vụ Đang Tuyển</h3>
+            <div class="missions-grid" id="missions-grid">
+              <!-- JS populated -->
+            </div>
+          </div>
+
+          <!-- Warrior Wall — Trust Devs -->
+          <div class="warriors-wall" id="warriors-wall">
+            <h3 class="warriors-section-title"><span>🛡️</span> Chiến Binh Tiêu Biểu — Trust Devs</h3>
+            <p class="warriors-section-desc">Những dev có Trust Score cao nhất, đóng góp nhiều nhất cho sứ mệnh cải tạo hạ tầng.</p>
+            <div class="warrior-wall-grid" id="warrior-wall-grid">
+              <!-- JS populated -->
+            </div>
+          </div>
+
+          <!-- Auto-Post Templates Section -->
+          <div class="auto-post-section" id="auto-post-section">
+            <!-- JS populated -->
+          </div>
+
+          <!-- Warrior Signup -->
+          <div class="warrior-signup" id="warrior-signup">
+            <div class="warrior-signup__glow"></div>
+            <div class="warrior-signup__content">
+              <h3>⚔️ Trở Thành Chiến Binh</h3>
+              <p>Điền thông tin — chúng tôi sẽ verify và gán Trust Score đầu vào dựa trên portfolio + lịch sử open source.</p>
+              <form class="warrior-signup__form" id="warrior-signup-form">
+                <div class="warrior-signup__row">
+                  <input type="text" placeholder="Tên chiến binh" id="warrior-name" required />
+                  <input type="text" placeholder="GitHub username" id="warrior-github" />
+                </div>
+                <div class="warrior-signup__row">
+                  <select id="warrior-role">
+                    <option value="">Chọn vai trò chiến binh...</option>
+                    <option value="network">🛡️ P2P Network Engineer</option>
+                    <option value="edtech">🎓 EdTech Warrior</option>
+                    <option value="antifake">🔍 Trust & Anti-Fake Specialist</option>
+                    <option value="ambassador">🌍 Community Ambassador</option>
+                    <option value="ux">🎨 UX Warrior</option>
+                    <option value="blockchain">⚡ Blockchain Guardian</option>
+                  </select>
+                </div>
+                <textarea placeholder="Sứ mệnh của bạn — Tại sao bạn muốn cải tạo hạ tầng kết nối?" id="warrior-mission" rows="3"></textarea>
+                <div class="warrior-signup__actions">
+                  <button type="submit" class="btn btn--warrior btn--lg btn--block">⚔️ Đăng Ký Chiến Binh</button>
+                <button type="button" class="btn btn--glass btn--lg btn--block" onclick="generateReferralLink()" style="margin-top:8px">🔗 Tạo Link Referral (+5 Trust)</button>
+                </div>
+              </form>
+              <div class="warrior-signup__links">
+                <a href="https://zalo.me/g/arkdaw947" target="_blank" class="btn btn--glass">💬 Zalo Group</a>
+                <a href="https://github.com/manhcuongk55/devtrust" target="_blank" class="btn btn--glass">💻 GitHub</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       <!-- ===== NOTIFICATIONS VIEW ===== -->
       <section class="view view--notifications" id="view-notifications">
         <div class="notifications-header">
@@ -392,8 +589,9 @@
 
       <!-- ===== SETTINGS VIEW ===== -->
       <section class="view view--settings" id="view-settings">
-        <h2>Cài đặt</h2>
+        <h2>Cài đặt & Plugin</h2>
         <div class="settings-grid">
+          <!-- Tài khoản -->
           <div class="card settings-card">
             <h3>Tài khoản</h3>
             <div class="settings-item">
@@ -450,8 +648,47 @@
               <select class="settings-select"><option>Tiếng Việt</option><option>English</option></select>
             </div>
           </div>
+          
+          <!-- DevTrust Plugins -->
+          <div class="card settings-card settings-card--plugins" style="grid-column: 1 / -1">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3>🧩 Tiện ích mở rộng (Plugins)</h3>
+              <span class="badge" style="background: rgba(129,140,248,0.2); color: var(--accent-primary);">BETA</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+              Cài đặt ứng dụng bổ sung từ hệ sinh thái qua JavaScript URL hoặc IPFS CID.
+            </p>
+            <div class="plugin-install-row" style="display: flex; gap: 8px; margin-bottom: 1.5rem;">
+              <input type="text" id="plugin-url-input" class="settings-input" placeholder="Nhập URL (.js) hoặc IPFS CID..." style="flex:1" />
+              <button class="btn btn--primary" onclick="handleInstallPlugin()">Cài đặt</button>
+            </div>
+            <div class="plugins-list" id="plugins-list" style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="plugin-item" style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                <div>
+                  <h4 style="font-size: 0.95rem; margin-bottom: 4px;">DevTrust Core 🛡️</h4>
+                  <span style="font-size: 0.75rem; color: var(--text-tertiary);">Module Built-in: Xác thực Trust</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--success); font-weight: 600;">Đã kích hoạt</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+      
+      <script>
+        function handleInstallPlugin() {
+          const val = document.getElementById('plugin-url-input').value.trim();
+          if(!val) return;
+          if (val.startsWith('http')) {
+            window.DevTrust.Plugins.loadFromUrl(val);
+          } else if (val.startsWith('Qm') || val.startsWith('bafy')) {
+            window.DevTrust.Plugins.loadFromIPFS(val);
+          } else {
+            if(window.showToast) window.showToast('⚠️ Vui lòng nhập URL HTTP(S) hoặc IPFS CID hợp lệ.', 'warning');
+          }
+          document.getElementById('plugin-url-input').value = '';
+        }
+      </script>
     </div>
 
     <!-- RIGHT SIDEBAR -->
@@ -570,11 +807,168 @@
     </div>
   </div>
 
+  <!-- ============ WARRIOR CHALLENGE MODAL ============ -->
+  <div class="modal-overlay hidden" id="challenge-modal">
+    <div class="modal card challenge-modal">
+      <div class="challenge-modal__header">
+        <h3 id="challenge-modal-title">⚔️ Warrior Skill Challenge</h3>
+        <button class="modal__close" onclick="closeChallenge()">&times;</button>
+      </div>
+      <div class="challenge-modal__body" id="challenge-modal-body">
+        <!-- JS populated -->
+      </div>
+      <div class="challenge-modal__footer" id="challenge-modal-footer">
+        <button class="btn btn--primary" id="btn-challenge-next" onclick="nextChallengeQuestion()">Tiếp →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SHARE CARD MODAL ============ -->
+  <div class="modal-overlay hidden" id="share-card-modal">
+    <div class="modal card share-card-modal">
+      <div class="modal__header">
+        <h3>🔗 Chia Sẻ Tuyển Chiến Binh</h3>
+        <button class="modal__close" onclick="document.getElementById('share-card-modal').classList.add('hidden')">&times;</button>
+      </div>
+      <div class="modal__body" id="share-card-body">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VIRAL: SOCIAL PROOF TICKER ============ -->
+  <div class="social-proof-ticker" id="social-proof-ticker">
+    <div class="social-proof-ticker__content" id="social-proof-content"></div>
+  </div>
+
+  <!-- ============ VIRAL: ACHIEVEMENT POPUP ============ -->
+  <div class="achievement-popup hidden" id="achievement-popup">
+    <div class="achievement-popup__confetti" id="achievement-confetti"></div>
+    <div class="achievement-popup__card">
+      <div class="achievement-popup__glow"></div>
+      <div class="achievement-popup__icon" id="achievement-icon"></div>
+      <div class="achievement-popup__title" id="achievement-title"></div>
+      <div class="achievement-popup__desc" id="achievement-desc"></div>
+      <div class="achievement-popup__reward" id="achievement-reward"></div>
+      <button class="btn btn--primary btn--sm" onclick="shareAchievement()">🔗 Chia sẻ thành tích</button>
+      <button class="btn btn--glass btn--sm" onclick="closeAchievement()">Đóng</button>
+    </div>
+  </div>
+
+  <!-- ============ VIRAL: INVITE CHALLENGE MODAL ============ -->
+  <div class="modal-overlay hidden" id="viral-invite-modal">
+    <div class="modal card viral-invite-modal">
+      <div class="viral-invite__header">
+        <div class="viral-invite__glow"></div>
+        <div class="viral-invite__icon">🚀</div>
+        <h2>Mở Khóa <span>Premium</span></h2>
+        <p>Mời 3 bạn tham gia → Unlock toàn bộ tính năng Premium miễn phí!</p>
+        <button class="modal__close" onclick="$('#viral-invite-modal').classList.add('hidden')">&times;</button>
+      </div>
+      <div class="viral-invite__progress">
+        <div class="viral-invite__steps" id="viral-invite-steps">
+          <div class="viral-invite__step done"><span>🎉</span><small>Bạn</small></div>
+          <div class="viral-invite__line"></div>
+          <div class="viral-invite__step" id="invite-step-1"><span>👤</span><small>Bạn 1</small></div>
+          <div class="viral-invite__line"></div>
+          <div class="viral-invite__step" id="invite-step-2"><span>👤</span><small>Bạn 2</small></div>
+          <div class="viral-invite__line"></div>
+          <div class="viral-invite__step" id="invite-step-3"><span>👤</span><small>Bạn 3</small></div>
+        </div>
+        <div class="viral-invite__count"><span id="viral-invite-count">0</span>/3 bạn đã tham gia</div>
+      </div>
+      <div class="viral-invite__rewards">
+        <div class="viral-invite__reward-item"><span>1 bạn</span><strong>+5 Trust Score</strong></div>
+        <div class="viral-invite__reward-item"><span>2 bạn</span><strong>🎨 Custom Badge</strong></div>
+        <div class="viral-invite__reward-item viral-invite__reward-item--premium"><span>3 bạn</span><strong>⭐ Premium Unlock</strong></div>
+      </div>
+      <div class="viral-invite__actions">
+        <button class="btn btn--warrior btn--lg btn--block" onclick="copyViralInviteLink()">🔗 Copy Link Mời</button>
+        <div class="viral-invite__share-row">
+          <button class="btn btn--glass" onclick="shareViralTo('zalo')">💬 Zalo</button>
+          <button class="btn btn--glass" onclick="shareViralTo('facebook')">📘 Facebook</button>
+          <button class="btn btn--glass" onclick="shareViralTo('twitter')">🐦 Twitter</button>
+        </div>
+      </div>
+      <div class="viral-invite__social-proof">
+        <div class="viral-invite__avatars" id="viral-invite-avatars"></div>
+        <span><strong id="viral-recent-count">247</strong> người đã mời bạn bè tuần này</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VIRAL: SPIN THE WHEEL ============ -->
+  <div class="modal-overlay hidden" id="spin-modal">
+    <div class="modal card spin-modal">
+      <button class="modal__close" onclick="$('#spin-modal').classList.add('hidden')">&times;</button>
+      <div class="spin-modal__header">
+        <h2>🎡 Vòng Quay May Mắn</h2>
+        <p>Quay để nhận Trust Score, Badge, hoặc Premium!</p>
+      </div>
+      <div class="spin-modal__wheel-wrap">
+        <div class="spin-modal__pointer">▼</div>
+        <div class="spin-modal__wheel" id="spin-wheel">
+          <div class="spin-segment" style="--i:0;--color:#818cf8">+5 Trust</div>
+          <div class="spin-segment" style="--i:1;--color:#f59e0b">🎨 Badge</div>
+          <div class="spin-segment" style="--i:2;--color:#34d399">+10 Trust</div>
+          <div class="spin-segment" style="--i:3;--color:#f87171">Thử lại</div>
+          <div class="spin-segment" style="--i:4;--color:#a78bfa">⭐ Premium</div>
+          <div class="spin-segment" style="--i:5;--color:#60a5fa">+3 Trust</div>
+        </div>
+      </div>
+      <button class="btn btn--warrior btn--lg" id="btn-spin" onclick="spinTheWheel()">🎡 QUAY NGAY!</button>
+      <div class="spin-modal__note">Mời thêm bạn = thêm lượt quay miễn phí!</div>
+    </div>
+  </div>
+
+  <!-- ============ VIRAL: FOMO FLOATING BAR ============ -->
+  <div class="fomo-bar" id="fomo-bar">
+    <div class="fomo-bar__pulse"></div>
+    <span class="fomo-bar__icon">🔥</span>
+    <span class="fomo-bar__text"><strong id="fomo-viewers">23</strong> người đang xem trang này · <strong id="fomo-signups-today">12</strong> chiến binh đăng ký hôm nay</span>
+    <button class="fomo-bar__cta" onclick="scrollToWarriorSignup()">⚔️ Đăng ký ngay</button>
+    <button class="fomo-bar__close" onclick="$('#fomo-bar').classList.add('hidden')">✕</button>
+  </div>
+
+  <!-- ============ VIRAL: DAILY STREAK BANNER ============ -->
+  <div class="streak-banner hidden" id="streak-banner">
+    <div class="streak-banner__fire" id="streak-fire"></div>
+    <div class="streak-banner__content">
+      <div class="streak-banner__days">
+        <span class="streak-banner__number" id="streak-count">0</span>
+        <span class="streak-banner__label">ngày liên tiếp</span>
+      </div>
+      <div class="streak-banner__text" id="streak-text">Chuỗi hoạt động của bạn!</div>
+      <div class="streak-banner__bonus" id="streak-bonus">+2 Trust Score bonus!</div>
+    </div>
+    <button class="streak-banner__close" onclick="$('#streak-banner').classList.add('hidden')">✕</button>
+  </div>
+
   <!-- ============ TOAST ============ -->
   <div class="toast-container" id="toast-container"></div>
 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+  
+  <!-- IPFS Helia / UnixFS from unpkg (ESM via browser) -->
+  <script type="module">
+    import { createHelia } from 'https://unpkg.com/helia@4.2.0/dist/index.min.js';
+    import { unixfs } from 'https://unpkg.com/@helia/unixfs@3.0.4/dist/index.min.js';
+    
+    window._initHelia = async function() {
+      try {
+        const helia = await createHelia();
+        const fs = unixfs(helia);
+        window._ipfs = fs;
+        console.log('🌌 IPFS Helia node started successfully!');
+      } catch (err) {
+        console.warn('Failed to start Helia IPFS node.', err);
+      }
+    };
+    window._initHelia();
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
