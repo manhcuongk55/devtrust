@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevTrust — Mạng Dev Trust P2P</title>
+  <meta name="description" content="DevTrust - Mạng xã hội P2P Trust cho developer Việt Nam. Kết nối, tin tưởng, cùng build." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ============ TOP NAV ============ -->
+  <nav class="topnav" id="topnav">
+    <div class="topnav__left">
+      <div class="logo" id="logo">
+        <span class="logo__icon">◈</span>
+        <span class="logo__text">DevTrust</span>
+      </div>
+    </div>
+    <div class="topnav__center">
+      <div class="search-bar" id="search-bar">
+        <svg class="search-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" class="search-bar__input" id="search-input" placeholder="Tìm kiếm trên DevTrust..." />
+      </div>
+    </div>
+    <div class="topnav__right">
+      <div class="p2p-status" id="p2p-status" title="Trạng thái P2P">
+        <span class="p2p-status__dot"></span>
+        <span class="p2p-status__text">P2P: <span id="p2p-peers-count">0</span> peers</span>
+      </div>
+      <button class="nav-icon-btn" id="btn-theme-toggle" title="Đổi giao diện">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <button class="nav-icon-btn" id="btn-notifications" title="Thông báo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+        <span class="badge" id="notif-badge">5</span>
+      </button>
+      <button class="nav-icon-btn" id="btn-messages-top" title="Tin nhắn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <span class="badge">3</span>
+      </button>
+      <div class="avatar avatar--sm nav-avatar" id="nav-avatar">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="Avatar" />
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============ NOTIFICATION DROPDOWN ============ -->
+  <div class="dropdown dropdown--notif hidden" id="dropdown-notif">
+    <div class="dropdown__header">
+      <h3>Thông báo</h3>
+      <button class="dropdown__mark-read">Đánh dấu đã đọc</button>
+    </div>
+    <div class="dropdown__list" id="notif-list">
+      <!-- JS populated -->
+    </div>
+  </div>
+
+  <!-- ============ MAIN LAYOUT ============ -->
+  <main class="main-layout">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar sidebar--left" id="sidebar-left">
+      <nav class="sidebar__nav">
+        <a href="#" class="sidebar__link sidebar__link--active" data-view="feed" id="nav-feed">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <span>Bảng tin</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="explore" id="nav-explore">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          <span>Khám phá</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="learning" id="nav-learning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <span>Học tập</span>
+          <span class="sidebar__badge sidebar__badge--new">MỚI</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span>Tin nhắn</span>
+          <span class="sidebar__badge">3</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="notifications" id="nav-notifications-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <span>Thông báo</span>
+          <span class="sidebar__badge">5</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="profile" id="nav-profile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Trang cá nhân</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="settings" id="nav-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Cài đặt</span>
+        </a>
+      </nav>
+      <div class="sidebar__divider"></div>
+      <div class="sidebar__shortcuts">
+        <h4 class="sidebar__heading">Nhóm của bạn</h4>
+        <a href="#" class="sidebar__link sidebar__link--group">
+          <div class="avatar avatar--xs"><img src="https://api.dicebear.com/7.x/shapes/svg?seed=tech" alt="" /></div>
+          <span>Tech Startup VN</span>
+        </a>
+        <a href="#" class="sidebar__link sidebar__link--group">
+          <div class="avatar avatar--xs"><img src="https://api.dicebear.com/7.x/shapes/svg?seed=design" alt="" /></div>
+          <span>UI/UX Design Club</span>
+        </a>
+        <a href="#" class="sidebar__link sidebar__link--group">
+          <div class="avatar avatar--xs"><img src="https://api.dicebear.com/7.x/shapes/svg?seed=coffee" alt="" /></div>
+          <span>Cà Phê & Code</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ============ CONTENT VIEWS ============ -->
+    <div class="content-area" id="content-area">
+
+      <!-- ===== FEED VIEW ===== -->
+      <section class="view view--feed active" id="view-feed">
+        <!-- Stories -->
+        <div class="stories" id="stories">
+          <div class="story story--create" id="story-create">
+            <div class="story__img-wrap story__img-wrap--create">
+              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" />
+              <div class="story__plus">+</div>
+            </div>
+            <span class="story__name">Tạo story</span>
+          </div>
+          <!-- JS populated stories -->
+        </div>
+
+        <!-- Create Post -->
+        <div class="card create-post" id="create-post-card">
+          <div class="create-post__top">
+            <div class="avatar avatar--sm">
+              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" />
+            </div>
+            <button class="create-post__input" id="btn-open-post-modal">Bạn đang nghĩ gì?</button>
+          </div>
+          <div class="create-post__actions">
+            <button class="create-post__action" id="btn-live">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              <span>Video trực tiếp</span>
+            </button>
+            <button class="create-post__action" id="btn-photo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              <span>Ảnh / Video</span>
+            </button>
+            <button class="create-post__action" id="btn-feeling">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              <span>Cảm xúc</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Feed Posts -->
+        <div class="feed" id="feed-container">
+          <!-- JS populated -->
+        </div>
+      </section>
+
+      <!-- ===== EXPLORE VIEW ===== -->
+      <section class="view view--explore" id="view-explore">
+        <div class="explore-header">
+          <h2>Khám phá</h2>
+          <div class="explore-tabs">
+            <button class="explore-tab active">Xu hướng</button>
+            <button class="explore-tab">Mới nhất</button>
+            <button class="explore-tab">Gợi ý</button>
+          </div>
+        </div>
+        <div class="explore-grid" id="explore-grid">
+          <!-- JS populated -->
+        </div>
+      </section>
+
+      <!-- ===== MESSAGES VIEW ===== -->
+      <section class="view view--messages" id="view-messages">
+        <div class="messages-layout">
+          <div class="messages-sidebar">
+            <div class="messages-sidebar__header">
+              <h3>Tin nhắn</h3>
+              <button class="icon-btn" title="Tin nhắn mới">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </button>
+            </div>
+            <div class="messages-sidebar__search">
+              <input type="text" placeholder="Tìm kiếm tin nhắn..." />
+            </div>
+            <div class="messages-sidebar__list" id="chat-list">
+              <!-- JS populated -->
+            </div>
+          </div>
+          <div class="messages-chat" id="chat-area">
+            <div class="messages-chat__header" id="chat-header">
+              <div class="messages-chat__user">
+                <div class="avatar avatar--sm online"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=linh" alt="" /></div>
+                <div>
+                  <h4>Linh Nguyễn</h4>
+                  <span class="status-text">Đang hoạt động</span>
+                </div>
+              </div>
+              <div class="messages-chat__actions">
+                <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15.05 5A5 5 0 0 1 19 8.95M15.05 1A9 9 0 0 1 23 8.94M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></button>
+                <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></button>
+              </div>
+            </div>
+            <div class="messages-chat__body" id="chat-body">
+              <!-- JS populated -->
+            </div>
+            <div class="messages-chat__input">
+              <button class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
+              <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." />
+              <button class="icon-btn send-btn" id="btn-send-msg">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PROFILE VIEW ===== -->
+      <section class="view view--profile" id="view-profile">
+        <div class="profile-cover">
+          <div class="profile-cover__gradient"></div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-info__avatar">
+            <div class="trust-ring" data-trust="92">
+              <svg class="trust-ring__svg" viewBox="0 0 140 140">
+                <circle class="trust-ring__bg" cx="70" cy="70" r="62" />
+                <circle class="trust-ring__fill" cx="70" cy="70" r="62" id="trust-circle" />
+              </svg>
+              <div class="avatar avatar--xl">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" />
+              </div>
+              <div class="trust-ring__score" id="trust-score-display">92</div>
+            </div>
+          </div>
+          <div class="profile-info__details">
+            <h2>David Cuong <span class="trust-badge trust-badge--high">🛡️ Trusted</span></h2>
+            <p class="profile-info__bio">CEO & Founder @ DevTrust | P2P Trust Network 🚀</p>
+            <div class="profile-info__stats">
+              <div class="profile-stat"><strong>1,247</strong><span>Bài viết</span></div>
+              <div class="profile-stat"><strong>15.2K</strong><span>Người theo dõi</span></div>
+              <div class="profile-stat"><strong>892</strong><span>Đang theo dõi</span></div>
+            </div>
+            <!-- Trust Score Breakdown -->
+            <div class="trust-details" id="trust-details">
+              <h4>🛡️ Trust Score Breakdown</h4>
+              <div class="trust-bar-group">
+                <div class="trust-bar-item">
+                  <span>Tương tác</span>
+                  <div class="trust-bar"><div class="trust-bar__fill" style="width:95%" data-label="95"></div></div>
+                </div>
+                <div class="trust-bar-item">
+                  <span>Verify bạn bè</span>
+                  <div class="trust-bar"><div class="trust-bar__fill" style="width:88%" data-label="88"></div></div>
+                </div>
+                <div class="trust-bar-item">
+                  <span>Code contributions</span>
+                  <div class="trust-bar"><div class="trust-bar__fill" style="width:92%" data-label="92"></div></div>
+                </div>
+                <div class="trust-bar-item">
+                  <span>Lịch sử giúp đỡ</span>
+                  <div class="trust-bar"><div class="trust-bar__fill" style="width:90%" data-label="90"></div></div>
+                </div>
+                <div class="trust-bar-item">
+                  <span>Thời gian hoạt động</span>
+                  <div class="trust-bar"><div class="trust-bar__fill" style="width:85%" data-label="85"></div></div>
+                </div>
+              </div>
+              <p class="trust-details__note">Score tính tự động từ tương tác P2P, verify lẫn nhau, và đóng góp cộng đồng.</p>
+            </div>
+          </div>
+          <div class="profile-info__actions">
+            <button class="btn btn--primary">Chỉnh sửa</button>
+            <button class="btn btn--glass">Chia sẻ</button>
+          </div>
+        </div>
+        <!-- Teacher Trust Chain -->
+        <div class="teacher-trust" id="teacher-trust">
+          <h4>📚 Giảng viên Trust</h4>
+          <div class="teacher-trust__stats">
+            <div class="teacher-trust__stat">
+              <div class="teacher-trust__value">12</div>
+              <div class="teacher-trust__label">Khóa học</div>
+            </div>
+            <div class="teacher-trust__stat">
+              <div class="teacher-trust__value">847</div>
+              <div class="teacher-trust__label">Học viên</div>
+            </div>
+            <div class="teacher-trust__stat">
+              <div class="teacher-trust__value">96%</div>
+              <div class="teacher-trust__label">Hoàn thành</div>
+            </div>
+            <div class="teacher-trust__stat">
+              <div class="teacher-trust__value">4.9⭐</div>
+              <div class="teacher-trust__label">Đánh giá</div>
+            </div>
+          </div>
+          <p class="teacher-trust__note">Trust Score tăng khi học viên verify + hoàn thành khóa học. Nội dung được ưu tiên lan truyền P2P.</p>
+        </div>
+        <div class="profile-tabs">
+          <button class="profile-tab active">Bài viết</button>
+          <button class="profile-tab">Ảnh</button>
+          <button class="profile-tab">Video</button>
+          <button class="profile-tab">Khóa học</button>
+          <button class="profile-tab">Trust Log</button>
+        </div>
+        <div class="profile-posts" id="profile-posts">
+          <!-- JS populated -->
+        </div>
+      </section>
+
+      <!-- ===== LEARNING VIEW ===== -->
+      <section class="view view--learning" id="view-learning">
+        <!-- Bình dân học vụ số Hero -->
+        <div class="learning-hero" id="learning-hero">
+          <div class="learning-hero__glow"></div>
+          <div class="learning-hero__content">
+            <div class="learning-hero__badge">🇻🇳 Phong trào quốc gia 2025-2026</div>
+            <h1 class="learning-hero__title">Bình Dân Học Vụ <span>Số</span></h1>
+            <p class="learning-hero__desc">Phổ cập kỹ năng số cho toàn dân — Học offline, sync P2P, không cần internet ổn định. Giống Bình dân học vụ 1945 nhưng phiên bản công nghệ P2P.</p>
+            <div class="learning-hero__actions">
+              <button class="btn btn--primary btn--lg" id="btn-start-assessment">🎯 Sát hạch đầu vào</button>
+              <button class="btn btn--glass btn--lg" id="btn-browse-courses">📚 Xem khóa học</button>
+            </div>
+            <div class="learning-hero__stats">
+              <div class="learning-hero__stat"><strong>12,450+</strong><span>Học viên</span></div>
+              <div class="learning-hero__stat"><strong>95%</strong><span>Học offline</span></div>
+              <div class="learning-hero__stat"><strong>24</strong><span>Khóa học</span></div>
+              <div class="learning-hero__stat"><strong>P2P</strong><span>Trust-verified</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Learning Tabs -->
+        <div class="learning-tabs" id="learning-tabs">
+          <button class="learning-tab active" data-ltab="courses">📚 Khóa học</button>
+          <button class="learning-tab" data-ltab="bdhvs">🎓 Bình dân học vụ</button>
+          <button class="learning-tab" data-ltab="progress">📊 Tiến độ học</button>
+        </div>
+
+        <!-- Courses Tab -->
+        <div class="learning-panel active" id="panel-courses">
+          <div class="learning-section-header">
+            <h3>Khóa học phổ biến</h3>
+            <div class="learning-filters">
+              <button class="learning-filter active">Tất cả</button>
+              <button class="learning-filter">AI</button>
+              <button class="learning-filter">Tiếng Anh</button>
+              <button class="learning-filter">Kỹ năng số</button>
+              <button class="learning-filter">Lập trình</button>
+            </div>
+          </div>
+          <div class="course-grid" id="course-grid">
+            <!-- JS populated -->
+          </div>
+        </div>
+
+        <!-- BDHVS Tab -->
+        <div class="learning-panel" id="panel-bdhvs">
+          <div class="bdhvs-intro">
+            <h3>🎓 Chương trình Bình dân học vụ số</h3>
+            <p>Thi sát hạch đầu vào → Chọn lộ trình → Học offline P2P → Nhận chứng chỉ → Hỗ trợ việc làm</p>
+          </div>
+          <div class="quiz-section" id="quiz-section">
+            <!-- JS populated -->
+          </div>
+        </div>
+
+        <!-- Progress Tab -->
+        <div class="learning-panel" id="panel-progress">
+          <div class="progress-overview" id="progress-overview">
+            <!-- JS populated -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== NOTIFICATIONS VIEW ===== -->
+      <section class="view view--notifications" id="view-notifications">
+        <div class="notifications-header">
+          <h2>Thông báo</h2>
+          <button class="btn btn--glass btn--sm">Đánh dấu tất cả đã đọc</button>
+        </div>
+        <div class="notifications-list" id="notifications-list">
+          <!-- JS populated -->
+        </div>
+      </section>
+
+      <!-- ===== SETTINGS VIEW ===== -->
+      <section class="view view--settings" id="view-settings">
+        <h2>Cài đặt</h2>
+        <div class="settings-grid">
+          <div class="card settings-card">
+            <h3>Tài khoản</h3>
+            <div class="settings-item">
+              <span>Tên hiển thị</span>
+              <input type="text" value="David Cuong" class="settings-input" />
+            </div>
+            <div class="settings-item">
+              <span>Email</span>
+              <input type="email" value="david@devtrust.vn" class="settings-input" />
+            </div>
+            <div class="settings-item">
+              <span>Số điện thoại</span>
+              <input type="tel" value="+84 912 345 678" class="settings-input" />
+            </div>
+          </div>
+          <div class="card settings-card">
+            <h3>Quyền riêng tư</h3>
+            <div class="settings-item">
+              <span>Trang cá nhân công khai</span>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle__slider"></span></label>
+            </div>
+            <div class="settings-item">
+              <span>Hiển thị trạng thái online</span>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle__slider"></span></label>
+            </div>
+            <div class="settings-item">
+              <span>Cho phép nhắn tin</span>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle__slider"></span></label>
+            </div>
+          </div>
+          <div class="card settings-card">
+            <h3>Thông báo</h3>
+            <div class="settings-item">
+              <span>Thông báo đẩy</span>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle__slider"></span></label>
+            </div>
+            <div class="settings-item">
+              <span>Thông báo email</span>
+              <label class="toggle"><input type="checkbox" /><span class="toggle__slider"></span></label>
+            </div>
+            <div class="settings-item">
+              <span>Âm thanh thông báo</span>
+              <label class="toggle"><input type="checkbox" checked /><span class="toggle__slider"></span></label>
+            </div>
+          </div>
+          <div class="card settings-card">
+            <h3>Giao diện</h3>
+            <div class="settings-item">
+              <span>Chế độ tối</span>
+              <label class="toggle"><input type="checkbox" checked id="settings-dark-toggle" /><span class="toggle__slider"></span></label>
+            </div>
+            <div class="settings-item">
+              <span>Ngôn ngữ</span>
+              <select class="settings-select"><option>Tiếng Việt</option><option>English</option></select>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar sidebar--right" id="sidebar-right">
+      <div class="sidebar__section">
+        <h4 class="sidebar__heading">Gợi ý kết bạn</h4>
+        <div class="suggestion-list" id="suggestion-list">
+          <!-- JS populated -->
+        </div>
+      </div>
+      <div class="sidebar__divider"></div>
+      <div class="sidebar__section">
+        <h4 class="sidebar__heading">Xu hướng <span class="trending-dot"></span></h4>
+        <div class="trending-list" id="trending-list">
+          <!-- JS populated -->
+        </div>
+      </div>
+      <div class="sidebar__divider"></div>
+      <div class="sidebar__section sidebar__footer">
+        <p>© 2026 DevTrust · <a href="#">Về chúng tôi</a> · <a href="#">Quyền riêng tư</a></p>
+      </div>
+    </aside>
+  </main>
+
+  <!-- ============ POST MODAL ============ -->
+  <div class="modal-overlay hidden" id="post-modal">
+    <div class="modal card">
+      <div class="modal__header">
+        <h3>Tạo bài viết</h3>
+        <button class="modal__close" id="btn-close-post-modal">&times;</button>
+      </div>
+      <div class="modal__body">
+        <div class="modal__user">
+          <div class="avatar avatar--sm"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" /></div>
+          <div>
+            <strong>David Cuong</strong>
+            <select class="privacy-select"><option>🌐 Công khai</option><option>🔒 Bạn bè</option><option>🔐 Chỉ mình tôi</option></select>
+          </div>
+        </div>
+        <textarea class="modal__textarea" id="post-textarea" placeholder="Bạn đang nghĩ gì, David?"></textarea>
+        <div class="modal__preview hidden" id="post-preview">
+          <img id="post-preview-img" alt="Preview" />
+          <button class="modal__preview-remove" id="btn-remove-preview">&times;</button>
+        </div>
+        <div class="modal__tools">
+          <button class="modal__tool" title="Ảnh"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>
+          <button class="modal__tool" title="Tag"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+          <button class="modal__tool" title="Cảm xúc"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></button>
+          <button class="modal__tool" title="Vị trí"><svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>
+          <button class="modal__tool" title="GIF"><span style="font-weight:700;font-size:12px;color:#a855f7">GIF</span></button>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--primary btn--block" id="btn-submit-post">Đăng bài</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ STORY MODAL ============ -->
+  <div class="modal-overlay hidden" id="story-modal">
+    <div class="story-viewer">
+      <div class="story-viewer__progress" id="story-progress"></div>
+      <button class="story-viewer__close" id="btn-close-story">&times;</button>
+      <div class="story-viewer__user" id="story-viewer-user"></div>
+      <div class="story-viewer__content" id="story-viewer-content"></div>
+      <button class="story-viewer__nav story-viewer__nav--prev" id="story-prev">‹</button>
+      <button class="story-viewer__nav story-viewer__nav--next" id="story-next">›</button>
+    </div>
+  </div>
+
+  <!-- ============ COURSE DETAIL MODAL ============ -->
+  <div class="modal-overlay hidden" id="course-modal">
+    <div class="modal card course-modal">
+      <div class="modal__header">
+        <h3 id="course-modal-title">Khóa học</h3>
+        <button class="modal__close" id="btn-close-course-modal">&times;</button>
+      </div>
+      <div class="modal__body course-modal__body" id="course-modal-body">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ QUIZ MODAL ============ -->
+  <div class="modal-overlay hidden" id="quiz-modal">
+    <div class="modal card quiz-modal">
+      <div class="quiz-modal__header" id="quiz-modal-header">
+        <h3>🎯 Sát hạch Kỹ năng số</h3>
+        <div class="quiz-modal__progress">
+          <span id="quiz-q-num">1</span>/<span id="quiz-q-total">5</span>
+        </div>
+        <button class="modal__close" id="btn-close-quiz-modal">&times;</button>
+      </div>
+      <div class="quiz-modal__body" id="quiz-modal-body">
+        <div class="quiz-modal__question" id="quiz-question"></div>
+        <div class="quiz-modal__options" id="quiz-options"></div>
+      </div>
+      <div class="quiz-modal__footer">
+        <button class="btn btn--glass" id="btn-quiz-prev" disabled>← Trước</button>
+        <button class="btn btn--primary" id="btn-quiz-next">Tiếp →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ QUIZ RESULT MODAL ============ -->
+  <div class="modal-overlay hidden" id="quiz-result-modal">
+    <div class="modal card quiz-result">
+      <div class="quiz-result__icon" id="quiz-result-icon"></div>
+      <h2 id="quiz-result-title"></h2>
+      <p id="quiz-result-desc"></p>
+      <div class="quiz-result__score" id="quiz-result-score"></div>
+      <div class="quiz-result__actions">
+        <button class="btn btn--primary" id="btn-quiz-retry">Thi lại</button>
+        <button class="btn btn--glass" id="btn-quiz-courses">Xem khóa học gợi ý</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
