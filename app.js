@@ -226,22 +226,22 @@ const TRENDING = [
 
 const HACK_GRANTS = [
   {
-    id: 1, title: 'Basao AI Grant 2026', host: 'Basao Protocol',
+    id: 1, title: 'An Đức Build Hackathon', host: 'DevTrust x Minh-Cường',
+    reward: 'Vô giá (Kết nối chiến hữu)', deadline: 'Không giới hạn',
+    desc: 'Không hình tướng, không tiêu đức. Tập trung vào Awareness và sự An Tâm giữa những người anh em. Xây dựng AI hỗ trợ đời sống thực.',
+    tags: ['An Đức', 'Awareness', 'Peace'], color: '#facc15'
+  },
+  {
+    id: 2, title: 'Basao AI Agent Grant', host: 'Basao Protocol',
     reward: '50M - 200M VNĐ', deadline: '30/04/2026',
-    desc: 'Hỗ trợ các dự án xây dựng AI Agent bảo mật, phi tập trung và có đạo đức.',
+    desc: 'Hỗ trợ các chiến hữu xây dựng AI Agent bảo mật, phi tập trung và có đạo đức.',
     tags: ['AI', 'P2P', 'Privacy'], color: '#818cf8'
   },
   {
-    id: 2, title: 'Unity Brotherhood Hackathon', host: 'DevTrust Community',
-    reward: '100M VNĐ + Mentor', deadline: '15/05/2026',
-    desc: 'Xây dựng các công cụ giúp kết nối con người, đề cao tính chân thành và tin tưởng.',
-    tags: ['Social', 'Trust', 'Community'], color: '#10b981'
-  },
-  {
-    id: 3, title: 'Cross-Border Fintech Grant', host: 'VMA Mentoring',
+    id: 3, title: 'Cross-Border Fintech', host: 'GreenCanal x VMA',
     reward: '$5,000 Grant', deadline: '01/06/2026',
-    desc: 'Dành cho các giải pháp tài chính xuyên biên giới, đặc biệt là VN - Bangladesh.',
-    tags: ['Fintech', 'Cross-border'], color: '#f59e0b'
+    desc: 'Giải quyết các bài toán di chuyển và thanh toán xuyên biên giới VN - Bangladesh.',
+    tags: ['Travel', 'Fintech'], color: '#10b981'
   }
 ];
 
