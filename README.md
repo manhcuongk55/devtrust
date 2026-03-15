@@ -1,9 +1,7 @@
-# 🛡️ DevTrust — Tuyển Dev Cải Tạo Thế Giới
+# 🛡️ DevTrust — Dev Không Sợ AI. Dev Cùng AI Khởi Nghiệp.
 
-### Vì một nhân loại hòa bình & sự thật.
-
-> **Chúng tôi không build app. Chúng tôi build niềm tin.**  
-> Mạng xã hội + nền tảng học tập P2P do dev Việt làm chủ — offline-first, trust-based, không big tech kiểm soát.
+> **"AI không cướp việc của bạn. AI giải phóng bạn — để bạn làm điều lớn hơn."**  
+> DevTrust là nơi dev Việt Nam cùng AI agents khởi nghiệp, giải quyết bài toán mới, và xây dựng tương lai.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-devtrust-818cf8?style=for-the-badge)](https://social-network-tau-ten.vercel.app)
 [![License](https://img.shields.io/badge/License-MIT-34d399?style=for-the-badge)](LICENSE)
@@ -12,313 +10,432 @@
 
 ---
 
-## 🌍 Mission — Tại Sao Chúng Tôi Làm Điều Này?
+## 🌍 TẦM NHÌN — Tại sao DevTrust tồn tại?
 
-Thế giới đang ngập tràn **tin giả, kiểm duyệt, và sự kiểm soát dữ liệu** bởi các nền tảng khổng lồ. Hàng triệu người Việt ở vùng nông thôn **không có internet ổn định** để học kỹ năng số.
+### Nỗi sợ lớn nhất của dev năm 2026:
 
-**DevTrust** ra đời với vision kép:
+```
+  "AI sẽ thay thế tôi."
+  "AI viết code nhanh hơn tôi."
+  "AI không cần lương, không cần nghỉ."
+  "Tôi học 4 năm Đại học... để bị AI thay?"
+```
 
-> *"Bình dân học vụ 1945 cải cách chữ viết. Bình dân học vụ SỐ 2025 cải cách kỹ năng số — bằng công nghệ P2P."*
+### Nhưng sự thật là:
 
-### 🎯 Chúng tôi tin:
-- **Sự thật** cần được lan tỏa mà không bị kiểm duyệt
-- **Giáo dục số** là quyền cơ bản, không phải đặc quyền thành thị
-- **Offline-first** — Dân vùng sâu cũng phải được học, dù mạng kém
-- **Trust-based** — Teacher/dev verify lẫn nhau, nội dung chất lượng lan truyền tự nhiên
-- **Dev Việt Nam** có thể tạo ra thứ thay đổi thế giới
+```
+  ❌ AI KHÔNG thay thế dev.
+  ✅ AI thay thế dev KHÔNG BIẾT DÙNG AI.
+
+  ❌ AI KHÔNG cướp việc.  
+  ✅ AI GIẢI PHÓNG dev — để dev làm việc LỚN HƠN.
+
+  ❌ Tương lai KHÔNG PHẢI dev vs AI.
+  ✅ Tương lai LÀ dev + AI = SIÊU NĂNG LỰC.
+```
+
+### DevTrust = Nơi dev biến nỗi sợ AI thành CƠ HỘI
+
+```
+  ┌──────────────────────────────────────────────────────┐
+  │                                                       │
+  │   THẾ GIỚI CŨ:                                       │
+  │   Dev → Viết code → Nhận lương → Về nhà              │
+  │                                                       │
+  │   THẾ GIỚI MỚI (DevTrust):                           │
+  │   Dev + AI Agents → Giải bài toán mới                │
+  │        ↓                                              │
+  │   Tìm đồng đội (DevTrust matching)                   │
+  │        ↓                                              │
+  │   Cùng nhau khởi nghiệp                              │
+  │        ↓                                              │
+  │   AI làm 80% code, dev tập trung 20% sáng tạo       │
+  │        ↓                                              │
+  │   Sản phẩm ra đời nhanh gấp 10x                     │
+  │        ↓                                              │
+  │   Revenue chia P2P — công bằng, minh bạch            │
+  │                                                       │
+  └──────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 📚 E-Learning Module — Bình Dân Học Vụ Số P2P
+## 💡 TRIẾT LÝ CỐT LÕI
 
-### Kiến trúc học tập phân tán
+### 1. "AI là đồng đội, không phải đối thủ"
+
+Trước: Dev sợ AI → Chống lại AI → Tụt hậu  
+Sau: Dev ôm AI → Dùng AI → Siêu năng lực
+
+**DevTrust giúp mỗi dev có fleet AI agents riêng** — như có team 10 người nhưng chi phí gần bằng 0.
+
+### 2. "Một mình thì nhanh, cùng nhau thì xa"
+
+AI giải quyết vấn đề kỹ thuật. Nhưng startup thành công cần **con người tin nhau.**
+
+DevTrust giải quyết bài toán:
+- 🔍 **Tìm co-founder** — matching theo skills, trust score, shared vision
+- 🛡️ **Xây trust** — không bằng profile đẹp mà bằng **hành động thật** (code contributions, verify lẫn nhau)
+- 💰 **Chia revenue công bằng** — P2P, transparent, không trung gian
+
+### 3. "Giải bài toán mới, không chạy đua bài toán cũ"
+
+AI sẽ code CRUD, cắt HTML, fix bugs. Dev không cần làm những thứ đó nữa.
+
+Dev cần tập trung vào **bài toán mà AI chưa giải được:**
+- 🧠 Hiểu nhu cầu con người thật
+- 🎨 Thiết kế trải nghiệm cảm xúc
+- 🤝 Xây dựng cộng đồng và niềm tin
+- 🌍 Giải bài toán xã hội bằng công nghệ
+
+**DevTrust là sân chơi cho những bài toán đó.**
+
+---
+
+## 📊 PITCH DECK
+
+### Slide 1: Problem — Dev đang sợ
 
 ```
-┌──────────────┐     IPFS/Gun.js      ┌──────────────┐
-│  Teacher A   │ ←─────────────────→  │  Teacher B   │
-│  (Trust 95)  │     P2P Sync         │  (Trust 87)  │
-└──────┬───────┘                      └──────┬───────┘
-       │ Publish khóa học                     │
-       ▼                                      ▼
-┌──────────────┐                      ┌──────────────┐
-│  Student X   │ ─── Offline Learn ─→ │  Student Y   │
-│  Vùng sâu    │     Sync khi gặp    │  Nông thôn   │
-│  Mất mạng    │ ←── Quiz P2P ─────  │  WiFi kém    │
-└──────────────┘                      └──────────────┘
-       │                                      │
-       └──────── Trust Score tăng ────────────┘
-                 khi verify lẫn nhau
+  3 NỖI SỢ CỦA 30 TRIỆU DEV TOÀN CẦU:
+
+  😰 Nỗi sợ #1: "AI sẽ thay thế tôi"
+     → 72% dev lo lắng về tương lai nghề nghiệp (Stack Overflow 2025)
+
+  😰 Nỗi sợ #2: "Tôi làm gì khi AI code giỏi hơn?"  
+     → AI đã pass 90% coding interviews (2026)
+
+  😰 Nỗi sợ #3: "Tôi muốn khởi nghiệp nhưng không biết bắt đầu"
+     → 85% dev muốn build product riêng nhưng thiếu co-founder + direction
 ```
 
-### Features đã build:
-- 🎓 **Bình dân học vụ số Banner** — Phong trào quốc gia 2025-2026
-- 📚 **6 khóa học**: AI cơ bản, Tiếng Anh, Kỹ năng số, An toàn mạng, Python, Kiếm tiền online
-- 🎯 **4 bài sát hạch đầu vào** (20 câu) — đánh giá kỹ năng số, AI, an toàn mạng, tiếng Anh
-- 📥 **Offline-ready** — Tải bài giảng về máy, học không cần net
-- 🔗 **P2P sync** — Gun.js sync tiến độ học khi online/gặp bạn
-- 🛡️ **Teacher Trust Chain** — Giảng viên được verify bởi học viên
-- 📊 **Progress tracking** — Tiến độ học với progress bars
-- 🏆 **Quiz Engine** — Sát hạch với scoring + Trust Score impact
+### Slide 2: Solution — DevTrust
+
+```
+  🟢 DEVTRUST = NƠI DEV + AI CÙNG KHỞI NGHIỆP
+
+  Không phải "AI thay dev"
+  Mà là "Dev + AI = Startup 1 người mạnh như team 50"
+
+  ┌──────────────────────────────────────────┐
+  │  🤖 AI Fleet        → Làm 80% code      │
+  │  🧠 Dev             → 20% sáng tạo      │
+  │  🤝 DevTrust        → Tìm đồng đội + Trust │
+  │  💰 P2P Revenue     → Chia fair          │
+  │  🛡️ Trust Protocol  → Verify lẫn nhau   │
+  └──────────────────────────────────────────┘
+
+  1 Founder + AI Agents + DevTrust Network
+  = Startup hoàn chỉnh
+```
+
+### Slide 3: How It Works — 3 Bước
+
+```
+  BƯỚC 1: TÌM BÀI TOÁN 🔍
+  ├── Browse Pitch Feed (30+ startup ideas)
+  ├── AI gợi ý bài toán phù hợp skills
+  └── Community vote & feedback
+
+  BƯỚC 2: TÌM ĐỒNG ĐỘI 🤝
+  ├── Co-Founder Matching (trust-based)
+  ├── AI phân tích skills compatibility
+  ├── Trust Score verify "người thật, đáng tin"
+  └── Equity preview trước khi join
+
+  BƯỚC 3: XÂY SẢN PHẨM 🚀
+  ├── AI Agent Fleet code, design, test
+  ├── Dev focus: strategy + creativity
+  ├── Marketplace bán khóa học, plugins
+  └── Revenue share P2P — tự động, công bằng
+```
+
+### Slide 4: Market — Ai cần DevTrust?
+
+```
+  📈 TARGET USERS
+
+  👤 Dev đang đi làm, muốn khởi nghiệp side-project
+     → 12M devs globally in this category
+
+  👤 Dev thất nghiệp/lo mất việc vì AI
+     → 3M devs affected by AI layoffs 2025-2026
+
+  👤 Non-tech founders cần tech co-founder
+     → 5M founders looking for tech partners
+
+  👤 Student CS muốn build portfolio + startup
+     → 8M CS students graduating yearly
+
+  📍 TAM = $97B (AI Agent + Trust + EdTech markets)
+  📍 SAM = $4.8B (Dev communities + AI-first startups)
+  📍 SOM Year 1 = $2.4M (10K users × $20 ARPU)
+```
+
+### Slide 5: Traction — Đã build xong gì?
+
+```
+  🚀 TRACTION (March 2026)
+
+  Platform:
+  ✅ 6 Phases hoàn thành — 16 major modules
+  ✅ 5,000+ lines production code (Vanilla JS + CSS)
+  ✅ Zero dependencies — chạy bất kỳ đâu
+
+  Features đã ship:
+  ✅ Social Feed (build-in-public, founder stories)
+  ✅ E-Learning (6 courses, quiz, certificates)
+  ✅ Co-Founder Matching (trust-based algorithm)
+  ✅ Startup Pitch Feed (30+ ideas TikTok-style)
+  ✅ Course Marketplace (revenue 60/30/10)
+  ✅ Plugin Store (community extensions)
+  ✅ AI Agent Fleet Dashboard (8 verified agents)
+  ✅ Human Intent Protocol (Proof of Human)
+  ✅ Trust-gated Agent Collaboration
+  ✅ Hackathon Portal + Travel/Visa + Industrial Hub
+
+  Community:
+  ✅ 47 early devs joined
+  ✅ 5 startup ideas incubating
+  ✅ Zalo community active
+```
+
+### Slide 6: Business Model
+
+```
+  💰 4 REVENUE STREAMS
+
+  Stream 1: Course Marketplace
+  ├── Teachers bán khóa học trên DevTrust
+  ├── 60% Teacher · 30% Referrer · 10% Trust Fund
+  └── Target: $800K/yr
+
+  Stream 2: Plugin Store  
+  ├── Devs build & sell plugins/extensions
+  ├── 60% Creator · 30% Community · 10% Fund
+  └── Target: $400K/yr
+
+  Stream 3: Agent Trust API (SaaS)
+  ├── Enterprise verify agent fleet trustworthiness
+  ├── $49-499/mo plans
+  └── Target: $1M/yr
+
+  Stream 4: Startup Ecosystem
+  ├── Investor matching, hackathon sponsorship
+  ├── Premium analytics, trust certification
+  └── Target: $200K/yr
+
+  Year 1: $2.4M ARR
+  Year 3: $15M ARR
+```
+
+### Slide 7: Competitive Moat
+
+```
+  ⚔️ TẠI SAO DEVTRUST THẮNG
+
+  vs LinkedIn:     ❌ Centralized, fake profiles phổ biến
+                   ✅ DevTrust: Trust Score từ hành động thật
+
+  vs GitHub:       ❌ Code-centric, không có co-founder matching
+                   ✅ DevTrust: Full startup ecosystem
+
+  vs YC/Indie:     ❌ Exclusive, chỉ cho top 1%
+                   ✅ DevTrust: Inclusive — mọi dev đều có cơ hội
+
+  vs AI Platforms: ❌ Build agents nhưng không verify trust
+                   ✅ DevTrust: Trust layer cho mọi agent
+
+  MOAT:
+  🛡️ Trust Score = Hành động thật, không thể fake
+  📊 Network effect = Càng nhiều verify, càng chính xác
+  🔒 P2P = Không ai kiểm soát, user own data
+  🧬 First-mover = AI Agent Trust verification
+```
+
+### Slide 8: Team & Vision 
+
+```
+  👥 FOUNDING TEAM
+
+  David Cuong — Founder/CEO
+  ├── 10+ years full-stack engineering
+  ├── Vision: "DevTrust = LinkedIn cho thời đại AI"
+  └── Mission: "Biến nỗi sợ AI thành cơ hội khởi nghiệp"
+
+  Core Contributors:
+  ├── Tuấn Vũ (Trust 95) — P2P Security Expert
+  ├── Hương Phạm (Trust 91) — AI/ML & Education
+  ├── Linh Nguyễn (Trust 87) — Frontend & Design
+  ├── Đức Hoàng (Trust 78) — DevOps & Infra
+  └── + 47 community warriors
+```
+
+### Slide 9: The Ask
+
+```
+  💎 SEED ROUND: $500K
+
+  Dùng để:
+  ├── 40% Engineering (AI Agent infra + mobile app)
+  ├── 25% Community Building (events, content)  
+  ├── 20% Growth (10K users milestone)
+  ├── 10% Operations
+  └── 5%  Legal
+
+  12-month Milestones:
+  ├── 10,000 active users
+  ├── 1,000+ verified AI agents on network
+  ├── 100 startups launched through DevTrust
+  ├── $2.4M ARR
+  └── Mobile app (iOS + Android)
+
+  "Đầu tư vào DevTrust = đầu tư vào tương lai
+   của 30 triệu dev toàn cầu đang tìm chỗ đứng
+   trong thế giới AI."
+```
+
+---
+
+## 🔥 TẠI SAO DEV NÊN JOIN DEVTRUST NGAY?
+
+### Dev đang đi làm:
+```
+Bạn đang ngồi công ty, viết CRUD, fix bugs, chờ lương.
+AI đang làm những thứ đó nhanh hơn bạn 10x.
+
+Câu hỏi: Bạn muốn tiếp tục chạy đua với AI...
+hay dùng AI làm đồng đội, cùng build thứ AI chưa nghĩ ra?
+
+DevTrust giúp bạn:
+✅ Tìm co-founder có cùng vision
+✅ Có AI fleet riêng — code, design, test miễn phí
+✅ Build side-project → startup → full-time founder
+✅ Revenue share công bằng, transparent
+```
+
+### Dev đang lo mất việc:
+```
+AI không cướp việc của bạn. AI cướp việc của dev
+KHÔNG CHỊU THAY ĐỔI.
+
+DevTrust giúp bạn THAY ĐỔI:
+✅ Học cách dùng AI agents hiệu quả
+✅ Chuyển từ "dev viết code" → "dev giải bài toán"
+✅ Từ nhân viên → co-founder → founder
+✅ Trust Score = resume mới — chứng minh bằng hành động
+```
+
+### Student CS:
+```
+Bạn đang học 4 năm ĐH để ra trường... cạnh tranh với AI?
+
+DevTrust cho bạn cơ hội:
+✅ Build real products, không chỉ bài tập
+✅ Tìm mentor + co-founder trong cộng đồng
+✅ Có portfolio startup thay vì portfolio CRUD
+✅ Bắt đầu khởi nghiệp từ khi còn đi học
+```
+
+---
+
+## 🌍 Tầm Nhìn 5 Năm
+
+```
+  2026  ─── DevTrust v1 ──────────────────────────────
+  │ Vietnamese dev community + AI Agent Dashboard
+  │ "Dev Việt không sợ AI. Dev Việt dùng AI."
+  │
+  2027  ─── DevTrust v2 ──────────────────────────────
+  │ 100 startups launched through platform
+  │ Mobile app + Payment integration
+  │ "Mỗi dev là một founder tiềm năng."
+  │
+  2028  ─── DevTrust Global ──────────────────────────
+  │ English + Japanese + Korean
+  │ 100K devs worldwide
+  │ "Global dev community, AI-powered."
+  │
+  2029  ─── Trust DAO ────────────────────────────────
+  │ Decentralized governance by trusted humans
+  │ Trust Token economics
+  │ "Trust is the new currency."
+  │
+  2030  ─── The Trust Protocol ───────────────────────
+  │ Trust infrastructure cho toàn bộ AI economy
+  │ "DevTrust = HTTPS cho niềm tin con người."
+  └────────────────────────────────────────────────
+```
+
+> **"HTTPS bảo vệ dữ liệu trên internet.**  
+> **DevTrust bảo vệ niềm tin giữa con người trong thế giới AI."**
+
+---
+
+## 🏗️ Platform Features (16 Modules)
+
+| Phase | Modules | Status |
+|-------|---------|--------|
+| **Phase 1** | Social Feed, Explore, Profile, Trust Score | ✅ |
+| **Phase 2** | E-Learning, Quiz Engine, Bình Dân Học Vụ Số | ✅ |
+| **Phase 3** | DevMap, Leaderboard, Investor, Co-Founder Match | ✅ |
+| **Phase 4** | Hackathon, Travel/Visa, Industrial Hub, AI Shopping | ✅ |
+| **Phase 5** | Certificates, Marketplace, Offline Storage, Plugins | ✅ |
+| **Phase 6** | AI Agent Fleet, Human Intent Protocol, Agent Collab | 🔥 |
 
 ---
 
 ## 🏗️ Tech Stack
 
-| Layer | Technology | Vì sao? |
-|-------|-----------|---------|
-| **P2P Sync** | [Gun.js](https://gun.eco) | Graph DB phân tán, offline-first, realtime |
-| **Messaging** | WebRTC | Chat/call trực tiếp browser-to-browser |
-| **Storage** | IPFS / IndexedDB | Lưu trữ phân tán, không cần server |
-| **Frontend** | Vanilla JS + CSS | Nhẹ, < 50KB bundle, chạy mọi thiết bị |
-| **Trust Engine** | Custom algorithm | Score tính từ tương tác, verify, contributions |
-| **E-Learning** | Gun.js + IndexedDB | Sync bài giảng P2P, quiz offline |
-| **Deploy** | Vercel (static) | Bootstrap node, miễn phí |
-
----
-
-## 🛡️ Trust Score System
-
-Mỗi user/dev/teacher có **Trust Score** tính tự động từ:
-
-```
-Trust Score = (Tương tác × 0.20) + (Verify bạn bè × 0.15) 
-            + (Code contributions × 0.20) + (Lịch sử giúp đỡ × 0.10) 
-            + (Hoạt động × 0.10) + (Khóa học hoàn thành × 0.15)
-            + (Học viên verify × 0.10)
-```
-
-| Score | Level | Badge | Ý nghĩa |
-|-------|-------|-------|---------|
-| 80–100 | 🟢 Trusted | 🛡️ | Core contributor, nội dung ưu tiên lan truyền |
-| 50–79 | 🟡 Rising | 🛡️ | Active member, đang xây trust |
-| 0–49 | 🔴 New | ⚠️ | Mới tham gia, cần verify thêm |
-
-### Teacher Trust Chain
-```
-Student hoàn thành khóa → verify Teacher → Teacher Trust +3
-Teacher tạo khóa chất lượng → nhiều student verify → Trust 90+
-Nội dung Teacher Trust cao → ưu tiên lan truyền P2P cho cộng đồng
-```
+| Layer | Technology | Why |
+|-------|-----------|-----|
+| P2P Sync | Gun.js | Distributed, offline-first, realtime |
+| Messaging | WebRTC | Direct browser-to-browser |
+| Storage | IPFS + IndexedDB | Decentralized + offline |
+| Frontend | Vanilla JS + CSS | < 50KB, runs anywhere |
+| Trust | Custom algorithm | Multi-factor reputation |
+| AI | Agent Fleet Protocol | Trust-verified agents |
+| Deploy | Vercel | Free, static hosting |
 
 ---
 
 ## 💻 Quick Start
 
 ```bash
-# Clone repo
 git clone https://github.com/basao-company/devtrust.git
 cd devtrust
-
-# Chạy local (chỉ cần HTTP server)
 npx http-server . -p 8080
-
-# Mở browser: http://localhost:8080
+# Open: http://localhost:8080
 ```
 
-> **Không cần install backend, database, hay docker.** Mở browser là chạy.
+> **No backend needed.** Open browser and go.
 
 ---
 
-## 🔌 Build Plugin (cho dev)
+## 🤝 Join Us
 
-DevTrust cho phép dev build **mini-app/plugin** chạy trên node của user:
+| Who | Why |
+|-----|-----|
+| Dev sợ AI thay thế | Biến nỗi sợ → cơ hội khởi nghiệp |
+| Dev muốn side-project | Tìm co-founder + AI fleet |
+| Student CS | Build startup portfolio, not CRUD |
+| Non-tech founder | Tìm tech co-founder đáng tin |
 
-```javascript
-// Ví dụ: Plugin "E-Learning Quiz P2P"
-DevTrust.registerPlugin({
-  name: 'Quiz P2P Verifier',
-  version: '1.0.0',
-  author: 'your-name',
-  
-  // Plugin verify đáp án quiz qua P2P
-  onQuizComplete(student, quiz, score) {
-    DevTrust.trust.addScore(student, score >= 80 ? 5 : 2, 'quiz');
-    DevTrust.p2p.broadcast('quiz-result', {
-      student: student.id, quiz: quiz.id, score
-    });
-  }
-});
-```
-
-### Plugin Revenue Model
-```
-User dùng plugin → revenue sinh ra
-├── 60% → Plugin creator (dev)
-├── 30% → Người share/referrer  
-└── 10% → Community Trust Fund
-```
-
----
-
-## 🎯 Bounty Board
-
-### 🆕 E-Learning Bounties (Mới!)
-
-| Task | Reward | Difficulty |
-|------|--------|-----------|
-| Build offline lesson downloader (IPFS) | 15% revenue share | ⭐⭐⭐ |
-| Quiz peer-review P2P (verify đáp án) | 10% revenue share | ⭐⭐⭐ |
-| Teacher Trust Score plugin | 10% revenue share | ⭐⭐ |
-| Course marketplace (publish/sell khóa học) | 20% equity | ⭐⭐⭐⭐ |
-| Video bài giảng offline player | 10% revenue share | ⭐⭐⭐ |
-| Certificate generation (hoàn thành khóa) | Trust 85+ | ⭐⭐ |
-
-### Social Network Bounties
-
-| Task | Reward | Difficulty |
-|------|--------|-----------|
-| Build chat plugin P2P (WebRTC) | 15% revenue share | ⭐⭐⭐ |
-| Cải tiến Trust Score algorithm | 10% + Trust 95+ | ⭐⭐ |
-| Offline sync optimizer (CRDT) | 15% revenue share | ⭐⭐⭐⭐ |
-| Mobile app wrapper (Flutter) | 20% equity | ⭐⭐⭐ |
-| UI/UX thiết kế thêm screens | Trust 85+ | ⭐ |
-
-> **Claim bounty:** Comment "CLAIM" vào issue + submit PR trong 2 tuần.
-
----
-
-## ⚔️ Mô hình Tuyển "Chiến Binh Được Đào Tạo"
-
-Không tuyển dev freelance thông thường — ta tuyển **chiến binh edtech chân chính**: có tâm huyết, kỹ năng, sẵn sàng contribute lâu dài.
-
-### Giai đoạn 1: Tuyển chọn (1-2 tháng)
-- **Tiêu chí**: Tâm huyết edtech + biết ≥1: Gun.js/IPFS/WebRTC/React + có lịch sử open-source
-- **Bounty đầu vào**: Submit ý tưởng khóa học offline → nhận Trust Score + invite repo
-- **Mục tiêu**: 20-30 chiến binh đầu tiên
-
-### Giai đoạn 2: Bootcamp P2P (2-4 tháng)
-- **Tuần 1-2**: Học core P2P (Gun.js, OrbitDB, IPFS, WebRTC) — offline-first
-- **Tuần 3-6**: Build module E-Learning (bài giảng IPFS, quiz peer-review, sync P2P)
-- **Tuần 7+**: Tích hợp Bình dân học vụ số (khóa học, certificate trust-based)
-- **Win-win**: Build plugin thật trong training → nhận % revenue + Trust Score
-
-### Giai đoạn 3: Scale & Loyalty
-- Mỗi chiến binh có node riêng → tự lan tỏa (publish, recruit thêm qua trust chain)
-- **Reward**: 50% doanh thu module, 30% cho người sync, 20% quỹ trust
-- Dạy thực tế tại trung tâm offline (kết hợp kế hoạch mở trung tâm đào tạo)
-
----
-
-## 🤝 Contributing
-
-### Ai nên join?
-
-✅ Dev thích **P2P, decentralized, offline-first**  
-✅ Dev **edtech** (từng làm MOOCs, LMS, Moodle, Google Classroom)  
-✅ Dev **blockchain/decentralized** (IPFS, Gun.js, Web3)  
-✅ Người quan tâm **giáo dục số** cho cộng đồng  
-✅ Ai muốn **portfolio đỉnh** với stack Gun.js + IPFS + WebRTC  
-✅ Người tin vào **"internet tự do"**, không phụ thuộc big tech  
-
-❌ Không phù hợp nếu chỉ tìm **lương tháng**  
-❌ Không phù hợp nếu **copy-paste** không có ý tưởng cải tiến
-
-### Cách contribute
-
-1. **Fork** repo này
-2. Tạo branch: `git checkout -b feature/offline-quiz-p2p`
-3. Code + test offline (mở 2 browser tab, test sync)
-4. Submit **Pull Request** với mô tả rõ ràng
-5. PR được approve → Trust Score của bạn tự động tăng! 🎉
-
-### Nhóm target (kéo dev xịn)
-
-| Cộng đồng | Nơi post |
-|-----------|----------|
-| Open Source Việt Nam | Facebook group |
-| EdTech Việt Nam | Zalo/FB group |
-| AI Việt Nam | FB/Viblo |
-| Dev Đà Nẵng/HCM/HN | Meetup + online |
-| Blockchain Vietnam | Telegram/Discord |
-
----
-
-## 📊 Roadmap
-
-### Phase 1 — MVP (Tuần 1-2) ✅
-- [x] UI prototype (Feed, Explore, Messages, Profile)
-- [x] Trust Score display (ring + breakdown)
-- [x] Gun.js P2P integration
-- [x] Deploy Vercel
-
-### Phase 2 — E-Learning + P2P Core (Tuần 3-6) 🔄
-- [x] E-Learning module (6 khóa học, quiz, progress)
-- [x] Bình dân học vụ số integration
-- [x] Teacher Trust Chain
-- [x] Quiz Engine (sát hạch đầu vào)
-- [ ] WebRTC chat trực tiếp
-- [ ] IPFS storage cho posts/media/bài giảng
-- [ ] Offline-first với IndexedDB
-- [ ] Plugin system (load/unload)
-
-### Phase 3 — Scale (Tuần 7+)
-- [ ] Mobile app (Flutter + WebRTC)
-- [ ] Course marketplace (publish/sell)
-- [ ] Certificate generation P2P
-- [ ] Revenue sharing P2P wallet
-- [ ] Partnership trung tâm đào tạo thực tế
-- [ ] 50+ dev contributors, 5,000 users
-
----
-
-## 💰 Revenue Model — P2P Win-Win
-
-```
-Không trung gian. Tiền chuyển P2P trực tiếp.
-
-┌─────────────┐    tip/enroll     ┌──────────────┐
-│  Học viên   │ ───────────────→ │  Teacher/Dev  │
-│  dùng khóa  │                  │  (60%)        │
-│  học/plugin │                  └──────────────┘
-└─────────────┘                        │
-                                       ├── 30% → Referrer
-                                       └── 10% → Trust Fund
-```
-
----
-
-## 🌐 Live Demo
-
-🔗 **https://social-network-tau-ten.vercel.app**
-
-Features đã hoạt động:
-- 🏠 News Feed với Trust Score badges
-- 🔍 Explore grid
-- 📚 **E-Learning** — Khóa học, Bình dân học vụ số, Quiz
-- 💬 Messages (P2P chat demo)
-- 👤 Profile với Trust Score ring + Teacher Trust
-- 🔔 Notifications
-- ⚙️ Settings
-- 🌗 Dark/Light theme
-- 🔗 P2P peer indicator (Gun.js)
-
----
-
-## 📬 Join Community
-
-- **Zalo Group:** [zalo.me/g/arkdaw947](https://zalo.me/g/arkdaw947)
-- **GitHub Issues:** Report bugs, suggest features
-- **PR = Trust:** Mỗi PR merge = Trust Score +10
-
----
-
-### 📢 Post mẫu — kéo dev EdTech
-
-> **Tiêu đề:** Ae dev edtech & P2P ơi! Join VConnect DevTrust — Xây mạng học tập phân tán Bình dân học vụ số, offline-first!
->
-> Từ kế hoạch mới: Kết hợp VConnect P2P Trust với E-Learning + Bình dân học vụ số:
-> - Build nền tảng học offline (tải bài giảng IPFS, học không net, sync P2P)
-> - Scale trung tâm đào tạo thực tế + online
-> - Trust-based: Teacher/dev verify lẫn nhau
->
-> **Bounty:** Build quiz offline P2P → nhận 10% từ module. Comment "JOIN EDU" để nhận task!
+**Zalo:** [zalo.me/g/arkdaw947](https://zalo.me/g/arkdaw947)  
+**Demo:** [social-network-tau-ten.vercel.app](https://social-network-tau-ten.vercel.app)
 
 ---
 
 ## 📜 License
 
-MIT License — Tự do sử dụng, fork, modify. 
+MIT License — Free to use, fork, modify.
 
 **Made with ❤️ by Vietnamese dev community.**
 
-> *"Càng hoang tưởng càng tốt"* — DevTrust Team
+---
+
+> *"AI không phải kẻ thù. AI là đồng đội mạnh nhất bạn từng có."*  
+> *"Đừng sợ bị thay thế. Hãy sợ bị bỏ lại phía sau vì không chịu thay đổi."*  
+> *"DevTrust — Nơi dev Việt cùng AI khởi nghiệp, cùng nhau thay đổi thế giới."*  
+>  
+> — David Cuong, Founder

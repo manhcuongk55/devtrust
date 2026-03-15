@@ -98,7 +98,7 @@
         </a>
         <a href="#" class="sidebar__link" data-view="investor" id="nav-investor">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <span>📉 Đầu Tư</span>
+          <span>📉 Hỗ trợ & Thẩm định</span>
         </a>
         <a href="#" class="sidebar__link" data-view="hackathon" id="nav-hackathon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
@@ -107,7 +107,25 @@
         </a>
         <a href="#" class="sidebar__link" data-view="travel" id="nav-travel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.7.5-1.1z"/></svg>
-          <span>✈️ Di Chuyển/Visa</span>
+          <span>Hỗ trợ Di Chuyển/Visa</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="industrial" id="nav-industrial">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          <span>Định giá Công nghệ</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="marketplace" id="nav-marketplace">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span>🛒 Marketplace</span>
+          <span class="sidebar__badge sidebar__badge--new">MỚI</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="plugins" id="nav-plugins">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6M12 18v4M4.93 4.93l4.24 4.24M14.83 14.83l4.24 4.24M2 12h6M18 12h4M4.93 19.07l4.24-4.24M14.83 9.17l4.24-4.24"/></svg>
+          <span>🔌 Plugins</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="agents" id="nav-agents">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8l2.8-2.8M17 7l2.8-2.8"/></svg>
+          <span>🤖 AI Agents</span>
+          <span class="sidebar__badge sidebar__badge--new">P6</span>
         </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -148,6 +166,11 @@
 
     <!-- ============ CONTENT VIEWS ============ -->
     <div class="content-area" id="content-area">
+
+      <!-- ===== OFFLINE INDICATOR ===== -->
+      <div id="offline-indicator" class="offline-indicator online">
+        <span class="offline-dot online"></span> Online — Synced ✓
+      </div>
 
       <!-- ===== FEED VIEW ===== -->
       <section class="view view--feed active" id="view-feed">
@@ -586,9 +609,9 @@
           <div class="fund-insight-card fund-insight-card--money">
             <div class="fund-insight-card__icon">💵</div>
             <div>
-              <div class="fund-insight-card__title">Góp Vốn</div>
+              <div class="fund-insight-card__title">Hỗ trợ Vốn</div>
               <div class="fund-insight-card__val">1 triệu = 200–400 điểm</div>
-              <div class="fund-insight-card__note">Minh bạch, có thể rút lại</div>
+              <div class="fund-insight-card__note">Chân thành, minh bạch, an tâm</div>
             </div>
           </div>
           <div class="fund-insight-card fund-insight-card--trust">
@@ -603,7 +626,7 @@
 
         <!-- Section Header -->
         <div class="fund-section-header">
-          <h3>🚀 Dự án đang gọi vốn (<span id="fund-count">0</span>)</h3>
+          <h3>🌱 Ươm mầm dự án (<span id="fund-count">0</span>)</h3>
           <div class="fund-filter-tabs" id="fund-filter-tabs">
             <button class="fund-tab active" data-stage="all" onclick="filterFund('all')">Tất cả</button>
             <button class="fund-tab" data-stage="idea" onclick="filterFund('idea')">💡 Ý tưởng</button>
@@ -747,8 +770,8 @@
 
         <!-- CTA -->
         <div class="investor-cta">
-          <h3>Sẵn sàng đầu tư?</h3>
-          <p>Thậ Trust-verified. Equity minh bạch. Tự do exit bất kỳ lúc nào.</p>
+          <h3>Sẵn sàng hỗ trợ chiến hữu?</h3>
+          <p>Môi trường Trust-verified. Đồng hành minh bạch. Cùng nhau đi xa.</p>
           <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
             <button class="btn btn--primary btn--lg" onclick="openContributeModal(1)">💰 Đầu tư ngay</button>
             <button class="btn btn--glass btn--lg" onclick="switchView('match')">🤝 Gặp founder</button>
@@ -811,6 +834,31 @@
               <p>Chỗ ăn ở tối ưu cho làm việc tập trung (Co-living)</p>
             </div>
             <div class="travel-grid" id="stay-grid"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== INDUSTRIAL TECH HUB (Appraisal) ===== -->
+      <section class="view view--industrial" id="view-industrial">
+        <div class="industrial-hero">
+          <div class="industrial-hero__glow"></div>
+          <div class="industrial-hero__content">
+            <div class="industrial-hero__badge">🛡️ Thẩm định & Định giá Chân thành</div>
+            <h1>Industrial <span>Tech Hub</span></h1>
+            <p>Định giá thiết bị, vật tư nhà máy & hệ thống công nghệ. Hỗ trợ chiến hữu từ tâm. (Tham chiếu: <a href="https://techport.vn" target="_blank" style="color:var(--accent-primary)">TechPort.vn</a>)</p>
+            <div class="industrial-search">
+              <input type="text" placeholder="Tìm kiếm thiết bị: CNC, Robot arm, Main server, Vật tư..." />
+              <button>🔍 Thẩm định</button>
+            </div>
+          </div>
+        </div>
+        <div class="industrial-sections">
+          <div class="industrial-section">
+            <div class="industrial-section-header">
+              <h3>🏭 Định giá Thiết bị & Vật tư</h3>
+              <p>Hỗ trợ đội ngũ thẩm định kèo công nghệ nhanh chóng, chính xác.</p>
+            </div>
+            <div class="industrial-grid" id="industrial-appraisal-grid"></div>
           </div>
         </div>
       </section>
@@ -938,6 +986,93 @@
           </div>
         </div>
       </section>
+
+      <!-- ===== PROFILE VIEW ===== -->
+      <section class="view view--profile" id="view-profile">
+        <div class="profile-header">
+          <div class="profile-cover" style="background:linear-gradient(135deg,#6366f1,#818cf8,#a78bfa)"></div>
+          <div class="profile-info">
+            <img class="profile-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" />
+            <div>
+              <h2 class="profile-name">David Cuong</h2>
+              <p class="profile-role">Founder / CEO · DevTrust</p>
+              <div class="profile-trust">🛡️ Trust Score: <strong>92</strong> · 💌 15 Kudos · 🔗 Bond: 87</div>
+            </div>
+          </div>
+        </div>
+        <div class="profile-section">
+          <h3>🏆 Chứng chỉ Trust-Verified</h3>
+          <p style="color:var(--text-tertiary);font-size:0.85rem;margin-bottom:1rem">Hoàn thành quiz ≥80% → tự động nhận chứng chỉ xác thực P2P</p>
+          <div class="cert-gallery-grid" id="cert-gallery"><!-- JS populated --></div>
+        </div>
+      </section>
+
+      <!-- ===== MARKETPLACE VIEW ===== -->
+      <section class="view view--marketplace" id="view-marketplace">
+        <div class="mkt-hero">
+          <div class="mkt-hero__glow"></div>
+          <h1 class="mkt-hero__title">🛒 Course Marketplace</h1>
+          <p class="mkt-hero__desc">Học từ giảng viên đáng tin · Revenue share minh bạch 60/30/10 · Offline-first</p>
+          <div class="mkt-hero__stats">
+            <div class="mkt-stat"><strong>8</strong><span>Khóa học</span></div>
+            <div class="mkt-stat"><strong>10K+</strong><span>Học viên</span></div>
+            <div class="mkt-stat"><strong>4.7★</strong><span>Đánh giá TB</span></div>
+          </div>
+        </div>
+        <div class="mkt-filters">
+          <button class="mkt-filter active" onclick="filterMarketplace(this,'all')">Tất cả</button>
+          <button class="mkt-filter" onclick="filterMarketplace(this,'Lập trình')">💻 Lập trình</button>
+          <button class="mkt-filter" onclick="filterMarketplace(this,'AI')">🤖 AI</button>
+          <button class="mkt-filter" onclick="filterMarketplace(this,'Ngôn ngữ')">🌍 Ngôn ngữ</button>
+          <button class="mkt-filter" onclick="filterMarketplace(this,'Marketing')">📈 Marketing</button>
+          <button class="mkt-filter" onclick="filterMarketplace(this,'DevOps')">☁️ DevOps</button>
+          <button class="mkt-filter" onclick="filterMarketplace(this,'Mobile')">📱 Mobile</button>
+        </div>
+        <div class="mkt-grid" id="marketplace-grid"><!-- JS populated --></div>
+      </section>
+
+      <!-- ===== PLUGINS VIEW ===== -->
+      <section class="view view--plugins" id="view-plugins">
+        <div class="plugin-hero">
+          <div class="plugin-hero__glow"></div>
+          <h1 class="plugin-hero__title">🔌 Plugin Store</h1>
+          <p class="plugin-hero__desc">Mở rộng DevTrust với plugins do cộng đồng xây dựng · Revenue 60/30/10</p>
+          <div class="plugin-hero__stats" id="plugin-stats"><!-- JS populated --></div>
+        </div>
+        <div class="plugin-grid" id="plugin-store-grid"><!-- JS populated --></div>
+      </section>
+
+      <!-- ===== AI AGENTS VIEW ===== -->
+      <section class="view view--agents" id="view-agents">
+        <div class="agent-hero">
+          <div class="agent-hero__glow"></div>
+          <div class="agent-hero__eyebrow">
+            <span class="agent-hero__live-dot"></span> Phase 6 · AI Agent Trust Layer
+          </div>
+          <h1 class="agent-hero__title">🤖 Agent Fleet <span>Dashboard</span></h1>
+          <p class="agent-hero__desc">Quản lý fleet AI agents của bạn · Trust kế thừa từ chủ sở hữu · Verify outputs qua mạng trust P2P</p>
+          <div class="agent-hero__kpis" id="agent-fleet-stats"><!-- JS populated --></div>
+        </div>
+
+        <div class="agent-section">
+          <h3>💻 Your Agent Fleet</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:1rem">Mỗi agent kế thừa Trust Score từ chủ sở hữu — Trust càng cao, agent càng được tin tưởng</p>
+          <div class="agent-fleet-grid" id="agent-fleet-grid"><!-- JS populated --></div>
+        </div>
+
+        <div class="agent-section">
+          <h3>🧠 Human Intent Protocol</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:1rem">Mọi hành động của AI agent đều có bằng chứng ý định con người thật đứng sau — Proof of Human Intent</p>
+          <div class="intent-log" id="human-intent-log"><!-- JS populated --></div>
+        </div>
+
+        <div class="agent-section">
+          <h3>🤝 Agent-to-Agent Collaboration</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:1rem">Agents chỉ hợp tác khi cả 2 chủ sở hữu vượt Trust Gate — trust-gated cooperation</p>
+          <div class="collab-list" id="agent-collab-list"><!-- JS populated --></div>
+        </div>
+      </section>
+
     </div>
 
     <!-- ============ MOBILE BOTTOM NAV ============ -->

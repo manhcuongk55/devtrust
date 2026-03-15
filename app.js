@@ -258,6 +258,19 @@ const STAY_SERVICES = [
   { id: 3, name: 'Hanoi Coding House (Old Qtr)', location: 'Hà Nội, Việt Nam', desc: 'Trải nghiệm văn hóa, làm việc tại phố cổ, chi phí tối ưu.', price: '8tr/month/pax', icon: '🏮' }
 ];
 
+const INDUSTRIAL_EQUIPMENT = [
+  { id: 1, name: 'CNC Milling Machine (5-axis)', category: 'Cơ khí', value: '1.2B - 1.8B VNĐ', status: 'Đã thẩm định', icon: '⚙️', provider: 'Toan-Chinh Partners' },
+  { id: 2, name: 'Industrial Robot Arm (ABB)', category: 'Tự động hóa', value: '800M - 1.1B VNĐ', status: 'Cần thẩm định', icon: '🤖', provider: 'Industrial Hub' },
+  { id: 3, name: 'Semiconductor Testing Unit', category: 'Linh kiện', value: '450M VNĐ', status: 'Đang ươm mầm', icon: '📟', provider: 'TechPort VN' },
+  { id: 4, name: 'Precision Lathe System', category: 'Cơ khí', value: '250M - 350M VNĐ', status: 'Hỗ trợ định giá', icon: '🛠️', provider: 'Toan-Chinh Partners' }
+];
+
+const INDUSTRIAL_SUPPLIES = [
+  { id: 1, name: 'High-grade Steel Coil', category: 'Vật tư', unit: 'Tấn', price: '18M VNĐ', icon: '🏗️' },
+  { id: 2, name: 'Ceramic Insulation Plates', category: 'Vật tư', unit: 'M2', price: '1.2M VNĐ', icon: '🧱' },
+  { id: 3, name: 'Industrial Lubricant (Grade A)', category: 'Hóa chất', unit: 'Lít', price: '150K VNĐ', icon: '🧪' }
+];
+
 
 
 // ============ HELPERS ============
@@ -548,8 +561,20 @@ function switchView(viewName) {
   if (viewName === 'investor') {
     if (!$('#investor-deal-flow').children.length) renderInvestorDashboard();
   }
-  if (viewName === 'devjoin') {
-    if (!$('#devjoin-grid').children.length) renderDevJoinGrid(FUND_IDEAS);
+  if (viewName === 'industrial') {
+    if (!$('#industrial-appraisal-grid').children.length) renderIndustrialHub();
+  }
+  if (viewName === 'marketplace') {
+    if (!$('#marketplace-grid').children.length) renderMarketplace();
+  }
+  if (viewName === 'plugins') {
+    if (!$('#plugin-store-grid').children.length) renderPluginStore();
+  }
+  if (viewName === 'profile') {
+    renderCertificateGallery();
+  }
+  if (viewName === 'agents') {
+    if (!$('#agent-fleet-grid').children.length) renderAgentDashboard();
   }
 }
 
@@ -4415,8 +4440,56 @@ window.openCofounderModal = function(userId) {
   }, 100);
 };
 
-// Start app
-document.addEventListener('DOMContentLoaded', init);
+
+// ============ INDUSTRIAL TECH HUB ENGINE ============
+
+function renderIndustrialHub() {
+  const container = $('#industrial-appraisal-grid');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="industrial-sub-section" style="width: 100%;">
+      <h4 style="margin-bottom:1rem;color:var(--text-secondary)">🏭 Thiết bị & Máy móc Cần Định giá (Đồng hành cùng Chú Toán & Anh Chính)</h4>
+      <div class="travel-grid">
+        ${INDUSTRIAL_EQUIPMENT.map(eq => `
+          <div class="travel-card card">
+            <div class="travel-card__icon">${eq.icon}</div>
+            <div class="travel-card__body">
+              <div class="travel-country">${eq.name}</div>
+              <div class="travel-category">${eq.category}</div>
+              <div class="travel-meta">Giá trị thực: <strong>${eq.value}</strong></div>
+              <div class="travel-provider">Đối tác thẩm định: <strong>${eq.provider}</strong></div>
+              <div class="trust-badge-inline" style="background:${eq.status === 'Đã thẩm định' ? 'rgba(16,185,129,0.1)' : 'rgba(245,158,11,0.1)'};color:${eq.status === 'Đã thẩm định' ? '#10b981' : '#f59e0b'}">
+                ${eq.status}
+              </div>
+            </div>
+            <button class="btn btn--glass btn--sm" onclick="openAIShoppingAssistant('Hỗ trợ thẩm định ${eq.name}')">
+              🤝 Hỗ trợ Định giá
+            </button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+    <div class="industrial-sub-section" style="margin-top:2rem; width: 100%;">
+      <h4 style="margin-bottom:1rem;color:var(--text-secondary)">🏗️ Vật tư Nhà máy & Linh kiện (Ươm mầm Phát triển)</h4>
+      <div class="travel-grid">
+        ${INDUSTRIAL_SUPPLIES.map(sup => `
+          <div class="travel-card card">
+            <div class="travel-card__icon">${sup.icon}</div>
+            <div class="travel-card__body">
+              <div class="travel-country">${sup.name}</div>
+              <div class="travel-category">${sup.category}</div>
+              <div class="travel-meta">Đơn vị: ${sup.unit} · Giá hỗ trợ: <strong>${sup.price}</strong></div>
+            </div>
+            <button class="btn btn--glass btn--sm" onclick="openAIShoppingAssistant('Cung ứng vật tư ${sup.name}')">
+              📦 Hỗ trợ Cung ứng
+            </button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
 
 // ============ HACKATHON ENGINE ============
 
@@ -4501,4 +4574,809 @@ function openAIShoppingAssistant(context) {
       </div>
     </div>
   `;
+}
+
+// ============ 🏆 CERTIFICATE GENERATION SYSTEM ============
+
+const CERTIFICATES = [
+  { id: 'cert-1', courseId: 'ai', courseName: 'AI Cơ bản cho người mới', studentName: 'David Cuong', score: 92, date: '2026-03-10', trustScore: 92, verifyCode: 'DT-AI-2026-0392', issuer: 'DevTrust Academy', level: 'Cơ bản', hours: 12 },
+  { id: 'cert-2', courseId: 'digital', courseName: 'Kỹ năng số cho mọi người', studentName: 'David Cuong', score: 88, date: '2026-02-28', trustScore: 90, verifyCode: 'DT-DIG-2026-0288', issuer: 'DevTrust Academy', level: 'Cơ bản', hours: 8 },
+  { id: 'cert-3', courseId: 'python', courseName: 'Lập trình Python từ 0', studentName: 'David Cuong', score: 95, date: '2026-03-14', trustScore: 92, verifyCode: 'DT-PY-2026-0495', issuer: 'DevTrust Academy', level: 'Trung cấp', hours: 24 },
+];
+
+function generateCertificate(courseId, courseName, score) {
+  if (score < 80) return null;
+  const certId = `cert-${Date.now()}`;
+  const verifyCode = `DT-${courseId.toUpperCase().slice(0,3)}-2026-${String(Math.floor(Math.random()*10000)).padStart(4,'0')}`;
+  const cert = {
+    id: certId, courseId, courseName,
+    studentName: 'David Cuong', score,
+    date: new Date().toISOString().split('T')[0],
+    trustScore: 92, verifyCode,
+    issuer: 'DevTrust Academy',
+    level: score >= 90 ? 'Xuất sắc' : 'Đạt chuẩn',
+    hours: Math.floor(Math.random() * 20) + 8,
+  };
+  CERTIFICATES.push(cert);
+  return cert;
+}
+
+function renderCertificateGallery() {
+  const container = $('#cert-gallery');
+  if (!container) return;
+  if (CERTIFICATES.length === 0) {
+    container.innerHTML = '<div class="cert-empty"><p>Chưa có chứng chỉ nào. Hoàn thành khóa học và đạt ≥80% để nhận chứng chỉ! 🎯</p></div>';
+    return;
+  }
+  container.innerHTML = CERTIFICATES.map(cert => {
+    const levelColor = cert.score >= 90 ? '#10b981' : cert.score >= 85 ? '#f59e0b' : '#6366f1';
+    return `
+    <div class="cert-card" onclick="openCertificateModal('${cert.id}')">
+      <div class="cert-card__hologram"></div>
+      <div class="cert-card__badge" style="background:${levelColor}22;color:${levelColor}">🏆 ${cert.level}</div>
+      <div class="cert-card__icon">📜</div>
+      <div class="cert-card__name">${cert.courseName}</div>
+      <div class="cert-card__score" style="color:${levelColor}">${cert.score}%</div>
+      <div class="cert-card__date">${cert.date}</div>
+      <div class="cert-card__verify">🛡️ ${cert.verifyCode}</div>
+    </div>`;
+  }).join('');
+}
+
+function openCertificateModal(certId) {
+  const cert = CERTIFICATES.find(c => c.id === certId);
+  if (!cert) return;
+  const existing = $('#cert-modal');
+  if (existing) existing.remove();
+  const levelColor = cert.score >= 90 ? '#10b981' : cert.score >= 85 ? '#f59e0b' : '#6366f1';
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'cert-modal';
+  modal.innerHTML = `
+    <div class="modal card cert-modal-inner">
+      <div class="modal__header">
+        <h3>📜 Chứng chỉ Trust-Verified</h3>
+        <button class="modal__close" onclick="document.getElementById('cert-modal').remove()">✕</button>
+      </div>
+      <div class="cert-modal-body">
+        <div class="cert-preview">
+          <div class="cert-preview__hologram"></div>
+          <div class="cert-preview__border" style="border-color:${levelColor}"></div>
+          <div class="cert-preview__content">
+            <div class="cert-preview__logo">◈ DevTrust Academy</div>
+            <h2 class="cert-preview__title">CHỨNG CHỈ HOÀN THÀNH</h2>
+            <div class="cert-preview__subtitle">Certificate of Completion</div>
+            <div class="cert-preview__student">${cert.studentName}</div>
+            <div class="cert-preview__course">đã hoàn thành xuất sắc khóa học</div>
+            <div class="cert-preview__course-name" style="color:${levelColor}">${cert.courseName}</div>
+            <div class="cert-preview__details">
+              <div class="cert-detail"><span>📊 Điểm</span><strong style="color:${levelColor}">${cert.score}%</strong></div>
+              <div class="cert-detail"><span>🛡️ Trust</span><strong>${cert.trustScore}</strong></div>
+              <div class="cert-detail"><span>⏱️ Giờ học</span><strong>${cert.hours}h</strong></div>
+              <div class="cert-detail"><span>📅 Ngày</span><strong>${cert.date}</strong></div>
+            </div>
+            <div class="cert-preview__verify">
+              <span>Mã xác thực P2P:</span>
+              <strong>${cert.verifyCode}</strong>
+            </div>
+            <div class="cert-preview__seal">
+              <div class="cert-seal" style="border-color:${levelColor}">🛡️</div>
+              <span>Trust-Verified · P2P Authenticated</span>
+            </div>
+          </div>
+        </div>
+        <div class="cert-modal-actions">
+          <button class="btn btn--primary" onclick="downloadCertificate('${cert.id}')">📥 Tải chứng chỉ (PNG)</button>
+          <button class="btn btn--glass" onclick="navigator.clipboard.writeText('${cert.verifyCode}');showToast('Đã copy mã xác thực!','success')">🔗 Copy mã xác thực</button>
+          <button class="btn btn--glass" onclick="showToast('Đã chia sẻ chứng chỉ lên blockchain P2P!','success')">🌐 Chia sẻ P2P</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function downloadCertificate(certId) {
+  const cert = CERTIFICATES.find(c => c.id === certId);
+  if (!cert) return;
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200; canvas.height = 850;
+  const ctx = canvas.getContext('2d');
+  // Background
+  const grad = ctx.createLinearGradient(0, 0, 1200, 850);
+  grad.addColorStop(0, '#0f172a'); grad.addColorStop(1, '#1e293b');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 1200, 850);
+  // Border
+  ctx.strokeStyle = cert.score >= 90 ? '#10b981' : '#f59e0b';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(30, 30, 1140, 790);
+  ctx.strokeRect(40, 40, 1120, 770);
+  // Logo
+  ctx.fillStyle = '#818cf8'; ctx.font = 'bold 28px Inter, sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('◈ DevTrust Academy', 600, 100);
+  // Title
+  ctx.fillStyle = '#f8fafc'; ctx.font = 'bold 42px Inter, sans-serif';
+  ctx.fillText('CHỨNG CHỈ HOÀN THÀNH', 600, 180);
+  ctx.fillStyle = '#94a3b8'; ctx.font = '18px Inter, sans-serif';
+  ctx.fillText('Certificate of Completion', 600, 215);
+  // Student
+  ctx.fillStyle = '#e2e8f0'; ctx.font = 'bold 36px Inter, sans-serif';
+  ctx.fillText(cert.studentName, 600, 310);
+  ctx.fillStyle = '#94a3b8'; ctx.font = '20px Inter, sans-serif';
+  ctx.fillText('đã hoàn thành xuất sắc khóa học', 600, 360);
+  // Course name
+  ctx.fillStyle = cert.score >= 90 ? '#10b981' : '#f59e0b';
+  ctx.font = 'bold 32px Inter, sans-serif';
+  ctx.fillText(cert.courseName, 600, 420);
+  // Details
+  ctx.fillStyle = '#e2e8f0'; ctx.font = '20px Inter, sans-serif';
+  ctx.fillText(`📊 Điểm: ${cert.score}%   |   🛡️ Trust: ${cert.trustScore}   |   ⏱️ ${cert.hours} giờ học   |   📅 ${cert.date}`, 600, 510);
+  // Verify code
+  ctx.fillStyle = '#64748b'; ctx.font = '16px Inter, sans-serif';
+  ctx.fillText(`Mã xác thực P2P: ${cert.verifyCode}`, 600, 600);
+  ctx.fillText('Trust-Verified · P2P Authenticated · Blockchain Recorded', 600, 640);
+  // Seal
+  ctx.fillStyle = '#818cf830'; ctx.beginPath(); ctx.arc(600, 740, 40, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#818cf8'; ctx.font = '32px sans-serif'; ctx.fillText('🛡️', 600, 750);
+  // Download
+  const link = document.createElement('a');
+  link.download = `DevTrust-Certificate-${cert.verifyCode}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  showToast('📥 Đã tải chứng chỉ thành công!', 'success');
+}
+
+// ============ 🛒 COURSE MARKETPLACE ENGINE ============
+
+const MARKETPLACE_COURSES = [
+  { id: 'm1', name: 'Mastering React — Từ Zero đến Production', teacher: 'Linh Nguyễn', teacherSeed: 'linh', teacherTrust: 87, price: '499K', priceFree: false, students: 1234, rating: 4.9, hours: 40, level: 'Trung cấp', category: 'Lập trình', emoji: '⚛️', desc: 'Build production-ready React apps với hooks, context, performance optimization. Cuối khóa deploy app thật.', tags: ['React', 'Hooks', 'TypeScript'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+  { id: 'm2', name: 'AI/ML cho Developer — Thực hành với Python', teacher: 'Hương Phạm', teacherSeed: 'huong', teacherTrust: 91, price: '799K', priceFree: false, students: 892, rating: 4.8, hours: 60, level: 'Nâng cao', category: 'AI', emoji: '🤖', desc: 'Từ Linear Regression đến Deep Learning. Build chatbot, image recognition, recommendation engine.', tags: ['Python', 'AI/ML', 'TensorFlow'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+  { id: 'm3', name: 'Tiếng Nhật N3 cho IT — 6 tháng Speed Run', teacher: 'Hương Phạm', teacherSeed: 'huong', teacherTrust: 91, price: '1.2M', priceFree: false, students: 567, rating: 4.9, hours: 120, level: 'Đặc biệt', category: 'Ngôn ngữ', emoji: '🇯🇵', desc: 'Chương trình tập trung cho IT engineer. Kanji IT, keigo business, phỏng vấn kỹ thuật bằng tiếng Nhật.', tags: ['Tiếng Nhật', 'N3', 'XKLĐ'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+  { id: 'm4', name: 'P2P & Decentralization với Gun.js', teacher: 'Tuấn Vũ', teacherSeed: 'tuan', teacherTrust: 95, price: 'FREE', priceFree: true, students: 2341, rating: 4.7, hours: 20, level: 'Nâng cao', category: 'Lập trình', emoji: '🔗', desc: 'Build real-time P2P apps. CRDT, offline-first, encryption. Dự án thực tế: chat P2P + social network.', tags: ['P2P', 'Gun.js', 'Web3'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+  { id: 'm5', name: 'Growth Hacking cho Startup VN', teacher: 'Mai Lê', teacherSeed: 'mai', teacherTrust: 63, price: '299K', priceFree: false, students: 445, rating: 4.5, hours: 15, level: 'Cơ bản', category: 'Marketing', emoji: '📈', desc: 'Viral loops, referral systems, content marketing, SEO. Build growth engine từ 0 budget.', tags: ['Growth', 'Marketing', 'Startup'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+  { id: 'm6', name: 'DevOps & Cloud Infrastructure', teacher: 'Đức Hoàng', teacherSeed: 'duc', teacherTrust: 78, price: '599K', priceFree: false, students: 678, rating: 4.6, hours: 35, level: 'Nâng cao', category: 'DevOps', emoji: '☁️', desc: 'Docker, K8s, CI/CD, AWS/GCP. Deploy microservices với zero downtime.', tags: ['Docker', 'K8s', 'AWS'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+  { id: 'm7', name: 'An toàn mạng — Bảo vệ bản thân online', teacher: 'Tuấn Vũ', teacherSeed: 'tuan', teacherTrust: 95, price: 'FREE', priceFree: true, students: 3456, rating: 4.8, hours: 8, level: 'Cơ bản', category: 'An ninh', emoji: '🔐', desc: 'Password manager, 2FA, VPN, phishing detection. Bảo vệ gia đình và doanh nghiệp nhỏ.', tags: ['Security', 'Privacy', 'P2P'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+  { id: 'm8', name: 'Mobile App với Flutter', teacher: 'Thảo Ngô', teacherSeed: 'thao', teacherTrust: 84, price: '699K', priceFree: false, students: 901, rating: 4.7, hours: 45, level: 'Trung cấp', category: 'Mobile', emoji: '📱', desc: 'Build cross-platform iOS & Android apps. State management, animations, API integration. Publish lên store.', tags: ['Flutter', 'Dart', 'Mobile'], revenue: { creator: 60, referrer: 30, fund: 10 } },
+];
+
+var _marketplaceFilter = 'all';
+
+function renderMarketplace() {
+  const container = $('#marketplace-grid');
+  if (!container) return;
+  const courses = _marketplaceFilter === 'all' ? MARKETPLACE_COURSES : MARKETPLACE_COURSES.filter(c => c.category === _marketplaceFilter);
+  container.innerHTML = courses.map((c, idx) => {
+    const priceColor = c.priceFree ? '#10b981' : '#f59e0b';
+    return `
+    <div class="mkt-card" style="animation-delay:${idx * 0.06}s">
+      <div class="mkt-card__top">
+        <div class="mkt-card__emoji">${c.emoji}</div>
+        <div class="mkt-card__level" style="background:${c.level === 'Nâng cao' ? '#6366f122' : c.level === 'Trung cấp' ? '#f59e0b22' : '#10b98122'};color:${c.level === 'Nâng cao' ? '#818cf8' : c.level === 'Trung cấp' ? '#f59e0b' : '#10b981'}">${c.level}</div>
+        <div class="mkt-card__price" style="color:${priceColor}">${c.price}</div>
+      </div>
+      <h3 class="mkt-card__name">${c.name}</h3>
+      <p class="mkt-card__desc">${c.desc}</p>
+      <div class="mkt-card__tags">
+        ${c.tags.map(t => `<span class="mkt-tag">${t}</span>`).join('')}
+      </div>
+      <div class="mkt-card__stats">
+        <span>👥 ${c.students.toLocaleString()}</span>
+        <span>⭐ ${c.rating}</span>
+        <span>⏱️ ${c.hours}h</span>
+      </div>
+      <div class="mkt-card__teacher">
+        <img class="mkt-teacher-avatar" src="${avatarUrl(c.teacherSeed)}" />
+        <span>${c.teacher}</span>
+        <span class="mkt-trust-badge">🛡️ ${c.teacherTrust}</span>
+      </div>
+      <div class="mkt-card__revenue-split">
+        <div class="mkt-revenue-label">Phân phối thu nhập P2P:</div>
+        <div class="mkt-revenue-bar">
+          <div class="mkt-revenue-seg" style="width:60%;background:#10b981" title="Giảng viên 60%">👨‍🏫 60%</div>
+          <div class="mkt-revenue-seg" style="width:30%;background:#6366f1" title="Người giới thiệu 30%">🔗 30%</div>
+          <div class="mkt-revenue-seg" style="width:10%;background:#f59e0b" title="Trust Fund 10%">🛡️ 10%</div>
+        </div>
+      </div>
+      <div class="mkt-card__actions">
+        <button class="btn btn--primary btn--sm" style="flex:1" onclick="purchaseCourse('${c.id}')">${c.priceFree ? '📚 Học miễn phí' : '💳 Đăng ký ngay'}</button>
+        <button class="btn btn--glass btn--sm" onclick="showToast('👁️ Xem preview khóa học ${c.name}','success')">👁️</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterMarketplace(btn, category) {
+  document.querySelectorAll('.mkt-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _marketplaceFilter = category;
+  renderMarketplace();
+}
+
+function purchaseCourse(courseId) {
+  const course = MARKETPLACE_COURSES.find(c => c.id === courseId);
+  if (!course) return;
+  if (course.priceFree) {
+    showToast(`📚 Đã đăng ký khóa "${course.name}" thành công! Bắt đầu học ngay.`, 'success');
+    return;
+  }
+  // Show purchase modal
+  const existing = $('#purchase-modal');
+  if (existing) existing.remove();
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'purchase-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:480px">
+      <div class="modal__header">
+        <h3>💳 Đăng ký khóa học</h3>
+        <button class="modal__close" onclick="document.getElementById('purchase-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <div class="purchase-course-info">
+          <span style="font-size:2rem">${course.emoji}</span>
+          <div>
+            <div style="font-weight:700">${course.name}</div>
+            <div style="color:var(--text-tertiary);font-size:0.85rem">${course.teacher} · 🛡️ ${course.teacherTrust}</div>
+          </div>
+        </div>
+        <div class="purchase-price-row">
+          <span>Học phí:</span>
+          <strong style="color:#f59e0b;font-size:1.3rem">${course.price}</strong>
+        </div>
+        <div class="purchase-revenue-info">
+          <div class="purchase-revenue-title">💡 Thu nhập P2P minh bạch:</div>
+          <div class="purchase-revenue-items">
+            <div>👨‍🏫 Giảng viên nhận <strong>60%</strong></div>
+            <div>🔗 Người giới thiệu nhận <strong>30%</strong></div>
+            <div>🛡️ Trust Fund cộng đồng <strong>10%</strong></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;margin-top:1.25rem">
+          <button class="btn btn--primary" style="flex:1" onclick="document.getElementById('purchase-modal').remove();showToast('🎉 Đã đăng ký khóa \\'${course.name}\\' thành công! Trust Score +5','success')">✅ Xác nhận thanh toán</button>
+          <button class="btn btn--glass" onclick="document.getElementById('purchase-modal').remove()">Hủy</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+// ============ 📦 OFFLINE-FIRST STORAGE ENGINE ============
+
+const OfflineStorage = {
+  DB_NAME: 'DevTrustOfflineDB',
+  DB_VERSION: 1,
+  _db: null,
+  _isOnline: navigator.onLine,
+
+  async open() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(this.DB_NAME, this.DB_VERSION);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('courses')) {
+          db.createObjectStore('courses', { keyPath: 'id' });
+        }
+        if (!db.objectStoreNames.contains('progress')) {
+          db.createObjectStore('progress', { keyPath: 'courseId' });
+        }
+        if (!db.objectStoreNames.contains('certificates')) {
+          db.createObjectStore('certificates', { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = (e) => { this._db = e.target.result; resolve(this._db); };
+      req.onerror = (e) => reject(e.target.error);
+    });
+  },
+
+  async saveCourse(course) {
+    if (!this._db) await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = this._db.transaction('courses', 'readwrite');
+      tx.objectStore('courses').put({ ...course, savedAt: Date.now(), offlineReady: true });
+      tx.oncomplete = () => resolve();
+      tx.onerror = (e) => reject(e.target.error);
+    });
+  },
+
+  async getCourse(courseId) {
+    if (!this._db) await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = this._db.transaction('courses', 'readonly');
+      const req = tx.objectStore('courses').get(courseId);
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = (e) => reject(e.target.error);
+    });
+  },
+
+  async getAllCourses() {
+    if (!this._db) await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = this._db.transaction('courses', 'readonly');
+      const req = tx.objectStore('courses').getAll();
+      req.onsuccess = () => resolve(req.result || []);
+      req.onerror = (e) => reject(e.target.error);
+    });
+  },
+
+  async saveProgress(courseId, progress) {
+    if (!this._db) await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = this._db.transaction('progress', 'readwrite');
+      tx.objectStore('progress').put({ courseId, ...progress, updatedAt: Date.now() });
+      tx.oncomplete = () => resolve();
+      tx.onerror = (e) => reject(e.target.error);
+    });
+  },
+
+  init() {
+    this.open().then(() => {
+      console.log('📦 OfflineStorage: IndexedDB ready');
+      this.updateOnlineStatus();
+    }).catch(err => console.warn('OfflineStorage:', err));
+
+    window.addEventListener('online', () => { this._isOnline = true; this.updateOnlineStatus(); this.syncWhenOnline(); });
+    window.addEventListener('offline', () => { this._isOnline = false; this.updateOnlineStatus(); });
+  },
+
+  updateOnlineStatus() {
+    const indicator = $('#offline-indicator');
+    if (!indicator) return;
+    if (this._isOnline) {
+      indicator.classList.add('online');
+      indicator.classList.remove('offline');
+      indicator.innerHTML = '<span class="offline-dot online"></span> Online — Synced ✓';
+    } else {
+      indicator.classList.remove('online');
+      indicator.classList.add('offline');
+      indicator.innerHTML = '<span class="offline-dot offline"></span> Offline — Đang dùng dữ liệu local';
+    }
+  },
+
+  async syncWhenOnline() {
+    console.log('🔄 Syncing data to P2P network...');
+    showToast('🔄 Đang đồng bộ dữ liệu với mạng P2P...', 'success');
+    setTimeout(() => showToast('✅ Đồng bộ thành công!', 'success'), 2000);
+  }
+};
+
+// Track which courses are saved offline
+const _offlineSavedCourses = new Set();
+
+async function saveCourseOffline(courseId, courseName) {
+  try {
+    await OfflineStorage.saveCourse({ id: courseId, name: courseName, content: 'cached', savedAt: Date.now() });
+    _offlineSavedCourses.add(courseId);
+    showToast(`📥 Đã tải "${courseName}" cho học offline! ✓`, 'success');
+    // Update button visually
+    const btn = document.querySelector(`[data-offline-course="${courseId}"]`);
+    if (btn) {
+      btn.innerHTML = '✅ Offline Ready';
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+    }
+  } catch(err) {
+    showToast('❌ Lỗi lưu offline: ' + err.message, 'error');
+  }
+}
+
+// ============ 🔌 PLUGIN MARKETPLACE ENGINE ============
+
+const PLUGIN_STORE = [
+  { id: 'p1', name: 'Quiz P2P Verifier', emoji: '✅', desc: 'Verify đáp án quiz qua mạng P2P — không cần server.', author: 'Tuấn Vũ', authorSeed: 'tuan', authorTrust: 95, installs: 2341, rating: 4.9, version: '1.2.0', size: '12KB', category: 'E-Learning', tags: ['quiz', 'P2P', 'verification'], color: '#10b981', installed: true },
+  { id: 'p2', name: 'Offline Lesson Downloader', emoji: '📥', desc: 'Tải bài giảng IPFS về máy, học mọi nơi không cần internet.', author: 'Đức Hoàng', authorSeed: 'duc', authorTrust: 78, installs: 1567, rating: 4.7, version: '2.0.1', size: '24KB', category: 'Storage', tags: ['offline', 'IPFS', 'download'], color: '#6366f1', installed: false },
+  { id: 'p3', name: 'Trust Score Analytics', emoji: '📊', desc: 'Dashboard phân tích chi tiết Trust Score — breakdown, trends, so sánh.', author: 'Hương Phạm', authorSeed: 'huong', authorTrust: 91, installs: 890, rating: 4.8, version: '1.0.3', size: '18KB', category: 'Analytics', tags: ['analytics', 'trust', 'dashboard'], color: '#f59e0b', installed: true },
+  { id: 'p4', name: 'WebRTC Video Chat', emoji: '📹', desc: 'Video call P2P trực tiếp trong browser — không qua server, mã hóa end-to-end.', author: 'Tuấn Vũ', authorSeed: 'tuan', authorTrust: 95, installs: 3456, rating: 4.6, version: '1.5.0', size: '45KB', category: 'Communication', tags: ['WebRTC', 'video', 'P2P'], color: '#ef4444', installed: false },
+  { id: 'p5', name: 'Certificate Generator', emoji: '🏆', desc: 'Auto-generate chứng chỉ trust-verified khi hoàn thành khóa học.', author: 'Linh Nguyễn', authorSeed: 'linh', authorTrust: 87, installs: 1234, rating: 4.9, version: '1.1.0', size: '15KB', category: 'E-Learning', tags: ['certificate', 'PDF', 'trust'], color: '#22c55e', installed: true },
+  { id: 'p6', name: 'Dark Mode Pro', emoji: '🌙', desc: 'Advanced dark theme với custom accent colors và AMOLED black option.', author: 'Thảo Ngô', authorSeed: 'thao', authorTrust: 84, installs: 5678, rating: 4.5, version: '3.0.0', size: '8KB', category: 'Theme', tags: ['dark', 'theme', 'UI'], color: '#8b5cf6', installed: false },
+  { id: 'p7', name: 'Peer Review System', emoji: '🔍', desc: 'Review code P2P — gửi PR, nhận review từ trusted devs, Trust Score tăng theo.', author: 'Minh Trần', authorSeed: 'minh', authorTrust: 72, installs: 670, rating: 4.4, version: '0.9.0', size: '30KB', category: 'Development', tags: ['code review', 'P2P', 'Git'], color: '#06b6d4', installed: false },
+  { id: 'p8', name: 'Community Polls', emoji: '📣', desc: 'Tạo khảo sát cộng đồng on-chain — vote minh bạch, không chỉnh sửa được.', author: 'Khoa Đặng', authorSeed: 'khoa', authorTrust: 45, installs: 345, rating: 4.3, version: '0.5.0', size: '20KB', category: 'Governance', tags: ['polls', 'DAO', 'voting'], color: '#f97316', installed: false },
+];
+
+function renderPluginStore() {
+  const container = $('#plugin-store-grid');
+  if (!container) return;
+
+  // Stats
+  const totalInstalls = PLUGIN_STORE.reduce((s, p) => s + p.installs, 0);
+  const statEl = $('#plugin-stats');
+  if (statEl) {
+    statEl.innerHTML = `
+      <div class="plugin-stat"><strong>${PLUGIN_STORE.length}</strong><span>Plugins</span></div>
+      <div class="plugin-stat"><strong>${totalInstalls.toLocaleString()}</strong><span>Lượt cài đặt</span></div>
+      <div class="plugin-stat"><strong>${PLUGIN_STORE.filter(p => p.installed).length}</strong><span>Đã cài</span></div>
+    `;
+  }
+
+  container.innerHTML = PLUGIN_STORE.map((p, idx) => `
+    <div class="plugin-card" style="animation-delay:${idx * 0.06}s;border-top:3px solid ${p.color}">
+      <div class="plugin-card__top">
+        <div class="plugin-card__emoji" style="background:${p.color}18">${p.emoji}</div>
+        <div class="plugin-card__info">
+          <div class="plugin-card__name">${p.name}</div>
+          <div class="plugin-card__meta">${p.category} · v${p.version} · ${p.size}</div>
+        </div>
+        ${p.installed ? '<div class="plugin-installed-badge">✅ Đã cài</div>' : ''}
+      </div>
+      <p class="plugin-card__desc">${p.desc}</p>
+      <div class="plugin-card__tags">
+        ${p.tags.map(t => `<span class="plugin-tag" style="background:${p.color}12;color:${p.color}">${t}</span>`).join('')}
+      </div>
+      <div class="plugin-card__stats">
+        <span>📥 ${p.installs.toLocaleString()}</span>
+        <span>⭐ ${p.rating}</span>
+      </div>
+      <div class="plugin-card__author">
+        <img class="plugin-author-avatar" src="${avatarUrl(p.authorSeed)}" />
+        <span>${p.author}</span>
+        <span class="plugin-trust-badge">🛡️ ${p.authorTrust}</span>
+      </div>
+      <div class="plugin-card__revenue">
+        <div class="plugin-revenue-label">Plugin Revenue:</div>
+        <div class="plugin-revenue-bar">
+          <div style="width:60%;background:${p.color};border-radius:4px 0 0 4px;text-align:center;font-size:0.65rem;color:#fff;padding:2px 0">Creator 60%</div>
+          <div style="width:30%;background:#818cf8;text-align:center;font-size:0.65rem;color:#fff;padding:2px 0">Share 30%</div>
+          <div style="width:10%;background:#f59e0b;border-radius:0 4px 4px 0;text-align:center;font-size:0.65rem;color:#fff;padding:2px 0">10%</div>
+        </div>
+      </div>
+      <button class="plugin-install-btn ${p.installed ? 'plugin-install-btn--installed' : ''}" onclick="installPlugin('${p.id}')" ${p.installed ? 'disabled' : ''}>
+        ${p.installed ? '✅ Đã cài đặt' : '📥 Cài đặt Plugin'}
+      </button>
+    </div>
+  `).join('');
+}
+
+function installPlugin(pluginId) {
+  const plugin = PLUGIN_STORE.find(p => p.id === pluginId);
+  if (!plugin || plugin.installed) return;
+  plugin.installed = true;
+  plugin.installs++;
+  showToast(`🔌 Đã cài plugin "${plugin.name}" thành công! Trust Score +2`, 'success');
+  renderPluginStore();
+}
+
+// ---- Init Offline Storage ----
+if (typeof indexedDB !== 'undefined') {
+  OfflineStorage.init();
+}
+
+// ============ 🤖 PHASE 6: AI AGENT TRUST LAYER ============
+
+// ---- Agent Fleet Data ----
+const AGENT_FLEET = [
+  {
+    id: 'agent-1', name: 'CodePilot Alpha', type: 'Code Generation', emoji: '💻',
+    model: 'GPT-4o', status: 'active', uptime: 99.7,
+    ownerId: 'owner', ownerName: 'David Cuong', ownerTrust: 92,
+    trustInherited: 88, tasksCompleted: 1247, tasksToday: 23,
+    accuracy: 94.2, ethicsScore: 97, lastActive: '2 phút trước',
+    skills: ['JavaScript', 'Python', 'React', 'Node.js'],
+    recentOutputs: [
+      { type: 'PR', title: 'Fix auth middleware vulnerability', verified: true, time: '15m ago' },
+      { type: 'Code', title: 'Implement rate limiter module', verified: true, time: '1h ago' },
+      { type: 'Review', title: 'Review P2P sync protocol', verified: false, time: '2h ago' },
+    ],
+    color: '#6366f1'
+  },
+  {
+    id: 'agent-2', name: 'DesignMind', type: 'UI/UX Design', emoji: '🎨',
+    model: 'Claude 3.5', status: 'active', uptime: 98.9,
+    ownerId: 'owner', ownerName: 'David Cuong', ownerTrust: 92,
+    trustInherited: 85, tasksCompleted: 834, tasksToday: 12,
+    accuracy: 91.5, ethicsScore: 96, lastActive: '5 phút trước',
+    skills: ['Figma', 'CSS', 'Accessibility', 'Animation'],
+    recentOutputs: [
+      { type: 'Design', title: 'Marketplace card redesign', verified: true, time: '30m ago' },
+      { type: 'CSS', title: 'Certificate hologram animation', verified: true, time: '3h ago' },
+    ],
+    color: '#f59e0b'
+  },
+  {
+    id: 'agent-3', name: 'DataSentry', type: 'Security Audit', emoji: '🛡️',
+    model: 'GPT-4o', status: 'active', uptime: 99.9,
+    ownerId: 'owner', ownerName: 'David Cuong', ownerTrust: 92,
+    trustInherited: 90, tasksCompleted: 567, tasksToday: 8,
+    accuracy: 97.8, ethicsScore: 99, lastActive: '1 phút trước',
+    skills: ['Security', 'Penetration Testing', 'OWASP', 'Encryption'],
+    recentOutputs: [
+      { type: 'Audit', title: 'P2P encryption audit passed', verified: true, time: '10m ago' },
+      { type: 'Alert', title: 'SQL injection attempt blocked', verified: true, time: '45m ago' },
+    ],
+    color: '#10b981'
+  },
+  {
+    id: 'agent-4', name: 'GrowthBot', type: 'Marketing & Growth', emoji: '📈',
+    model: 'Gemini Pro', status: 'idle', uptime: 95.2,
+    ownerId: 'owner', ownerName: 'David Cuong', ownerTrust: 92,
+    trustInherited: 82, tasksCompleted: 345, tasksToday: 3,
+    accuracy: 88.7, ethicsScore: 94, lastActive: '30 phút trước',
+    skills: ['SEO', 'Content', 'Analytics', 'A/B Testing'],
+    recentOutputs: [
+      { type: 'Content', title: 'Blog post: Trust in AI Economy', verified: true, time: '2h ago' },
+    ],
+    color: '#8b5cf6'
+  },
+  {
+    id: 'agent-5', name: 'DocuHelper', type: 'Documentation', emoji: '📝',
+    model: 'Claude 3.5', status: 'active', uptime: 97.1,
+    ownerId: 'linh', ownerName: 'Linh Nguyễn', ownerTrust: 87,
+    trustInherited: 78, tasksCompleted: 223, tasksToday: 5,
+    accuracy: 92.1, ethicsScore: 98, lastActive: '8 phút trước',
+    skills: ['Markdown', 'API Docs', 'Tutorials', 'i18n'],
+    recentOutputs: [
+      { type: 'Doc', title: 'Plugin API reference v2', verified: true, time: '1h ago' },
+    ],
+    color: '#06b6d4'
+  },
+  {
+    id: 'agent-6', name: 'TestRunner Pro', type: 'QA & Testing', emoji: '🧪',
+    model: 'GPT-4o', status: 'active', uptime: 99.1,
+    ownerId: 'tuan', ownerName: 'Tuấn Vũ', ownerTrust: 95,
+    trustInherited: 91, tasksCompleted: 1890, tasksToday: 42,
+    accuracy: 96.4, ethicsScore: 97, lastActive: 'Bây giờ',
+    skills: ['Unit Test', 'E2E', 'Performance', 'Selenium'],
+    recentOutputs: [
+      { type: 'Test', title: 'E2E marketplace flow: PASS', verified: true, time: '5m ago' },
+      { type: 'Test', title: 'Load test 10K users: PASS', verified: true, time: '20m ago' },
+    ],
+    color: '#22c55e'
+  },
+  {
+    id: 'agent-7', name: 'TranslateBot', type: 'Localization', emoji: '🌍',
+    model: 'GPT-4o', status: 'idle', uptime: 93.8,
+    ownerId: 'huong', ownerName: 'Hương Phạm', ownerTrust: 91,
+    trustInherited: 83, tasksCompleted: 456, tasksToday: 0,
+    accuracy: 95.3, ethicsScore: 98, lastActive: '2 giờ trước',
+    skills: ['Vietnamese', 'Japanese', 'English', 'Korean'],
+    recentOutputs: [
+      { type: 'Translation', title: 'Japanese N3 course materials', verified: true, time: '3h ago' },
+    ],
+    color: '#ec4899'
+  },
+  {
+    id: 'agent-8', name: 'InfraWatcher', type: 'DevOps & Infra', emoji: '☁️',
+    model: 'Claude 3.5', status: 'active', uptime: 99.8,
+    ownerId: 'duc', ownerName: 'Đức Hoàng', ownerTrust: 78,
+    trustInherited: 68, tasksCompleted: 678, tasksToday: 15,
+    accuracy: 93.9, ethicsScore: 96, lastActive: '3 phút trước',
+    skills: ['Docker', 'K8s', 'CI/CD', 'Monitoring'],
+    recentOutputs: [
+      { type: 'Deploy', title: 'Auto-scale to 3 replicas', verified: true, time: '12m ago' },
+      { type: 'Alert', title: 'Memory spike detected & resolved', verified: true, time: '1h ago' },
+    ],
+    color: '#f97316'
+  },
+];
+
+// ---- Human Intent Protocol ----
+const HUMAN_INTENTS = [
+  { id: 'hi-1', human: 'David Cuong', humanTrust: 92, humanSeed: 'owner', intent: 'Deploy marketplace feature to production', agents: ['CodePilot Alpha', 'TestRunner Pro'], timestamp: '2026-03-16 02:30', verified: true, proofHash: '0x7a3f...e91d' },
+  { id: 'hi-2', human: 'Tuấn Vũ', humanTrust: 95, humanSeed: 'tuan', intent: 'Audit P2P encryption protocol', agents: ['DataSentry', 'TestRunner Pro'], timestamp: '2026-03-16 01:15', verified: true, proofHash: '0x4b2c...f83a' },
+  { id: 'hi-3', human: 'Linh Nguyễn', humanTrust: 87, humanSeed: 'linh', intent: 'Generate API documentation v2', agents: ['DocuHelper'], timestamp: '2026-03-15 23:40', verified: true, proofHash: '0x9e1d...a72b' },
+  { id: 'hi-4', human: 'Hương Phạm', humanTrust: 91, humanSeed: 'huong', intent: 'Translate course materials to Japanese', agents: ['TranslateBot'], timestamp: '2026-03-15 22:00', verified: true, proofHash: '0x3c5f...b14e' },
+  { id: 'hi-5', human: 'David Cuong', humanTrust: 92, humanSeed: 'owner', intent: 'Build AI Agent Dashboard UI', agents: ['CodePilot Alpha', 'DesignMind'], timestamp: '2026-03-16 03:00', verified: true, proofHash: '0x8d7a...c56f' },
+];
+
+// ---- Agent Collaboration Requests ----
+const AGENT_COLLABS = [
+  { id: 'col-1', fromAgent: 'CodePilot Alpha', fromOwner: 'David Cuong', fromTrust: 92, toAgent: 'TestRunner Pro', toOwner: 'Tuấn Vũ', toTrust: 95, task: 'E2E test cho marketplace payment flow', status: 'approved', trustGate: 80 },
+  { id: 'col-2', fromAgent: 'DesignMind', fromOwner: 'David Cuong', fromTrust: 92, toAgent: 'DocuHelper', toOwner: 'Linh Nguyễn', toTrust: 87, task: 'Design system documentation', status: 'approved', trustGate: 80 },
+  { id: 'col-3', fromAgent: 'GrowthBot', fromOwner: 'David Cuong', fromTrust: 92, toAgent: 'TranslateBot', toOwner: 'Hương Phạm', toTrust: 91, task: 'Dịch landing page sang tiếng Nhật', status: 'pending', trustGate: 80 },
+  { id: 'col-4', fromAgent: 'DataSentry', fromOwner: 'David Cuong', fromTrust: 92, toAgent: 'InfraWatcher', toOwner: 'Đức Hoàng', toTrust: 78, task: 'Security audit toàn bộ infrastructure', status: 'approved', trustGate: 70 },
+];
+
+// ---- Render Agent Dashboard ----
+function renderAgentDashboard() {
+  // 1. Fleet Stats
+  const statsEl = $('#agent-fleet-stats');
+  if (statsEl) {
+    const activeCount = AGENT_FLEET.filter(a => a.status === 'active').length;
+    const totalTasks = AGENT_FLEET.reduce((s, a) => s + a.tasksCompleted, 0);
+    const avgAccuracy = (AGENT_FLEET.reduce((s, a) => s + a.accuracy, 0) / AGENT_FLEET.length).toFixed(1);
+    const avgEthics = (AGENT_FLEET.reduce((s, a) => s + a.ethicsScore, 0) / AGENT_FLEET.length).toFixed(0);
+    statsEl.innerHTML = `
+      <div class="agent-stat agent-stat--green"><strong>${activeCount}/${AGENT_FLEET.length}</strong><span>Active Agents</span></div>
+      <div class="agent-stat agent-stat--blue"><strong>${totalTasks.toLocaleString()}</strong><span>Tasks Completed</span></div>
+      <div class="agent-stat agent-stat--purple"><strong>${avgAccuracy}%</strong><span>Avg Accuracy</span></div>
+      <div class="agent-stat agent-stat--gold"><strong>${avgEthics}</strong><span>Ethics Score</span></div>
+    `;
+  }
+
+  // 2. Fleet Grid
+  const grid = $('#agent-fleet-grid');
+  if (grid) {
+    grid.innerHTML = AGENT_FLEET.map((agent, idx) => {
+      const statusColor = agent.status === 'active' ? '#22c55e' : '#f59e0b';
+      const statusText = agent.status === 'active' ? '🟢 Active' : '🟡 Idle';
+      const trustColor = agent.trustInherited >= 85 ? '#10b981' : agent.trustInherited >= 70 ? '#f59e0b' : '#ef4444';
+      return `
+      <div class="agent-card" style="animation-delay:${idx * 0.07}s;border-top:3px solid ${agent.color}">
+        <div class="agent-card__header">
+          <div class="agent-card__identity">
+            <div class="agent-card__emoji" style="background:${agent.color}15">${agent.emoji}</div>
+            <div>
+              <div class="agent-card__name">${agent.name}</div>
+              <div class="agent-card__type">${agent.type} · ${agent.model}</div>
+            </div>
+          </div>
+          <div class="agent-card__status" style="color:${statusColor}">${statusText}</div>
+        </div>
+
+        <div class="agent-card__owner">
+          <img src="${avatarUrl(agent.ownerId === 'owner' ? 'owner' : agent.ownerId)}" class="agent-owner-avatar" />
+          <span>Chủ sở hữu: <strong>${agent.ownerName}</strong></span>
+          <span class="agent-owner-trust">🛡️ ${agent.ownerTrust}</span>
+        </div>
+
+        <div class="agent-card__trust-inherit">
+          <div class="agent-trust-label">Trust kế thừa từ chủ sở hữu:</div>
+          <div class="agent-trust-bar-wrap">
+            <div class="agent-trust-bar">
+              <div class="agent-trust-bar__fill" style="width:${agent.trustInherited}%;background:${trustColor}"></div>
+            </div>
+            <span class="agent-trust-val" style="color:${trustColor}">${agent.trustInherited}</span>
+          </div>
+        </div>
+
+        <div class="agent-card__metrics">
+          <div class="agent-metric"><strong>${agent.tasksCompleted.toLocaleString()}</strong><span>Tasks</span></div>
+          <div class="agent-metric"><strong>${agent.accuracy}%</strong><span>Accuracy</span></div>
+          <div class="agent-metric"><strong>${agent.ethicsScore}</strong><span>Ethics</span></div>
+          <div class="agent-metric"><strong>${agent.uptime}%</strong><span>Uptime</span></div>
+        </div>
+
+        <div class="agent-card__skills">
+          ${agent.skills.map(s => `<span class="agent-skill" style="background:${agent.color}12;color:${agent.color};border:1px solid ${agent.color}25">${s}</span>`).join('')}
+        </div>
+
+        <div class="agent-card__outputs">
+          <div class="agent-outputs-label">Hoạt động gần đây:</div>
+          ${agent.recentOutputs.slice(0, 2).map(o => `
+            <div class="agent-output-row">
+              <span class="agent-output-type">[${o.type}]</span>
+              <span class="agent-output-title">${o.title}</span>
+              <span class="agent-output-verified">${o.verified ? '✅' : '⏳'}</span>
+              <span class="agent-output-time">${o.time}</span>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="agent-card__actions">
+          <button class="btn btn--glass btn--sm" onclick="verifyAgentOutput('${agent.id}')">🔍 Verify Output</button>
+          <button class="btn btn--glass btn--sm" onclick="showToast('⚙️ Mở cấu hình ${agent.name}','success')">⚙️</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // 3. Human Intent Log
+  renderHumanIntentLog();
+
+  // 4. Agent Collaborations
+  renderAgentCollabs();
+}
+
+function renderHumanIntentLog() {
+  const container = $('#human-intent-log');
+  if (!container) return;
+  container.innerHTML = HUMAN_INTENTS.map(hi => `
+    <div class="intent-row">
+      <div class="intent-row__left">
+        <img src="${avatarUrl(hi.humanSeed)}" class="intent-avatar" />
+        <div>
+          <div class="intent-human">${hi.human} <span class="intent-trust">🛡️ ${hi.humanTrust}</span></div>
+          <div class="intent-text">"${hi.intent}"</div>
+          <div class="intent-agents">Agents: ${hi.agents.map(a => `<span class="intent-agent-tag">🤖 ${a}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="intent-row__right">
+        <div class="intent-time">${hi.timestamp}</div>
+        <div class="intent-proof ${hi.verified ? 'intent-proof--verified' : ''}">
+          ${hi.verified ? '✅ Verified' : '⏳ Pending'}
+        </div>
+        <div class="intent-hash" title="${hi.proofHash}">${hi.proofHash}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAgentCollabs() {
+  const container = $('#agent-collab-list');
+  if (!container) return;
+  container.innerHTML = AGENT_COLLABS.map(col => {
+    const statusColor = col.status === 'approved' ? '#10b981' : col.status === 'pending' ? '#f59e0b' : '#ef4444';
+    const statusEmoji = col.status === 'approved' ? '✅' : col.status === 'pending' ? '⏳' : '❌';
+    const trustMet = Math.min(col.fromTrust, col.toTrust) >= col.trustGate;
+    return `
+    <div class="collab-row">
+      <div class="collab-agents">
+        <div class="collab-agent">
+          <span class="collab-agent-name">🤖 ${col.fromAgent}</span>
+          <span class="collab-owner">${col.fromOwner} · 🛡️ ${col.fromTrust}</span>
+        </div>
+        <div class="collab-arrow">⇄</div>
+        <div class="collab-agent">
+          <span class="collab-agent-name">🤖 ${col.toAgent}</span>
+          <span class="collab-owner">${col.toOwner} · 🛡️ ${col.toTrust}</span>
+        </div>
+      </div>
+      <div class="collab-task">${col.task}</div>
+      <div class="collab-meta">
+        <span class="collab-gate ${trustMet ? 'collab-gate--met' : 'collab-gate--fail'}">
+          🔐 Trust Gate: ${col.trustGate} ${trustMet ? '✓' : '✗'}
+        </span>
+        <span class="collab-status" style="color:${statusColor}">${statusEmoji} ${col.status.charAt(0).toUpperCase() + col.status.slice(1)}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function verifyAgentOutput(agentId) {
+  const agent = AGENT_FLEET.find(a => a.id === agentId);
+  if (!agent) return;
+  const existing = $('#agent-verify-modal');
+  if (existing) existing.remove();
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'agent-verify-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:560px">
+      <div class="modal__header">
+        <h3>🔍 Verify Agent Output — ${agent.name}</h3>
+        <button class="modal__close" onclick="document.getElementById('agent-verify-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <div class="verify-agent-info">
+          <span style="font-size:2rem">${agent.emoji}</span>
+          <div>
+            <div style="font-weight:700">${agent.name} — ${agent.type}</div>
+            <div style="color:var(--text-tertiary);font-size:0.82rem">Chủ sở hữu: ${agent.ownerName} · 🛡️ ${agent.ownerTrust} · Trust kế thừa: ${agent.trustInherited}</div>
+          </div>
+        </div>
+        <div class="verify-outputs-list">
+          <div class="verify-outputs-title">Outputs cần verify:</div>
+          ${agent.recentOutputs.map((o, i) => `
+            <div class="verify-output-item">
+              <div class="verify-output-info">
+                <span class="verify-output-type">[${o.type}]</span>
+                <span>${o.title}</span>
+                <span class="verify-output-time">${o.time}</span>
+              </div>
+              <div class="verify-output-actions">
+                ${o.verified ? '<span class="verify-already">✅ Đã verify</span>' : `
+                  <button class="btn btn--primary btn--sm" onclick="this.innerHTML='✅ Verified';this.disabled=true;showToast('✅ Output đã được verify! Agent Trust +1','success')">✅ Approve</button>
+                  <button class="btn btn--glass btn--sm" onclick="this.innerHTML='❌ Rejected';this.disabled=true;showToast('❌ Output bị reject. Agent Trust -3','error')">❌ Reject</button>
+                `}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="verify-trust-impact">
+          <div class="verify-trust-title">💡 Trust Impact:</div>
+          <div class="verify-trust-desc">
+            Mỗi output được verify → Agent Trust +1, Owner Trust +0.5<br>
+            Output bị reject → Agent Trust -3, Owner Trust -1<br>
+            <strong>Lưu ý:</strong> Chỉ trusted humans (Trust ≥ 70) mới được verify agent outputs.
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function requestAgentCollab(fromAgentId, toAgentId) {
+  const from = AGENT_FLEET.find(a => a.id === fromAgentId);
+  const to = AGENT_FLEET.find(a => a.id === toAgentId);
+  if (!from || !to) return;
+  const minTrust = Math.min(from.ownerTrust, to.ownerTrust);
+  const trustGate = 80;
+  if (minTrust < trustGate) {
+    showToast(`🔐 Trust Gate: Cần cả 2 owner có Trust ≥ ${trustGate}. Hiện tại: ${from.ownerName} (${from.ownerTrust}) & ${to.ownerName} (${to.ownerTrust})`, 'error');
+    return;
+  }
+  showToast(`🤝 Yêu cầu collab giữa ${from.name} ↔ ${to.name} đã được gửi!`, 'success');
 }
