@@ -845,5 +845,58 @@
     </div>
   </div>
 
+  <!-- ===== JOIN TEAM BOTTOM SHEET ===== -->
+  <div class="join-sheet-overlay hidden" id="join-sheet-overlay" onclick="closeJoinSheet()"></div>
+  <div class="join-sheet hidden" id="join-sheet">
+    <div class="join-sheet__handle"></div>
+    <div class="join-sheet__header">
+      <div>
+        <div class="join-sheet__eyebrow">🤝 Tham gia đội ngũ</div>
+        <div class="join-sheet__title" id="join-sheet-title">DevTrust</div>
+      </div>
+      <button class="join-sheet__close" onclick="closeJoinSheet()">✕</button>
+    </div>
+
+    <!-- Role picker -->
+    <div class="join-sheet__section">
+      <div class="join-sheet__label">Bạn sẽ đóng góp bằng vai trò nào?</div>
+      <div class="join-role-grid" id="join-role-grid">
+        <button class="join-role-btn" data-role="dev" onclick="selectJoinRole(this)">💻 Dev</button>
+        <button class="join-role-btn" data-role="design" onclick="selectJoinRole(this)">🎨 Design</button>
+        <button class="join-role-btn" data-role="marketing" onclick="selectJoinRole(this)">📣 Marketing</button>
+        <button class="join-role-btn" data-role="business" onclick="selectJoinRole(this)">📊 Business</button>
+        <button class="join-role-btn" data-role="money" onclick="selectJoinRole(this)">💵 Vốn</button>
+        <button class="join-role-btn" data-role="mentor" onclick="selectJoinRole(this)">🛡️ Mentor</button>
+      </div>
+    </div>
+
+    <!-- Hours/week -->
+    <div class="join-sheet__section">
+      <div class="join-sheet__label">Bạn có thể dành bao nhiêu giờ/tuần?</div>
+      <div class="join-hours-row" id="join-hours-row">
+        <button class="join-hours-btn" data-h="5" onclick="selectJoinHours(this)">5h</button>
+        <button class="join-hours-btn" data--h="10" onclick="selectJoinHours(this)">10h</button>
+        <button class="join-hours-btn" data-h="20" onclick="selectJoinHours(this)">20h</button>
+        <button class="join-hours-btn" data-h="40" onclick="selectJoinHours(this)">Full-time</button>
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div class="join-sheet__section">
+      <div class="join-sheet__label">Bạn mang gì đến cho team? <span style="opacity:.5">(tuỳ chọn)</span></div>
+      <textarea class="join-note" id="join-note" rows="2" placeholder="VD: Mình có 3 năm kinh nghiệm React, đã từng build EdTech từ 0 đến 10K users..."></textarea>
+    </div>
+
+    <!-- Equity preview -->
+    <div class="join-equity-preview" id="join-equity-preview">
+      <span class="join-equity-preview__label">Equity dự kiến</span>
+      <span class="join-equity-preview__val" id="join-equity-val">Chọn vai trò để xem</span>
+    </div>
+
+    <button class="join-submit-btn" id="join-submit-btn" onclick="submitJoin()">
+      🚀 Tôi muốn join team này
+    </button>
+  </div>
+
 </body>
 </html>

@@ -858,6 +858,107 @@ const SHORTS_DATA = [
 ];
 
 
+// ---- Join Team Bottom Sheet ----
+let _joinTargetIdx = null;
+let _joinRole = null;
+let _joinHours = null;
+
+const JOIN_ROLE_EQUITY = {
+  dev: { base: 100, label: '100–200 điểm/giờ đóng góp' },
+  design: { base: 80, label: '80–160 điểm/giờ đóng góp' },
+  marketing: { base: 60, label: '60–120 điểm/giờ đóng góp' },
+  business: { base: 70, label: '70–140 điểm/giờ đóng góp' },
+  money: { base: 200, label: '200–400 điểm/triệu VNĐ' },
+  mentor: { base: 120, label: '120–240 điểm/giờ mentoring' },
+};
+
+function openJoinSheet(idx) {
+  _joinTargetIdx = idx;
+  _joinRole = null;
+  _joinHours = null;
+  const item = SHORTS_DATA[idx];
+  if (!item) return;
+
+  const titleEl = $('#join-sheet-title');
+  if (titleEl) titleEl.textContent = item.name;
+
+  // Reset UI
+  document.querySelectorAll('.join-role-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.join-hours-btn').forEach(b => b.classList.remove('selected'));
+  const noteEl = $('#join-note');
+  if (noteEl) noteEl.value = '';
+  const valEl = $('#join-equity-val');
+  if (valEl) valEl.textContent = 'Chọn vai trò để xem';
+
+  const overlay = $('#join-sheet-overlay');
+  const sheet = $('#join-sheet');
+  if (!overlay || !sheet) return;
+  overlay.classList.remove('hidden');
+  sheet.classList.remove('hidden');
+  sheet.classList.remove('slide-in');
+  sheet.offsetHeight; // reflow
+  sheet.classList.add('slide-in');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeJoinSheet() {
+  const overlay = $('#join-sheet-overlay');
+  const sheet = $('#join-sheet');
+  if (overlay) overlay.classList.add('hidden');
+  if (sheet) sheet.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function selectJoinRole(btn) {
+  document.querySelectorAll('.join-role-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  _joinRole = btn.dataset.role;
+  updateJoinEquityPreview();
+}
+
+function selectJoinHours(btn) {
+  document.querySelectorAll('.join-hours-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  _joinHours = parseInt(btn.dataset.h) || 10;
+  updateJoinEquityPreview();
+}
+
+function updateJoinEquityPreview() {
+  const valEl = $('#join-equity-val');
+  if (!valEl) return;
+  if (!_joinRole) { valEl.textContent = 'Chọn vai trò để xem'; return; }
+  const roleInfo = JOIN_ROLE_EQUITY[_joinRole];
+  if (!roleInfo) return;
+  const user = CURRENT_USER || { trustScore: 70 };
+  const mult = Math.max(1.0, Math.min(2.0, user.trustScore / 50));
+  const pts = Math.round(roleInfo.base * mult);
+  const hoursText = _joinHours ? ` · ${_joinHours}h/tuần ≈ ${_joinHours * pts} điểm/tuần` : '';
+  valEl.textContent = `${pts} điểm/giờ (Trust ×${mult.toFixed(1)})${hoursText}`;
+}
+
+function submitJoin() {
+  if (!_joinRole) {
+    showToast('⚠️ Hãy chọn vai trò của bạn!', 'warning');
+    return;
+  }
+  const item = SHORTS_DATA[_joinTargetIdx];
+  if (!item) return;
+
+  // Update member count on card
+  if (item.members != null) item.members += 1;
+
+  // Close sheet
+  closeJoinSheet();
+
+  // Success feedback
+  showToast(`🎉 Đã đăng ký tham gia "${item.name}"! Founder sẽ liên hệ bạn sớm.`, 'success');
+
+  // Navigate to match view for more connections
+  setTimeout(() => switchView('match'), 2500);
+}
+
+// ----
+
 let _shortsCurrentIdx = 0;
 
 function renderShortsFeed() {
@@ -941,6 +1042,10 @@ function renderShortsFeed() {
         <button class="short-action" onclick="shortsInterest(this, ${idx})">
           <div class="short-action__icon">⭐</div>
           <span class="short-action__count">Quan tâm</span>
+        </button>
+        <button class="short-action" onclick="openJoinSheet(${idx})">
+          <div class="short-action__icon" style="background:rgba(34,197,94,0.2);border-color:rgba(34,197,94,0.4)">🙋</div>
+          <span class="short-action__count" style="color:#4ade80">Join</span>
         </button>
       </div>
     `;
