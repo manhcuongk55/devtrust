@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>🇯🇵 Học Tiếng Nhật · Đi Nhật Làm Việc · DevTrust</title>
+  <meta name="description" content="Học tiếng Nhật cùng giảng viên Trust-verified. Test trình độ miễn phí. Luyện não thật sự — không phụ thuộc AI. Dành cho người muốn đi XKLĐ Nhật Bản." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #e60026;
+      --red-dark: #b30020;
+      --gold: #d4a017;
+      --gold-light: #f5c842;
+      --dark: #0d0d0d;
+      --dark2: #1a1a1a;
+      --dark3: #242424;
+      --text: #f0f0f0;
+      --text2: #aaa;
+      --success: #22c55e;
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(160deg, #1a0000 0%, #2d0000 30%, #1a0a00 60%, #0d0d0d 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.25rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(230,0,38,0.18) 0%, transparent 65%);
+      pointer-events: none;
+      animation: glow-pulse 4s ease-in-out infinite alternate;
+    }
+    @keyframes glow-pulse {
+      0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1.15); }
+    }
+    .hero__flag {
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      animation: flag-bounce 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(230,0,38,0.4));
+    }
+    @keyframes flag-bounce {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(230,0,38,0.15);
+      border: 1px solid rgba(230,0,38,0.4);
+      color: #ff6b6b;
+      padding: 0.35rem 1rem;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
+      animation: badge-pulse 3s ease-in-out infinite;
+    }
+    @keyframes badge-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(230,0,38,0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(230,0,38,0); }
+    }
+    .hero__title {
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero__title span {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero__sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.7);
+      max-width: 400px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+    .hero__income {
+      background: linear-gradient(135deg, rgba(212,160,23,0.15), rgba(212,160,23,0.05));
+      border: 1px solid rgba(212,160,23,0.3);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      max-width: 380px;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .hero__income-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+    .hero__income-amount {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold-light);
+      line-height: 1;
+    }
+    .hero__income-note {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      margin-top: 0.25rem;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-zalo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      background: #0068ff;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      border-radius: 99px;
+      text-decoration: none;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 8px 32px rgba(0,104,255,0.4);
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 1;
+      animation: btn-bounce 2s ease-in-out infinite;
+    }
+    @keyframes btn-bounce {
+      0%, 100% { transform: translateY(0); box-shadow: 0 8px 32px rgba(0,104,255,0.4); }
+      50% { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,104,255,0.5); }
+    }
+    .btn-zalo:active { transform: scale(0.97); }
+    .btn-zalo__icon { font-size: 1.4rem; }
+
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.7rem 1.5rem;
+      border-radius: 99px;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      margin-top: 0.75rem;
+      margin-bottom: 0;
+      width: 100%;
+      max-width: 380px;
+      transition: all 0.2s;
+    }
+    .btn-secondary:active { background: rgba(255,255,255,0.05); }
+
+    .hero__ctas {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .hero__scroll-hint {
+      margin-top: 2rem;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.75rem;
+      animation: fade-in-out 2s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes fade-in-out {
+      0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; }
+    }
+
+    /* ===== STATS BAR ===== */
+    .stats-bar {
+      background: var(--dark2);
+      padding: 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      text-align: center;
+      border-top: 1px solid #2a2a2a;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .stat { }
+    .stat__num {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat__label {
+      font-size: 0.68rem;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 0.15rem;
+    }
+
+    /* ===== SECTION ===== */
+    section { padding: 2.5rem 1.25rem; }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 0.4rem;
+    }
+    .section-sub {
+      font-size: 0.88rem;
+      color: var(--text2);
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+    }
+
+    /* ===== WHY JAPAN ===== */
+    .why-section { background: var(--dark2); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+    .why-card {
+      background: var(--dark3);
+      border: 1px solid #333;
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      text-align: left;
+    }
+    .why-card__icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .why-card__title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .why-card__text {
+      font-size: 0.75rem;
+      color: var(--text2);
+      line-height: 1.4;
+    }
+
+    /* ===== TEACHERS ===== */
+    .teachers-section { background: var(--dark); }
+    .teacher-card {
+      background: var(--dark2);
+      border: 1px solid #2a2a2a;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+    .teacher-card:active { border-color: var(--red); }
+    .teacher-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      object-fit: cover;
+      border: 2px solid rgba(230,0,38,0.3);
+    }
+    .teacher-info { flex: 1; min-width: 0; }
+    .teacher-name {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+    }
+    .teacher-level {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: rgba(230,0,38,0.15);
+      color: #ff6b6b;
+      border: 1px solid rgba(230,0,38,0.3);
+      padding: 0.15rem 0.55rem;
+      border-radius: 99px;
+      margin-bottom: 0.5rem;
+    }
+    .teacher-bio {
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+    .teacher-trust {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.75rem;
+    }
+    .trust-score {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: var(--success);
+      font-weight: 600;
+    }
+    .trust-students { color: var(--text2); }
+    .teacher-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #0068ff;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
+      border-radius: 99px;
+      text-decoration: none;
+      flex-shrink: 0;
+      align-self: center;
+      white-space: nowrap;
+    }
+
+    /* ===== PACKAGES ===== */
+    .packages-section { background: var(--dark2); }
+    .package-card {
+      background: var(--dark3);
+      border: 1px solid #333;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .package-card--featured {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, #1a1200, #1a1700, #242424);
+    }
+    .package-card--featured::before {
+      content: '⭐ PHỔ BIẾN NHẤT';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--gold);
+      color: #000;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.3rem 0.85rem;
+      border-radius: 0 var(--radius) 0 var(--radius-sm);
+      letter-spacing: 0.04em;
+    }
+    .package-level {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text2);
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+    .package-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+    .package-desc {
+      font-size: 0.82rem;
+      color: var(--text2);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .package-features {
+      list-style: none;
+      margin-bottom: 1.25rem;
+    }
+    .package-features li {
+      font-size: 0.82rem;
+      padding: 0.25rem 0;
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-start;
+    }
+    .package-features li::before {
+      content: '✓';
+      color: var(--success);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+    .package-price {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+    }
+    .package-price__amount {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--gold-light);
+    }
+    .package-price__unit {
+      font-size: 0.82rem;
+      color: var(--text2);
+    }
+    .package-price__old {
+      font-size: 0.85rem;
+      color: var(--text2);
+      text-decoration: line-through;
+    }
+    .package-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: #0068ff;
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 0.85rem;
+      border-radius: 99px;
+      text-decoration: none;
+      width: 100%;
+    }
+    .package-card--featured .package-cta {
+      background: linear-gradient(135deg, var(--gold), #b8860b);
+      color: #000;
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    .steps-section { background: var(--dark); }
+    .step {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      align-items: flex-start;
+    }
+    .step__num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 900;
+      flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(230,0,38,0.3);
+    }
+    .step__content { flex: 1; padding-top: 0.45rem; }
+    .step__title { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .step__text { font-size: 0.82rem; color: var(--text2); line-height: 1.4; }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials-section { background: var(--dark2); }
+    .testimonial-card {
+      background: var(--dark3);
+      border: 1px solid #333;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .testimonial-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .testimonial-name { font-size: 0.88rem; font-weight: 600; }
+    .testimonial-result {
+      font-size: 0.72rem;
+      color: var(--success);
+      font-weight: 600;
+      margin-top: 0.1rem;
+    }
+
+    /* ===== FINAL CTA ===== */
+    .final-cta {
+      background: linear-gradient(160deg, #1a0000, #2d0000 50%, #0d0d0d);
+      padding: 3rem 1.25rem;
+      text-align: center;
+    }
+    .final-cta__title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 0.75rem;
+    }
+    .final-cta__sub {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    .final-cta .btn-zalo {
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--dark);
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      border-top: 1px solid #222;
+    }
+    footer p { font-size: 0.75rem; color: var(--text2); }
+    footer a { color: #ff6b6b; text-decoration: none; }
+
+    /* ===== STICKY BOTTOM CTA ===== */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.75rem 1.25rem;
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(13,13,13,0.98) 0%, rgba(13,13,13,0.9) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 100;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .sticky-cta .btn-zalo { max-width: 100%; animation: none; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__flag">🇯🇵</div>
+    <div class="hero__badge">🔥 XKLĐ Nhật Bản 2025 · Thu nhập 40–70 triệu/tháng</div>
+    <h1 class="hero__title">Học Tiếng Nhật<br /><span>Đổi Đời Thật Sự</span></h1>
+    <p class="hero__sub">Luyện não cùng giảng viên thật — không phụ thuộc AI. Từ N5 → N3 trong 6 tháng. Dành cho người thật sự muốn thay đổi.</p>
+
+    <div class="hero__income">
+      <div class="hero__income-label">💴 Thu nhập trung bình tại Nhật</div>
+      <div class="hero__income-amount">40–70 triệu đ/tháng</div>
+      <div class="hero__income-note">Sau khi trừ chi phí sinh hoạt · Tiết kiệm 20–40 triệu/tháng</div>
+    </div>
+
+    <div class="hero__ctas">
+      <a href="https://zalo.me/g/arkdaw947" class="btn-zalo">
+        <span class="btn-zalo__icon">💬</span>
+        Nhắn Zalo Tư Vấn Miễn Phí
+      </a>
+      <a href="#packages" class="btn-secondary">📋 Xem gói học &amp; học phí ↓</a>
+    </div>
+    <div class="hero__scroll-hint">↓ Cuộn để xem thêm</div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat__num">200+</div>
+      <div class="stat__label">Học viên</div>
+    </div>
+    <div class="stat">
+      <div class="stat__num">95%</div>
+      <div class="stat__label">Đỗ kỳ thi</div>
+    </div>
+    <div class="stat">
+      <div class="stat__num">6 tháng</div>
+      <div class="stat__label">N5 → N3</div>
+    </div>
+  </div>
+
+  <!-- WHY JAPAN -->
+  <section class="why-section">
+    <h2 class="section-title">Tại sao chọn Nhật?</h2>
+    <p class="section-sub">Không phải ngẫu nhiên mà hàng trăm nghìn người Việt chọn Nhật mỗi năm</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-card__icon">💴</div>
+        <div class="why-card__title">Thu nhập cao</div>
+        <div class="why-card__text">40–70 triệu/tháng. Tiết kiệm 20–40 triệu gửi về nhà.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card__icon">🛡️</div>
+        <div class="why-card__title">An toàn &amp; ổn định</div>
+        <div class="why-card__text">Hợp đồng pháp lý. Bảo hiểm đầy đủ. Môi trường kỷ luật cao.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card__icon">📈</div>
+        <div class="why-card__title">Thăng tiến nhanh</div>
+        <div class="why-card__text">Biết tiếng Nhật → lương tăng 30–50% sau 1 năm.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card__icon">🎓</div>
+        <div class="why-card__title">Học thêm bằng cấp</div>
+        <div class="why-card__text">Vừa làm vừa học. Nhiều người đạt N2, N1 khi ở Nhật.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEACHERS -->
+  <section class="teachers-section">
+    <h2 class="section-title">Giảng viên Trust-Verified</h2>
+    <p class="section-sub">Học từ người đã đi Nhật thật — không học từ sách suông</p>
+
+    <div class="teacher-card">
+      <img class="teacher-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=huong&backgroundColor=b6e3f4" alt="Hương" />
+      <div class="teacher-info">
+        <div class="teacher-name">Hương Phạm</div>
+        <span class="teacher-level">🇯🇵 Chứng chỉ N1 · Sống tại Osaka 4 năm</span>
+        <div class="teacher-bio">Từng làm kỹ sư IT tại Nhật. Hiểu rõ những lỗi phát âm điển hình của người Việt. Dạy theo cách luyện não — không dùng app dịch.</div>
+        <div class="teacher-trust">
+          <span class="trust-score">🛡️ Trust 91</span>
+          <span class="trust-students">147 học viên</span>
+        </div>
+      </div>
+      <a href="https://zalo.me/g/arkdaw947" class="teacher-btn">💬 Chat</a>
+    </div>
+
+    <div class="teacher-card">
+      <img class="teacher-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=tuan&backgroundColor=c0aede" alt="Tuấn" />
+      <div class="teacher-info">
+        <div class="teacher-name">Tuấn Vũ</div>
+        <span class="teacher-level">🇯🇵 Chứng chỉ N2 · Từng làm tại Tokyo 3 năm</span>
+        <div class="teacher-bio">Chuyên luyện nghe nói cho người mới bắt đầu. Phương pháp "shadowing" — nhái người bản ngữ luyện phản xạ thật.</div>
+        <div class="teacher-trust">
+          <span class="trust-score">🛡️ Trust 87</span>
+          <span class="trust-students">203 học viên</span>
+        </div>
+      </div>
+      <a href="https://zalo.me/g/arkdaw947" class="teacher-btn">💬 Chat</a>
+    </div>
+
+    <div class="teacher-card">
+      <img class="teacher-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=linh&backgroundColor=ffd5dc" alt="Linh" />
+      <div class="teacher-info">
+        <div class="teacher-name">Linh Nguyễn</div>
+        <span class="teacher-level">🇯🇵 Chứng chỉ N3 · Tốt nghiệp ĐH Osaka</span>
+        <div class="teacher-bio">Chuyên ôn thi JLPT N4–N3. Bài tập thực tế theo dạng thi thật. Giải thích ngữ pháp bằng tiếng Việt dễ hiểu nhất.</div>
+        <div class="teacher-trust">
+          <span class="trust-score">🛡️ Trust 84</span>
+          <span class="trust-students">118 học viên</span>
+        </div>
+      </div>
+      <a href="https://zalo.me/g/arkdaw947" class="teacher-btn">💬 Chat</a>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages-section" id="packages">
+    <h2 class="section-title">Gói học phí</h2>
+    <p class="section-sub">Minh bạch, không ẩn phí. Thanh toán sau khi học thử buổi đầu.</p>
+
+    <div class="package-card">
+      <div class="package-level">Mới bắt đầu</div>
+      <div class="package-title">🌱 Gói Nhập Môn</div>
+      <div class="package-desc">Phù hợp người chưa biết gì về tiếng Nhật. Học bảng chữ Hiragana, Katakana và 500 từ vựng cơ bản nhất.</div>
+      <ul class="package-features">
+        <li>12 buổi × 90 phút (1 tháng)</li>
+        <li>Học nhóm nhỏ ≤ 5 người</li>
+        <li>Tài liệu + flashcard miễn phí</li>
+        <li>Nhóm Zalo luyện tập hàng ngày</li>
+      </ul>
+      <div class="package-price">
+        <span class="package-price__amount">1.2 triệu</span>
+        <span class="package-price__unit">/ tháng</span>
+      </div>
+      <a href="https://zalo.me/g/arkdaw947" class="package-cta">💬 Đăng ký qua Zalo</a>
+    </div>
+
+    <div class="package-card package-card--featured">
+      <div class="package-level">Ôn thi JLPT N4 → N3</div>
+      <div class="package-title">🔥 Gói Chiến Binh Nhật</div>
+      <div class="package-desc">Lộ trình 6 tháng bài bản. Mục tiêu: đỗ N3 để đủ điều kiện XKLĐ Nhật với mức lương cao hơn.</div>
+      <ul class="package-features">
+        <li>24 buổi × 90 phút (2 tháng/cấp độ)</li>
+        <li>Học 1-1 với giảng viên trust-verified</li>
+        <li>Ôn thi thực chiến theo đề JLPT thật</li>
+        <li>Hỗ trợ hồ sơ XKLĐ sau khi đạt N3</li>
+        <li>Cam kết hoàn tiền nếu không đỗ</li>
+      </ul>
+      <div class="package-price">
+        <span class="package-price__amount">2.5 triệu</span>
+        <span class="package-price__unit">/ tháng</span>
+        <span class="package-price__old">3.5tr</span>
+      </div>
+      <a href="https://zalo.me/g/arkdaw947" class="package-cta">⭐ Đăng ký ngay</a>
+    </div>
+
+    <div class="package-card">
+      <div class="package-level">Nâng cao · Đã có N3</div>
+      <div class="package-title">🚀 Gói N2 · IT Nhật</div>
+      <div class="package-desc">Dành cho lập trình viên / kỹ thuật viên muốn sang Nhật làm việc với mức lương 70–120 triệu/tháng.</div>
+      <ul class="package-features">
+        <li>Tiếng Nhật chuyên ngành IT</li>
+        <li>Ôn thi JLPT N2</li>
+        <li>Kỹ năng giao tiếp trong môi trường Nhật</li>
+        <li>Kết nối doanh nghiệp IT Nhật trực tiếp</li>
+      </ul>
+      <div class="package-price">
+        <span class="package-price__amount">3.5 triệu</span>
+        <span class="package-price__unit">/ tháng</span>
+      </div>
+      <a href="https://zalo.me/g/arkdaw947" class="package-cta">💬 Tư vấn lộ trình</a>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="steps-section">
+    <h2 class="section-title">Quy trình đơn giản</h2>
+    <p class="section-sub">Từ nhắn tin đến ngồi học — chỉ 24 giờ</p>
+
+    <div class="step">
+      <div class="step__num">1</div>
+      <div class="step__content">
+        <div class="step__title">Nhắn Zalo tư vấn miễn phí</div>
+        <div class="step__text">Chia sẻ mục tiêu của bạn. Chúng tôi tư vấn lộ trình phù hợp nhất — không spam, không ép mua.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__num">2</div>
+      <div class="step__content">
+        <div class="step__title">Học thử 1 buổi miễn phí</div>
+        <div class="step__text">Test trình độ thật của bạn. Chọn giảng viên phù hợp. Ưng mới trả tiền.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__num">3</div>
+      <div class="step__content">
+        <div class="step__title">Luyện tập hàng ngày</div>
+        <div class="step__text">Nhóm Zalo luyện tập. Bài tập hàng ngày do giảng viên thiết kế. Não luyện thật — không app dịch.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step__num">4</div>
+      <div class="step__content">
+        <div class="step__title">Đỗ thi → Hồ sơ XKLĐ</div>
+        <div class="step__text">Đạt N3 trong 6 tháng. Hỗ trợ hồ sơ, phỏng vấn doanh nghiệp Nhật. Bay thôi! 🛫</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials-section">
+    <h2 class="section-title">Học viên nói gì?</h2>
+    <p class="section-sub">Người thật, kết quả thật</p>
+
+    <div class="testimonial-card">
+      <div class="testimonial-text">"Trước mình học app tự nghiên cứu mãi không vào. Học với thầy Tuấn 3 tháng là nghe được phim Nhật rồi. Cái hay là thầy bắt nói nhiều, không cho nhìn bản dịch — khó lúc đầu nhưng hiệu quả thật."</div>
+      <div class="testimonial-author">
+        <img class="testimonial-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=thao2" alt="" />
+        <div>
+          <div class="testimonial-name">Thảo N. · Hà Nội</div>
+          <div class="testimonial-result">✅ Đỗ N3 tháng 12/2024 · Đang làm việc tại Nagoya</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-text">"Mình là lập trình viên, nghĩ tiếng Nhật khó lắm. Học gói N2 IT với cô Hương — 8 tháng sau phỏng vấn được công ty IT Nhật lương $2,200/tháng. Worth it nhất trong cuộc đời!"</div>
+      <div class="testimonial-author">
+        <img class="testimonial-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=duc2" alt="" />
+        <div>
+          <div class="testimonial-name">Đức H. · TP.HCM</div>
+          <div class="testimonial-result">✅ Lập trình viên IT · Osaka · $2,200/tháng</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial-card">
+      <div class="testimonial-text">"Ban đầu sợ học xong không dùng được. Nhưng cô Linh dạy theo kiểu thực chiến thật — học từ vựng ngay trong ngữ cảnh giao tiếp, không học vẹt. Tự tin nói chuyện với người Nhật từ tháng 4."</div>
+      <div class="testimonial-author">
+        <img class="testimonial-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=mai2" alt="" />
+        <div>
+          <div class="testimonial-name">Mai L. · Đà Nẵng</div>
+          <div class="testimonial-result">✅ Đỗ N4 · Đang ôn N3 · Dự kiến bay Q2/2025</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÌM ĐỒNG HÀNH -->
+  <section class="partner-section" id="dong-hanh">
+    <h2 class="section-title">🤝 Tìm Đồng Hành</h2>
+    <p class="section-sub">Một mình đi nhanh hơn — cùng nhau đi xa hơn.<br/>Kết nối giảng viên, học viên, dev &amp; founder cùng chí hướng.</p>
+
+    <!-- Role selector -->
+    <div class="role-tabs" id="role-tabs">
+      <button class="role-tab active" data-role="all" onclick="filterPartners('all')">Tất cả</button>
+      <button class="role-tab" data-role="teacher" onclick="filterPartners('teacher')">👨‍🏫 Giảng viên</button>
+      <button class="role-tab" data-role="student" onclick="filterPartners('student')">📚 Học viên</button>
+      <button class="role-tab" data-role="dev" onclick="filterPartners('dev')">💻 Dev / IT</button>
+      <button class="role-tab" data-role="biz" onclick="filterPartners('biz')">🏢 Business</button>
+    </div>
+
+    <div class="partner-grid" id="partner-grid">
+
+      <div class="partner-card" data-role="biz">
+        <div class="partner-card__header">
+          <img class="partner-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=cuong&backgroundColor=ffdfbf" alt="Cường" />
+          <div>
+            <div class="partner-name">Cường Đinh (Đại ca)</div>
+            <div class="partner-role partner-role--biz">🏢 Business Leader · 100+ học viên</div>
+          </div>
+        </div>
+        <div class="partner-need">
+          <span class="need-label">🔍 Cần tìm:</span> Tech co-founder, dev P2P, giảng viên content chất lượng
+        </div>
+        <div class="partner-offer">
+          <span class="offer-label">💡 Mang lại:</span> Hệ thống 100+ học viên đam mê, kênh Zalo &amp; mạng lưới sales
+        </div>
+        <div class="partner-tags">
+          <span class="ptag">Giáo dục</span>
+          <span class="ptag">XKLĐ Nhật</span>
+          <span class="ptag">Ngoại ngữ</span>
+          <span class="ptag">Scale-up</span>
+        </div>
+        <a href="https://zalo.me/g/arkdaw947" class="partner-btn">💬 Kết nối với Cường</a>
+      </div>
+
+      <div class="partner-card" data-role="dev">
+        <div class="partner-card__header">
+          <img class="partner-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=tuan&backgroundColor=c0aede" alt="Tuấn" />
+          <div>
+            <div class="partner-name">Tuấn Vũ</div>
+            <div class="partner-role partner-role--dev">💻 Protocol Architect · P2P Expert</div>
+          </div>
+        </div>
+        <div class="partner-need">
+          <span class="need-label">🔍 Cần tìm:</span> Business co-founder, người có network học viên, marketer
+        </div>
+        <div class="partner-offer">
+          <span class="offer-label">💡 Mang lại:</span> Build P2P platform, offline-first app, full-time commitment
+        </div>
+        <div class="partner-tags">
+          <span class="ptag">P2P</span>
+          <span class="ptag">Gun.js</span>
+          <span class="ptag">Web3</span>
+          <span class="ptag">Full-time</span>
+        </div>
+        <a href="https://social-network-tau-ten.vercel.app" class="partner-btn">🤝 Xem profile DevTrust</a>
+      </div>
+
+      <div class="partner-card" data-role="teacher">
+        <div class="partner-card__header">
+          <img class="partner-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=huong&backgroundColor=b6e3f4" alt="Hương" />
+          <div>
+            <div class="partner-name">Hương Phạm</div>
+            <div class="partner-role partner-role--teacher">👨‍🏫 Giảng viên N1 · AI Expert</div>
+          </div>
+        </div>
+        <div class="partner-need">
+          <span class="need-label">🔍 Cần tìm:</span> Học viên IT muốn đi Nhật, co-founder EdTech
+        </div>
+        <div class="partner-offer">
+          <span class="offer-label">💡 Mang lại:</span> Dạy tiếng Nhật IT chuyên ngành, kết nối doanh nghiệp Nhật
+        </div>
+        <div class="partner-tags">
+          <span class="ptag">Tiếng Nhật N1</span>
+          <span class="ptag">IT Nhật</span>
+          <span class="ptag">AI/ML</span>
+        </div>
+        <a href="https://zalo.me/g/arkdaw947" class="partner-btn">💬 Nhắn Zalo</a>
+      </div>
+
+      <div class="partner-card" data-role="student">
+        <div class="partner-card__header">
+          <img class="partner-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=thao2&backgroundColor=d1f7c4" alt="Thảo" />
+          <div>
+            <div class="partner-name">Thảo N. · Hà Nội</div>
+            <div class="partner-role partner-role--student">📚 Học viên N3 · Đang ở Nagoya</div>
+          </div>
+        </div>
+        <div class="partner-need">
+          <span class="need-label">🔍 Cần tìm:</span> Bạn học luyện thi N2, người mentor về career Nhật Bản
+        </div>
+        <div class="partner-offer">
+          <span class="offer-label">💡 Mang lại:</span> Community Việt tại Nagoya, kinh nghiệm thực tế sống tại Nhật
+        </div>
+        <div class="partner-tags">
+          <span class="ptag">XKLĐ</span>
+          <span class="ptag">Nagoya</span>
+          <span class="ptag">N3 → N2</span>
+        </div>
+        <a href="https://zalo.me/g/arkdaw947" class="partner-btn">💬 Kết nối học cùng</a>
+      </div>
+
+      <div class="partner-card" data-role="dev">
+        <div class="partner-card__header">
+          <img class="partner-avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=minh&backgroundColor=ffeaa7" alt="Minh" />
+          <div>
+            <div class="partner-name">Minh Trần</div>
+            <div class="partner-role partner-role--dev">💻 Backend Dev · Muốn đi Nhật IT</div>
+          </div>
+        </div>
+        <div class="partner-need">
+          <span class="need-label">🔍 Cần tìm:</span> Giảng viên tiếng Nhật IT chuyên ngành, mentor career Nhật
+        </div>
+        <div class="partner-offer">
+          <span class="offer-label">💡 Mang lại:</span> Node.js, Docker, PostgreSQL — build platform cùng giảng viên
+        </div>
+        <div class="partner-tags">
+          <span class="ptag">Backend</span>
+          <span class="ptag">Node.js</span>
+          <span class="ptag">N4 đang học</span>
+        </div>
+        <a href="https://social-network-tau-ten.vercel.app" class="partner-btn">🤝 Xem DevTrust</a>
+      </div>
+
+      <div class="partner-card partner-card--join" data-role="all">
+        <div style="text-align:center;padding:1rem 0">
+          <div style="font-size:3rem;margin-bottom:0.75rem">🙋</div>
+          <div style="font-size:1rem;font-weight:800;margin-bottom:0.4rem">Bạn muốn tham gia?</div>
+          <div style="font-size:0.82rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.5">
+            Dù bạn là giảng viên, học viên, dev hay business founder — đều có chỗ trong cộng đồng này.
+          </div>
+          <a href="https://zalo.me/g/arkdaw947" class="partner-btn" style="display:flex;justify-content:center">💬 Đăng ký tham gia cộng đồng</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <div class="final-cta">
+    <div class="hero__flag" style="margin-bottom:0.75rem;animation:none;font-size:3rem">🇯🇵</div>
+    <h2 class="final-cta__title">Bắt đầu hôm nay<br />Thay đổi từ ngày mai</h2>
+    <p class="final-cta__sub">Học thử buổi đầu miễn phí. Không ưng không mất đồng nào.<br />Tư vấn 1-1 trong vòng 30 phút.</p>
+    <a href="https://zalo.me/g/arkdaw947" class="btn-zalo" style="margin:0 auto">
+      <span class="btn-zalo__icon">💬</span>
+      Nhắn Zalo Ngay · Miễn Phí
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <a href="https://social-network-tau-ten.vercel.app">DevTrust Community</a> · Giảng viên Trust-verified bởi cộng đồng</p>
+    <p style="margin-top:0.5rem">📍 535 Kim Mã, Ba Đình, Hà Nội · DMC Tower</p>
+  </footer>
+
+  <!-- STICKY BOTTOM -->
+  <div class="sticky-cta">
+    <a href="https://zalo.me/g/arkdaw947" class="btn-zalo">
+      <span class="btn-zalo__icon">💬</span>
+      Nhắn Zalo Tư Vấn Miễn Phí
+    </a>
+  </div>
+
+  <style>
+    /* Partner section */
+    .partner-section { background: var(--dark); padding-bottom: 5rem; }
+    .role-tabs {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .role-tab {
+      padding: 0.4rem 0.9rem;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text2);
+      background: var(--dark2);
+      border: 1px solid #333;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .role-tab.active {
+      background: var(--red);
+      color: #fff;
+      border-color: var(--red);
+    }
+    .partner-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .partner-card {
+      background: var(--dark2);
+      border: 1px solid #2a2a2a;
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      transition: border-color 0.2s, opacity 0.2s;
+    }
+    .partner-card.hidden { display: none; }
+    .partner-card--join {
+      border: 2px dashed #333;
+      background: transparent;
+    }
+    .partner-card__header {
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+      margin-bottom: 0.85rem;
+    }
+    .partner-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 2px solid #333;
+    }
+    .partner-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .partner-role {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.55rem;
+      border-radius: 99px;
+      display: inline-block;
+    }
+    .partner-role--biz { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .partner-role--dev { background: rgba(129,140,248,0.15); color: #818cf8; }
+    .partner-role--teacher { background: rgba(52,211,153,0.15); color: #34d399; }
+    .partner-role--student { background: rgba(244,114,182,0.15); color: #f472b6; }
+    .partner-need, .partner-offer {
+      font-size: 0.8rem;
+      color: var(--text2);
+      line-height: 1.5;
+      margin-bottom: 0.5rem;
+    }
+    .need-label { color: #ff6b6b; font-weight: 600; }
+    .offer-label { color: var(--success); font-weight: 600; }
+    .partner-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin: 0.75rem 0;
+    }
+    .ptag {
+      font-size: 0.68rem;
+      font-weight: 500;
+      padding: 0.15rem 0.5rem;
+      border-radius: 99px;
+      background: #2a2a2a;
+      color: var(--text2);
+      border: 1px solid #333;
+    }
+    .partner-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      background: var(--red);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.65rem 1rem;
+      border-radius: 99px;
+      text-decoration: none;
+      width: 100%;
+      margin-top: 0.25rem;
+    }
+  </style>
+
+  <script>
+    function filterPartners(role) {
+      document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector(`[data-role="${role}"]`).classList.add('active');
+      document.querySelectorAll('.partner-card').forEach(card => {
+        if (role === 'all' || card.dataset.role === role || card.dataset.role === 'all') {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
+
+  <div class="final-cta">
+    <div class="hero__flag" style="margin-bottom:0.75rem;animation:none;font-size:3rem">🇯🇵</div>
+    <h2 class="final-cta__title">Bắt đầu hôm nay<br />Thay đổi từ ngày mai</h2>
+    <p class="final-cta__sub">Học thử buổi đầu miễn phí. Không ưng không mất đồng nào.<br />Tư vấn 1-1 trong vòng 30 phút.</p>
+    <a href="https://zalo.me/g/arkdaw947" class="btn-zalo" style="margin:0 auto">
+      <span class="btn-zalo__icon">💬</span>
+      Nhắn Zalo Ngay · Miễn Phí
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <a href="https://social-network-tau-ten.vercel.app">DevTrust Community</a> · Giảng viên Trust-verified bởi cộng đồng</p>
+    <p style="margin-top:0.5rem">📍 535 Kim Mã, Ba Đình, Hà Nội · DMC Tower</p>
+  </footer>
+
+  <!-- STICKY BOTTOM -->
+  <div class="sticky-cta">
+    <a href="https://zalo.me/g/arkdaw947" class="btn-zalo">
+      <span class="btn-zalo__icon">💬</span>
+      Nhắn Zalo Tư Vấn Miễn Phí
+    </a>
+  </div>
+
+</body>
+</html>
