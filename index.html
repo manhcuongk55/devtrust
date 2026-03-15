@@ -96,6 +96,11 @@
           <span>💰 Gọi Vốn</span>
           <span class="sidebar__badge sidebar__badge--fund">NEW</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="investor" id="nav-investor">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>🧑‍💼 Investor</span>
+          <span class="sidebar__badge sidebar__badge--investor">★</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <span>Tin nhắn</span>
@@ -650,6 +655,90 @@
         <div class="match-grid" id="match-grid">
           <!-- JS populated -->
         </div>
+      </section>
+
+      <!-- ===== INVESTOR DASHBOARD VIEW ===== -->
+      <section class="view view--investor" id="view-investor">
+        <!-- Hero -->
+        <div class="investor-hero">
+          <div class="investor-hero__glow"></div>
+          <div class="investor-hero__content">
+            <div class="investor-hero__eyebrow">🌏 DevTrust · Vietnam Tech Ecosystem</div>
+            <h1 class="investor-hero__title">Portfolio <span>Intelligence</span></h1>
+            <p class="investor-hero__desc">Dữ liệu thời gian thực. Team có trust. Deal flow minh bạch.</p>
+            <div class="investor-kpis">
+              <div class="investor-kpi investor-kpi--green">
+                <div class="investor-kpi__num" id="inv-kpi-projects">5</div>
+                <div class="investor-kpi__label">Dự án hoạt động</div>
+              </div>
+              <div class="investor-kpi investor-kpi--blue">
+                <div class="investor-kpi__num" id="inv-kpi-devs">47</div>
+                <div class="investor-kpi__label">Dev đã verify</div>
+              </div>
+              <div class="investor-kpi investor-kpi--purple">
+                <div class="investor-kpi__num">1.2B</div>
+                <div class="investor-kpi__label">Equity points phân phối</div>
+              </div>
+              <div class="investor-kpi investor-kpi--gold">
+                <div class="investor-kpi__num">92%</div>
+                <div class="investor-kpi__label">Team retain rate</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Portfolio Table -->
+        <div class="investor-section">
+          <div class="investor-section-header">
+            <h3>📈 Deal Flow Hiện Tại</h3>
+            <div class="investor-filter-row" id="investor-filter-row">
+              <button class="inv-filter active" data-stage="all" onclick="filterInvestorDeals('all')">Tất cả</button>
+              <button class="inv-filter" data-stage="idea" onclick="filterInvestorDeals('idea')">Early Stage</button>
+              <button class="inv-filter" data-stage="mvp" onclick="filterInvestorDeals('mvp')">MVP</button>
+              <button class="inv-filter" data-stage="growth" onclick="filterInvestorDeals('growth')">Growth</button>
+            </div>
+          </div>
+          <div id="investor-deal-flow"></div>
+        </div>
+
+        <!-- Trust Metrics -->
+        <div class="investor-section">
+          <h3>🛡️ Trust Metrics — Tại sao DevTrust khác biệt?</h3>
+          <div class="trust-metrics-grid" id="trust-metrics-grid"></div>
+        </div>
+
+        <!-- CTA -->
+        <div class="investor-cta">
+          <h3>Sẵn sàng đầu tư?</h3>
+          <p>Thậ Trust-verified. Equity minh bạch. Tự do exit bất kỳ lúc nào.</p>
+          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+            <button class="btn btn--primary btn--lg" onclick="openContributeModal(1)">💰 Đầu tư ngay</button>
+            <button class="btn btn--glass btn--lg" onclick="switchView('match')">🤝 Gặp founder</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== DEV JOINING VIEW ===== -->
+      <section class="view view--devjoin" id="view-devjoin">
+        <div class="devjoin-hero">
+          <div class="devjoin-hero__glow"></div>
+          <div class="devjoin-hero__content">
+            <div class="devjoin-hero__badge">💻 Dev Contribution Portal</div>
+            <h1>Tìm idea <span>bất chạy ngay</span></h1>
+            <p>Chọn idea ông muốn build. Chọn role của bạn. Equity tự động trao.</p>
+            <div class="devjoin-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" id="devjoin-search" placeholder="Tìm idea: AI, EdTech, DeFi, P2P..." oninput="filterDevJoin(this.value)" />
+            </div>
+          </div>
+        </div>
+        <div class="devjoin-filters">
+          <button class="devjoin-chip active" onclick="filterDevJoinStage(this, 'all')">Tất cả</button>
+          <button class="devjoin-chip" onclick="filterDevJoinStage(this, 'dev')">💻 Cần Dev</button>
+          <button class="devjoin-chip" onclick="filterDevJoinStage(this, 'design')">🎨 Cần Design</button>
+          <button class="devjoin-chip" onclick="filterDevJoinStage(this, 'marketing')">📣 Cần Marketing</button>
+        </div>
+        <div class="devjoin-grid" id="devjoin-grid"></div>
       </section>
 
       <!-- ===== DEVMAP VIEW ===== -->

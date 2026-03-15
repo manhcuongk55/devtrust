@@ -511,6 +511,276 @@ function switchView(viewName) {
     if (!$('#leaderboard-list').children.length) renderLeaderboard();
     if (!$('#bounty-list').children.length) renderBountyBoard();
   }
+  if (viewName === 'investor') {
+    if (!$('#investor-deal-flow').children.length) renderInvestorDashboard();
+  }
+  if (viewName === 'devjoin') {
+    if (!$('#devjoin-grid').children.length) renderDevJoinGrid(FUND_IDEAS);
+  }
+}
+
+// ============ 🧑‍💼 INVESTOR DASHBOARD ENGINE ============
+
+function renderInvestorDashboard() {
+  renderInvestorDeals(FUND_IDEAS);
+  renderTrustMetrics();
+}
+
+function filterInvestorDeals(stage) {
+  document.querySelectorAll('.inv-filter').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.inv-filter[data-stage="${stage}"]`)?.classList.add('active');
+  const filtered = stage === 'all' ? FUND_IDEAS : FUND_IDEAS.filter(i => i.stage === stage);
+  renderInvestorDeals(filtered);
+}
+
+function renderInvestorDeals(ideas) {
+  const container = $('#investor-deal-flow');
+  if (!container) return;
+  container.innerHTML = ideas.map(idea => {
+    const founder = getUser(idea.founderId);
+    const pct = Math.min(100, Math.round(idea.raisedPoints / idea.goalPoints * 100));
+    const stageColor = getFundStageColor(idea.stage);
+    const avgTrust = idea.members.reduce((s, uid) => {
+      const u = getUser(uid); return s + (u ? u.trustScore : 0);
+    }, 0) / (idea.members.length || 1);
+    const momentum = idea.contributions.length * 12 + idea.members.length * 8;
+    return `
+    <div class="investor-deal-card">
+      <div class="investor-deal-card__left">
+        <div class="investor-deal-emoji">${idea.emoji}</div>
+        <div class="investor-deal-info">
+          <div class="investor-deal-name">${idea.name}</div>
+          <div class="investor-deal-stage" style="color:${stageColor}">${getFundStageLabel(idea.stage)}</div>
+          <div class="investor-deal-desc">${idea.desc}</div>
+        </div>
+      </div>
+      <div class="investor-deal-metrics">
+        <div class="inv-metric">
+          <div class="inv-metric__val">${pct}%</div>
+          <div class="inv-metric__label">Funded</div>
+          <div class="inv-metric-bar"><div class="inv-metric-bar__fill" style="width:${pct}%;background:${stageColor}"></div></div>
+        </div>
+        <div class="inv-metric">
+          <div class="inv-metric__val">${idea.members.length}</div>
+          <div class="inv-metric__label">Team</div>
+        </div>
+        <div class="inv-metric">
+          <div class="inv-metric__val" style="color:${avgTrust>=80?'#10b981':'#f59e0b'}">${Math.round(avgTrust)}</div>
+          <div class="inv-metric__label">Avg Trust</div>
+        </div>
+        <div class="inv-metric">
+          <div class="inv-metric__val inv-metric__val--hot">${momentum}</div>
+          <div class="inv-metric__label">Momentum🔥</div>
+        </div>
+      </div>
+      <div class="investor-deal-team">
+        ${idea.members.slice(0,3).map(uid=>{ const u=getUser(uid); return u?`<img class="inv-team-avatar" src="${avatarUrl(u.seed)}" title="${u.name} 🛡️${u.trustScore}" />`:''; }).join('')}
+        ${idea.members.length>3?`<span class="inv-team-more">+${idea.members.length-3}</span>`:''}
+      </div>
+      <div class="investor-deal-actions">
+        <button class="btn btn--primary btn--sm" onclick="openContributeModal(${idea.id})">💰 Đầu tư</button>
+        <button class="btn btn--glass btn--sm" onclick="openDevJoinModal(${idea.id})">💻 Join Dev</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderTrustMetrics() {
+  const container = $('#trust-metrics-grid');
+  if (!container) return;
+  const metrics = [
+    { icon: '🛡️', title: 'Trust Score System', val: '87/100', desc: 'Avg team trust score — tự động tính từ contributions & peer verify', color: '#10b981' },
+    { icon: '🔗', title: 'P2P Verified', val: '100%', desc: 'Mọi giao dịch equity đều on-chain P2P, không thể giả mạo', color: '#818cf8' },
+    { icon: '📊', title: 'Contribution Transparency', val: 'Real-time', desc: 'Mọi giờ code, giờ design đều ghi nhận tự động với timestamp', color: '#f59e0b' },
+    { icon: '⚖️', title: 'Fair Equity Split', val: '60/30/10', desc: 'Contributor 60% · Referrer 30% · Trust Fund 10% — tự động', color: '#ef4444' },
+    { icon: '🔒', title: 'Zero Lock-in', val: 'Exit anytime', desc: 'Nhà đầu tư được quyền rút vốn bất kỳ lúc nào, minh bạch', color: '#22c55e' },
+    { icon: '📈', title: 'Network Effect', val: '10K+ users', desc: 'Mỗi user thêm vào tăng giá trị cả ecosystem theo hàm mũ', color: '#06b6d4' },
+  ];
+  container.innerHTML = metrics.map(m => `
+    <div class="trust-metric-card" style="border-color:${m.color}30">
+      <div class="trust-metric-card__icon" style="background:${m.color}18;color:${m.color}">${m.icon}</div>
+      <div class="trust-metric-card__title">${m.title}</div>
+      <div class="trust-metric-card__val" style="color:${m.color}">${m.val}</div>
+      <div class="trust-metric-card__desc">${m.desc}</div>
+    </div>
+  `).join('');
+}
+
+// ============ 💻 DEV JOIN PORTAL ENGINE ============
+
+function renderDevJoinGrid(ideas) {
+  const container = $('#devjoin-grid');
+  if (!container) return;
+  container.innerHTML = ideas.map(idea => {
+    const founder = getUser(idea.founderId);
+    const pct = Math.min(100, Math.round(idea.raisedPoints / idea.goalPoints * 100));
+    const stageColor = getFundStageColor(idea.stage);
+    const equityAvail = Math.max(0, 100 - pct);
+    const openSpots = idea.needs.map(n => RESOURCE_RATES[n]?.label || n);
+    return `
+    <div class="devjoin-card">
+      <div class="devjoin-card__top">
+        <span class="devjoin-card__emoji">${idea.emoji}</span>
+        <span class="devjoin-card__stage-badge" style="background:${stageColor}22;color:${stageColor}">${getFundStageLabel(idea.stage)}</span>
+      </div>
+      <h3 class="devjoin-card__name">${idea.name}</h3>
+      <p class="devjoin-card__desc">${idea.desc}</p>
+      <div class="devjoin-card__needs">
+        <div class="devjoin-needs-label">🔍 Đang cần:</div>
+        <div class="devjoin-needs-tags">
+          ${openSpots.map(s=>`<span class="devjoin-need-tag">${s}</span>`).join('')}
+        </div>
+      </div>
+      <div class="devjoin-card__stats">
+        <div class="devjoin-stat"><strong style="color:${stageColor}">${equityAvail}%</strong><span>Equity còn</span></div>
+        <div class="devjoin-stat"><strong>${idea.members.length}</strong><span>Thành viên</span></div>
+        <div class="devjoin-stat"><strong>${idea.contributions.length}</strong><span>Contributions</span></div>
+      </div>
+      <div class="devjoin-card__team">
+        ${idea.members.slice(0,4).map(uid=>{ const u=getUser(uid); return u?`<img class="devjoin-team-avatar" src="${avatarUrl(u.seed)}" title="${u.name}" />`:''; }).join('')}
+        ${founder?`<span class="devjoin-founder-badge">Founder: ${founder.name} 🛡️${founder.trustScore}</span>`:''}
+      </div>
+      <div class="devjoin-card__progress">
+        <div class="devjoin-progress-bar"><div style="width:${pct}%;background:${stageColor};height:100%;border-radius:4px"></div></div>
+        <span>${pct}% funded</span>
+      </div>
+      <button class="devjoin-join-btn" onclick="openDevJoinModal(${idea.id})">
+        🚀 Tham gia ngay — Nhận equity
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function filterDevJoin(query) {
+  const q = query.toLowerCase();
+  const filtered = FUND_IDEAS.filter(i => (i.name + i.desc + i.needs.join(' ')).toLowerCase().includes(q));
+  renderDevJoinGrid(filtered);
+}
+
+function filterDevJoinStage(btn, need) {
+  document.querySelectorAll('.devjoin-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = need === 'all' ? FUND_IDEAS : FUND_IDEAS.filter(i => i.needs.includes(need));
+  renderDevJoinGrid(filtered);
+}
+
+let _devJoinRole = null, _devJoinHours = null, _devJoinIdeaId = null;
+
+function openDevJoinModal(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  if (!idea) return;
+  $('#dev-join-modal')?.remove();
+
+  const founder = getUser(idea.founderId);
+  const pct = Math.min(100, Math.round(idea.raisedPoints / idea.goalPoints * 100));
+  const stageColor = getFundStageColor(idea.stage);
+  const equityAvail = Math.max(0, 100 - pct);
+  _devJoinIdeaId = ideaId;
+
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'dev-join-modal';
+  modal.innerHTML = `
+    <div class="modal card dev-join-modal-inner">
+      <div class="modal__header">
+        <h3>${idea.emoji} Tham gia “${idea.name}”</h3>
+        <button class="modal__close" onclick="document.getElementById('dev-join-modal').remove()">✕</button>
+      </div>
+      <div class="dev-join-modal-body">
+        ${founder ? `
+        <div class="dev-join-founder-row">
+          <img class="dev-join-founder-avatar" src="${avatarUrl(founder.seed)}" />
+          <div style="flex:1">
+            <div class="dev-join-founder-name">${founder.name} <span class="trust-badge-inline">🛡️${founder.trustScore}</span></div>
+            <div class="dev-join-founder-meta">${founder.role} · ${founder.location}</div>
+          </div>
+          <div class="dev-join-equity-pill" style="border-color:${stageColor}">
+            <span style="color:${stageColor};font-size:1.3rem;font-weight:800">${equityAvail}%</span>
+            <span style="font-size:0.7rem;color:var(--text-tertiary)">equity còn</span>
+          </div>
+        </div>` : ''}
+
+        <div class="dev-join-section">
+          <div class="dev-join-section-label">🎯 Bạn đóng góp gì?</div>
+          <div class="dev-join-roles" id="dev-join-roles-${ideaId}">
+            ${Object.entries(RESOURCE_RATES).map(([key, r]) => `
+              <button class="dev-join-role-btn ${idea.needs.includes(key)?'dev-join-role-btn--needed':''}" data-role="${key}" onclick="selectDevJoinRole(this, ${ideaId})">
+                ${r.label}
+                ${idea.needs.includes(key)?'<span class="needed-badge">Cần ngạy!</span>':''}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="dev-join-section">
+          <div class="dev-join-section-label">⏰ Bạn dành bao nhiêu giờ/tuần?</div>
+          <div class="dev-join-hours">
+            <button class="dev-join-hour-btn" data-h="5" onclick="selectDevJoinHours(this)">5h</button>
+            <button class="dev-join-hour-btn" data-h="10" onclick="selectDevJoinHours(this)">10h</button>
+            <button class="dev-join-hour-btn" data-h="20" onclick="selectDevJoinHours(this)">20h</button>
+            <button class="dev-join-hour-btn dev-join-hour-btn--full" data-h="40" onclick="selectDevJoinHours(this)">Full-time 🔥</button>
+          </div>
+        </div>
+
+        <div class="dev-join-equity-preview" id="dev-join-equity-preview">
+          <div>📊 Equity của bạn (dự kiến)</div>
+          <div class="dev-join-equity-val" id="dev-join-equity-val">Chọn role để xem</div>
+          <div style="font-size:0.72rem;color:var(--text-tertiary);margin-top:4px">Trust Score 92 → ×${calcTrustMultiplier(92).toFixed(1)} multiplier</div>
+        </div>
+
+        <div class="dev-join-section">
+          <div class="dev-join-section-label">💬 Bạn mang gì đến? <small style="opacity:.5">(tuỳ chọn)</small></div>
+          <textarea class="form-input" id="dev-join-note" rows="2" placeholder="VD: Mình có 3 năm React, từng build EdTech 0→5K users..."></textarea>
+        </div>
+
+        <button class="dev-join-submit" id="dev-join-submit" onclick="submitDevJoin(${ideaId})" disabled style="opacity:0.4;cursor:not-allowed">
+          🚀 Tham gia — Nhận equity ngay
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function selectDevJoinRole(btn, ideaId) {
+  document.querySelectorAll('.dev-join-role-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _devJoinRole = btn.dataset.role;
+  _devJoinIdeaId = ideaId;
+  updateDevJoinEquityPreview();
+}
+
+function selectDevJoinHours(btn) {
+  document.querySelectorAll('.dev-join-hour-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _devJoinHours = parseInt(btn.dataset.h);
+  updateDevJoinEquityPreview();
+}
+
+function updateDevJoinEquityPreview() {
+  const valEl = $('#dev-join-equity-val');
+  const submitBtn = $('#dev-join-submit');
+  if (!_devJoinRole || !_devJoinHours) return;
+  const pts = calculateEquity(_devJoinRole, _devJoinHours, 92);
+  const idea = FUND_IDEAS.find(i => i.id === _devJoinIdeaId);
+  const pctOfIdea = idea ? ((pts / idea.goalPoints) * 100).toFixed(1) : '?';
+  if (valEl) valEl.innerHTML = `<span style="font-size:1.5rem;font-weight:800;color:var(--accent-primary)">${pts.toLocaleString()} điểm</span> <span style="font-size:0.85rem;color:var(--text-secondary)">≈ ${pctOfIdea}% trong dự án</span>`;
+  if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.style.cursor = 'pointer'; }
+}
+
+function submitDevJoin(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  if (!idea || !_devJoinRole || !_devJoinHours) return;
+  const note = $('#dev-join-note')?.value || 'Dev mới join';
+  const pts = calculateEquity(_devJoinRole, _devJoinHours, 92);
+  idea.contributions.push({ userId: 0, type: _devJoinRole, amount: _devJoinHours, points: pts, note });
+  if (!idea.members.includes(0)) idea.members.push(0);
+  idea.raisedPoints += pts;
+  $('#dev-join-modal')?.remove();
+  showToast(`🎉 Đã tham gia “${idea.name}”! ${pts.toLocaleString()} điểm equity ghi nhận. Welcome to the team!`, 'success');
+  setTimeout(() => switchView('fund'), 1200);
+  _devJoinRole = null; _devJoinHours = null; _devJoinIdeaId = null;
 }
 
 // ============ CHAT ============

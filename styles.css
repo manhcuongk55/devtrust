@@ -4413,3 +4413,236 @@ input:focus, textarea:focus, select:focus {
   .topnav__center { display: none; }
   .devmap-sidebar { display: none; }
 }
+
+/* ================ SIDEBAR BADGE INVESTOR ================ */
+.sidebar__badge--investor { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+/* ================ INVESTOR DASHBOARD ================ */
+.view--investor { max-width: 860px; margin: 0 auto; }
+
+.investor-hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0d0d1a 0%, #1a1a3e 50%, #0d0d1a 100%);
+  border: 1px solid rgba(129,140,248,0.15); border-radius: 20px;
+  padding: 3rem 2rem 2rem; margin-bottom: 2rem; text-align: center;
+}
+.investor-hero__glow {
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 500px; height: 300px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(129,140,248,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.investor-hero__eyebrow { font-size: 0.8rem; color: var(--accent-primary); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.investor-hero__title { font-size: clamp(2rem,5vw,3rem); font-weight: 900; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+.investor-hero__title span { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.investor-hero__desc { font-size: 1rem; color: var(--text-secondary); margin-bottom: 2rem; }
+
+.investor-kpis { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+.investor-kpi {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 1rem 1.5rem; min-width: 120px;
+  text-align: center; transition: transform var(--transition);
+}
+.investor-kpi:hover { transform: translateY(-3px); }
+.investor-kpi__num { font-size: 2rem; font-weight: 900; line-height: 1; }
+.investor-kpi__label { font-size: 0.72rem; color: var(--text-tertiary); margin-top: 4px; }
+.investor-kpi--green .investor-kpi__num { color: #4ade80; }
+.investor-kpi--blue .investor-kpi__num { color: #60a5fa; }
+.investor-kpi--purple .investor-kpi__num { color: #a78bfa; }
+.investor-kpi--gold .investor-kpi__num { color: #fbbf24; }
+
+.investor-section { margin-bottom: 2rem; }
+.investor-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.investor-section h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
+.investor-filter-row { display: flex; gap: 0.4rem; }
+.inv-filter {
+  padding: 0.3rem 0.85rem; border-radius: 999px; font-size: 0.78rem; font-weight: 600;
+  background: var(--bg-glass); border: 1px solid var(--border-color);
+  color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+}
+.inv-filter:hover { background: var(--bg-glass-hover); }
+.inv-filter.active { background: var(--accent-gradient); color: #fff; border-color: transparent; }
+
+/* Deal cards */
+.investor-deal-card {
+  display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem;
+  background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+  margin-bottom: 0.75rem; transition: all var(--transition); cursor: pointer;
+}
+.investor-deal-card:hover { border-color: rgba(129,140,248,0.3); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.investor-deal-card__left { display: flex; align-items: center; gap: 0.75rem; flex: 2; min-width: 0; }
+.investor-deal-emoji { font-size: 2rem; flex-shrink: 0; }
+.investor-deal-info { min-width: 0; }
+.investor-deal-name { font-size: 0.95rem; font-weight: 700; }
+.investor-deal-stage { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.investor-deal-desc { font-size: 0.78rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.investor-deal-metrics { display: flex; gap: 1rem; flex: 2; justify-content: space-around; }
+.inv-metric { text-align: center; }
+.inv-metric__val { font-size: 1.1rem; font-weight: 800; }
+.inv-metric__val--hot { color: #f59e0b; }
+.inv-metric__label { font-size: 0.65rem; color: var(--text-tertiary); }
+.inv-metric-bar { height: 3px; background: var(--bg-glass); border-radius: 2px; margin-top: 4px; width: 50px; }
+.inv-metric-bar__fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+
+.investor-deal-team { display: flex; align-items: center; gap: -4px; }
+.inv-team-avatar { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--bg-primary); margin-left: -6px; }
+.inv-team-avatar:first-child { margin-left: 0; }
+.inv-team-more { font-size: 0.7rem; color: var(--text-tertiary); margin-left: 6px; }
+.investor-deal-actions { display: flex; flex-direction: column; gap: 0.4rem; flex-shrink: 0; }
+
+/* Trust Metrics Grid */
+.trust-metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }
+.trust-metric-card {
+  padding: 1.25rem; border-radius: var(--radius-lg);
+  background: var(--bg-card); border: 1px solid; transition: all var(--transition);
+  text-align: center;
+}
+.trust-metric-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.trust-metric-card__icon { font-size: 1.8rem; margin-bottom: 0.5rem; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; }
+.trust-metric-card__title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.25rem; }
+.trust-metric-card__val { font-size: 1.1rem; font-weight: 900; margin-bottom: 0.4rem; }
+.trust-metric-card__desc { font-size: 0.72rem; color: var(--text-tertiary); line-height: 1.4; }
+
+/* Investor CTA */
+.investor-cta {
+  background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(167,139,250,0.08));
+  border: 1px solid rgba(129,140,248,0.2); border-radius: 20px;
+  padding: 2.5rem; text-align: center; margin-bottom: 2rem;
+}
+.investor-cta h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+.investor-cta p { color: var(--text-secondary); margin-bottom: 1.5rem; }
+.btn--lg { padding: 0.75rem 2rem; font-size: 1rem; }
+
+/* ================ DEV JOIN PORTAL ================ */
+.view--devjoin { max-width: 860px; margin: 0 auto; }
+
+.devjoin-hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0a0f1a 0%, #0f1a0a 50%, #0a0f1a 100%);
+  border: 1px solid rgba(34,197,94,0.15); border-radius: 20px;
+  padding: 2.5rem 2rem 2rem; margin-bottom: 1.5rem; text-align: center;
+}
+.devjoin-hero__glow {
+  position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+  width: 400px; height: 200px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(34,197,94,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.devjoin-hero__badge { display: inline-block; background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); border-radius: 999px; padding: 0.25rem 0.85rem; font-size: 0.78rem; font-weight: 700; margin-bottom: 0.75rem; }
+.devjoin-hero h1 { font-size: clamp(1.8rem,4vw,2.5rem); font-weight: 900; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+.devjoin-hero h1 span { background: linear-gradient(135deg, #22c55e, #4ade80); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.devjoin-hero p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.25rem; }
+
+.devjoin-search {
+  display: flex; align-items: center; gap: 0.5rem; max-width: 420px; margin: 0 auto;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px; padding: 0.5rem 1rem;
+}
+.devjoin-search svg { width: 18px; height: 18px; color: var(--text-tertiary); flex-shrink: 0; }
+.devjoin-search input { background: transparent; border: none; flex: 1; color: var(--text-primary); font-size: 0.9rem; outline: none; }
+
+.devjoin-filters { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.devjoin-chip {
+  padding: 0.35rem 0.85rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+  background: var(--bg-glass); border: 1px solid var(--border-color);
+  color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+}
+.devjoin-chip:hover { background: var(--bg-glass-hover); }
+.devjoin-chip.active { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border-color: transparent; }
+
+.devjoin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+
+.devjoin-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  transition: all var(--transition);
+}
+.devjoin-card:hover { border-color: rgba(34,197,94,0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(34,197,94,0.1); }
+.devjoin-card__top { display: flex; align-items: center; justify-content: space-between; }
+.devjoin-card__emoji { font-size: 1.8rem; }
+.devjoin-card__stage-badge { font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px; }
+.devjoin-card__name { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+.devjoin-card__desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
+.devjoin-card__needs {}
+.devjoin-needs-label { font-size: 0.72rem; color: var(--text-tertiary); font-weight: 600; margin-bottom: 4px; }
+.devjoin-needs-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.devjoin-need-tag {
+  font-size: 0.72rem; padding: 0.15rem 0.55rem; border-radius: 999px;
+  background: rgba(34,197,94,0.1); color: #4ade80; border: 1px solid rgba(34,197,94,0.2); font-weight: 600;
+}
+.devjoin-card__stats { display: flex; gap: 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; }
+.devjoin-stat { flex: 1; text-align: center; padding: 0.6rem 0.25rem; border-right: 1px solid var(--border-color); }
+.devjoin-stat:last-child { border-right: none; }
+.devjoin-stat strong { display: block; font-size: 1.1rem; font-weight: 800; }
+.devjoin-stat span { font-size: 0.65rem; color: var(--text-tertiary); }
+.devjoin-card__team { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+.devjoin-team-avatar { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--bg-primary); margin-left: -4px; }
+.devjoin-team-avatar:first-child { margin-left: 0; }
+.devjoin-founder-badge { font-size: 0.68rem; color: var(--text-tertiary); margin-left: 8px; }
+.devjoin-card__progress { display: flex; align-items: center; gap: 0.5rem; }
+.devjoin-progress-bar { flex: 1; height: 5px; background: var(--bg-glass); border-radius: 3px; overflow: hidden; }
+.devjoin-card__progress span { font-size: 0.7rem; color: var(--text-tertiary); white-space: nowrap; }
+.devjoin-join-btn {
+  width: 100%; padding: 0.7rem; border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff;
+  font-size: 0.88rem; font-weight: 700; cursor: pointer; border: none;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 16px rgba(34,197,94,0.25);
+}
+.devjoin-join-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(34,197,94,0.4); }
+
+/* ================ DEV JOIN MODAL ================ */
+.dev-join-modal-inner { max-width: 520px; width: 90vw; max-height: 90vh; overflow-y: auto; }
+.dev-join-modal-body { padding: 1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: 1rem; }
+
+.dev-join-founder-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  background: var(--bg-glass); border-radius: var(--radius-md); padding: 0.75rem;
+}
+.dev-join-founder-avatar { width: 48px; height: 48px; border-radius: 50%; }
+.dev-join-founder-name { font-weight: 700; font-size: 0.9rem; }
+.dev-join-founder-meta { font-size: 0.75rem; color: var(--text-secondary); }
+.trust-badge-inline { font-size: 0.75rem; background: rgba(16,185,129,0.1); color: #34d399; padding: 1px 6px; border-radius: 999px; }
+.dev-join-equity-pill { display: flex; flex-direction: column; align-items: center; border: 2px solid; border-radius: var(--radius-md); padding: 0.5rem 0.75rem; flex-shrink: 0; }
+
+.dev-join-section {}
+.dev-join-section-label { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 0.5rem; }
+
+.dev-join-roles { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.dev-join-role-btn {
+  padding: 0.35rem 0.75rem; border-radius: var(--radius-md); font-size: 0.8rem; font-weight: 600;
+  background: var(--bg-glass); border: 1px solid var(--border-color);
+  color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast); position: relative;
+}
+.dev-join-role-btn:hover { background: var(--bg-glass-hover); }
+.dev-join-role-btn.active { background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.4); color: #4ade80; }
+.dev-join-role-btn--needed { border-color: rgba(129,140,248,0.4); color: var(--accent-primary); }
+.needed-badge { font-size: 0.6rem; background: rgba(239,68,68,0.15); color: #f87171; padding: 1px 5px; border-radius: 999px; margin-left: 4px; font-weight: 700; }
+
+.dev-join-hours { display: flex; gap: 0.4rem; }
+.dev-join-hour-btn {
+  flex: 1; padding: 0.5rem; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 600;
+  background: var(--bg-glass); border: 1px solid var(--border-color); color: var(--text-secondary);
+  cursor: pointer; transition: all var(--transition-fast); text-align: center;
+}
+.dev-join-hour-btn:hover { background: var(--bg-glass-hover); }
+.dev-join-hour-btn.active { background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.4); color: #4ade80; }
+.dev-join-hour-btn--full { background: rgba(239,68,68,0.06); border-color: rgba(239,68,68,0.2); color: #f87171; }
+.dev-join-hour-btn--full.active { background: rgba(239,68,68,0.15); border-color: #f87171; }
+
+.dev-join-equity-preview {
+  background: linear-gradient(135deg, rgba(34,197,94,0.07), rgba(16,185,129,0.04));
+  border: 1px solid rgba(34,197,94,0.2); border-radius: var(--radius-md);
+  padding: 0.85rem 1rem; text-align: center; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary);
+}
+.dev-join-equity-val { margin-top: 0.35rem; }
+
+.dev-join-submit {
+  width: 100%; padding: 0.85rem; border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff;
+  font-size: 0.95rem; font-weight: 700; border: none; cursor: pointer;
+  transition: all var(--transition-fast); box-shadow: 0 4px 16px rgba(34,197,94,0.25);
+}
+.dev-join-submit:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(34,197,94,0.4); }
