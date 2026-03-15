@@ -5031,3 +5031,89 @@ input:focus, textarea:focus, select:focus {
 @media (max-width: 768px) {
   .inspo-legends-grid, .inspo-films-grid { grid-template-columns: 1fr; }
 }
+
+/* ================ 🏗️ HACKATHON VIEW ================ */
+
+.hackathon-hero {
+  position: relative; padding: 3rem 2rem; border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white; overflow: hidden; margin-bottom: 2rem;
+}
+.hackathon-hero__glow {
+  position: absolute; top: -50%; right: -20%; width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+}
+.hackathon-hero__badge {
+  background: rgba(255,255,255,0.15); padding: 0.3rem 0.8rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 700; width: fit-content; margin-bottom: 1rem;
+}
+.hackathon-hero h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 1rem; }
+.hackathon-hero h1 span { color: #facc15; }
+.hackathon-stats { display: flex; gap: 2rem; margin-top: 1.5rem; }
+.hack-stat strong { display: block; font-size: 1.3rem; }
+.hack-stat span { font-size: 0.8rem; opacity: 0.8; }
+
+.hackathon-tabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
+.hack-tab {
+  padding: 0.8rem 1rem; font-weight: 700; font-size: 0.9rem; color: var(--text-tertiary);
+  cursor: pointer; position: relative;
+}
+.hack-tab.active { color: var(--accent-primary); }
+.hack-tab.active::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 2px;
+  background: var(--accent-primary);
+}
+
+.hackathon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; }
+.hack-card { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; transition: transform 0.2s; }
+.hack-card:hover { transform: translateY(-3px); }
+.hack-card__header { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; font-weight: 700; }
+.hack-host { color: var(--accent-primary); }
+.hack-deadline { color: #ef4444; }
+.hack-title { font-size: 1.1rem; font-weight: 800; }
+.hack-reward { font-size: 0.9rem; padding: 0.6rem; background: rgba(99,102,241,0.05); border-radius: var(--radius-md); }
+.hack-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.hack-tag { font-size: 0.65rem; padding: 0.2rem 0.6rem; background: var(--bg-glass); border-radius: 999px; border: 1px solid var(--border-color); }
+
+/* ================ ✈️ TRAVEL & VISA HUB ================ */
+
+.travel-hero {
+  position: relative; padding: 3rem 2rem; border-radius: var(--radius-xl);
+  background: linear-gradient(45deg, #059669 0%, #10b981 100%);
+  color: white; text-align: center; margin-bottom: 2rem;
+}
+.travel-hero__badge {
+  background: rgba(0,0,0,0.2); padding: 0.3rem 0.8rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 700; margin: 0 auto 1rem; width: fit-content;
+}
+.travel-hero h1 { font-size: 2.22rem; font-weight: 900; margin-bottom: 0.5rem; }
+.travel-hero h1 span { color: #fef08a; }
+.travel-search-wrap { display: flex; justify-content: center; margin-top: 1.5rem; }
+.travel-search {
+  display: flex; align-items: center; gap: 0.75rem; background: white;
+  padding: 0.6rem 1rem; border-radius: 999px; width: 100%; max-width: 450px;
+  color: #1f2937; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+}
+.travel-search input { border: none; outline: none; flex: 1; font-size: 0.95rem; }
+
+.travel-section-header { margin-bottom: 1.25rem; }
+.travel-section-header h3 { font-size: 1.3rem; font-weight: 800; }
+.travel-section-header p { font-size: 0.85rem; color: var(--text-tertiary); }
+
+.travel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.travel-card { display: flex; flex-direction: column; gap: 1rem; padding: 1.25rem; }
+.travel-card__icon { font-size: 2.5rem; }
+.travel-country { font-size: 1.1rem; font-weight: 800; }
+.travel-category { font-size: 0.75rem; font-weight: 700; color: var(--accent-primary); text-transform: uppercase; }
+.travel-meta { font-size: 0.85rem; color: var(--text-secondary); }
+.travel-provider { font-size: 0.7rem; color: var(--text-tertiary); }
+
+/* ================ 💬 MESSAGES / SHOPPING ASSISTANT ================ */
+
+.msg--received div { border-left: 3px solid var(--accent-primary); }
+.msg--received strong { color: var(--accent-primary); }
+
+@media (max-width: 768px) {
+  .hackathon-hero h1, .travel-hero h1 { font-size: 1.7rem; }
+  .hackathon-stats { flex-direction: column; gap: 0.75rem; }
+}

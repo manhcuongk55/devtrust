@@ -216,21 +216,46 @@ const CHATS = [
   ], unread: true, lastTime: '10:05' },
 ];
 
-const NOTIFICATIONS = [
-  { type: 'like', icon: '🔥', userId: 4, text: '<strong>Tuấn Vũ</strong> và 89 người khác đã thích bài "MVP Lessons" của bạn', time: '5 phút trước', unread: true },
-  { type: 'comment', icon: '💬', userId: 2, text: '<strong>Minh Trần</strong> hỏi: "Anh có template A/B test không?"', time: '15 phút trước', unread: true },
-  { type: 'follow', icon: '👤', userId: 7, text: '<strong>HealthTech Linh</strong> bắt đầu theo dõi — 1,000 users milestone 🎉', time: '1 giờ trước', unread: true },
-  { type: 'mention', icon: '📢', userId: 3, text: '<strong>AgriTech Hoa</strong> nhắc đến bài post của bạn trong "Trust Economy"', time: '2 giờ trước', unread: true },
-  { type: 'comment', icon: '💬', userId: 6, text: '<strong>Khoa Product</strong> trả lời: "Hotjar + screen recording là game changer"', time: '3 giờ trước', unread: true },
-  { type: 'like', icon: '❤️', userId: 5, text: '<strong>Mai Growth</strong> và 456 người thích bài "3x Conversion" của bạn', time: '5 giờ trước', unread: false },
+const TRENDING = [
+  { id: 1, tag: '#BuildInPublic', posts: '23.4K', desc: 'Chia sẻ hành trình build sản phẩm thật' },
+  { id: 2, tag: '#ProductMarketFit', posts: '15.1K', desc: 'Tìm kiếm PMF — câu hỏi muôn thuở' },
+  { id: 3, tag: '#StartupVN', posts: '12.5K', desc: 'Startup Việt Nam đang thay đổi' },
+  { id: 4, tag: '#FounderJourney', posts: '9.8K', desc: 'Câu chuyện hành trình thật của founder' },
+  { id: 5, tag: '#ZeroToOne', posts: '7.2K', desc: 'Từ 0 đến sản phẩm đầu tiên' },
 ];
 
-const TRENDING = [
-  { tag: '#BuildInPublic', count: '23.4K bài viết', desc: 'Chia sẻ hành trình build sản phẩm thật' },
-  { tag: '#ProductMarketFit', count: '15.1K bài viết', desc: 'Tìm kiếm PMF — câu hỏi muôn thuở' },
-  { tag: '#StartupVN', count: '12.5K bài viết', desc: 'Startup Việt Nam đang thay đổi' },
-  { tag: '#FounderJourney', count: '9.8K bài viết', desc: 'Câu chuyện hành trình thật của founder' },
-  { tag: '#ZeroToOne', count: '7.2K bài viết', desc: 'Từ 0 đến sản phẩm đầu tiên' },
+const HACK_GRANTS = [
+  {
+    id: 1, title: 'Basao AI Grant 2026', host: 'Basao Protocol',
+    reward: '50M - 200M VNĐ', deadline: '30/04/2026',
+    desc: 'Hỗ trợ các dự án xây dựng AI Agent bảo mật, phi tập trung và có đạo đức.',
+    tags: ['AI', 'P2P', 'Privacy'], color: '#818cf8'
+  },
+  {
+    id: 2, title: 'Unity Brotherhood Hackathon', host: 'DevTrust Community',
+    reward: '100M VNĐ + Mentor', deadline: '15/05/2026',
+    desc: 'Xây dựng các công cụ giúp kết nối con người, đề cao tính chân thành và tin tưởng.',
+    tags: ['Social', 'Trust', 'Community'], color: '#10b981'
+  },
+  {
+    id: 3, title: 'Cross-Border Fintech Grant', host: 'VMA Mentoring',
+    reward: '$5,000 Grant', deadline: '01/06/2026',
+    desc: 'Dành cho các giải pháp tài chính xuyên biên giới, đặc biệt là VN - Bangladesh.',
+    tags: ['Fintech', 'Cross-border'], color: '#f59e0b'
+  }
+];
+
+const VISA_SERVICES = [
+  { id: 1, country: 'Bangladesh', category: 'Business/Work', time: '5-7 ngày', price: '2.5tr - 4tr', provider: 'GreenCanal', icon: '🇧🇩' },
+  { id: 2, country: 'Australia', category: 'Digital Nomad', time: '14-21 ngày', price: '6tr - 12tr', provider: 'GreenCanal', icon: '🇦🇺' },
+  { id: 3, country: 'Japan', category: 'Tech Visit', time: '7-10 ngày', price: '3tr - 5tr', provider: 'GreenCanal', icon: '🇯🇵' },
+  { id: 4, country: 'Singapore', category: 'Training/Meeting', time: '3-5 ngày', price: '2tr - 3.5tr', provider: 'GreenCanal', icon: '🇸🇬' }
+];
+
+const STAY_SERVICES = [
+  { id: 1, name: 'Dhaka Tech Hub Coliving', location: 'Dhaka, Bangladesh', desc: 'Chỗ ở tối ưu cho team dev, internet 1Gbps, gần các bộ ngành.', price: '$450/month/pax', icon: '🏠' },
+  { id: 2, name: 'Sydney Ocean View Retreat', location: 'Sydney, Australia', desc: 'Resort cho team làm chiến lược, không gian yên tĩnh, gần biển.', price: '$1200/week/team', icon: '🌊' },
+  { id: 3, name: 'Hanoi Coding House (Old Qtr)', location: 'Hà Nội, Việt Nam', desc: 'Trải nghiệm văn hóa, làm việc tại phố cổ, chi phí tối ưu.', price: '8tr/month/pax', icon: '🏮' }
 ];
 
 
@@ -478,6 +503,12 @@ function switchView(viewName) {
   }
   if (viewName === 'notifications' && !$('#notifications-list').children.length) {
     renderSmartNotifications();
+  }
+  if (viewName === 'hackathon') {
+    if (!$('#hackathon-grid').children.length) renderHackathons();
+  }
+  if (viewName === 'travel') {
+    if (!$('#visa-grid').children.length) renderTravelHub();
   }
   if (viewName === 'messages') {
     if (!$('#chat-list').children.length) {
@@ -4386,3 +4417,88 @@ window.openCofounderModal = function(userId) {
 
 // Start app
 document.addEventListener('DOMContentLoaded', init);
+
+// ============ HACKATHON ENGINE ============
+
+function renderHackathons() {
+  const container = $('#hackathon-grid');
+  if (!container) return;
+
+  container.innerHTML = HACK_GRANTS.map(grant => `
+    <div class="hack-card card" style="border-top: 4px solid ${grant.color}">
+      <div class="hack-card__header">
+        <div class="hack-host">${grant.host}</div>
+        <div class="hack-deadline">Ends: ${grant.deadline}</div>
+      </div>
+      <h3 class="hack-title">${grant.title}</h3>
+      <p class="hack-desc">${grant.desc}</p>
+      <div class="hack-reward">💰 Reward: <strong>${grant.reward}</strong></div>
+      <div class="hack-tags">
+        ${grant.tags.map(t => `<span class="hack-tag">${t}</span>`).join('')}
+      </div>
+      <button class="btn btn--primary btn--sm" style="width:100%;margin-top:1rem" onclick="showToast('Hackathon Portal đang mở đăng ký!', 'success')">
+        🚀 Tham gia Hackathon
+      </button>
+    </div>
+  `).join('');
+}
+
+// ============ TRAVEL HUB ENGINE ============
+
+function renderTravelHub() {
+  const visaGrid = $('#visa-grid');
+  const stayGrid = $('#stay-grid');
+  if (!visaGrid || !stayGrid) return;
+
+  visaGrid.innerHTML = VISA_SERVICES.map(service => `
+    <div class="travel-card card">
+      <div class="travel-card__icon">${service.icon}</div>
+      <div class="travel-card__body">
+        <div class="travel-country">${service.country}</div>
+        <div class="travel-category">${service.category}</div>
+        <div class="travel-meta">⏱️ ${service.time} · 💳 ${service.price}</div>
+        <div class="travel-provider">Provider: <strong>${service.provider}</strong></div>
+      </div>
+      <button class="btn btn--glass btn--sm" onclick="openAIShoppingAssistant('Visa ${service.country}')">
+        Hỗ trợ Visa
+      </button>
+    </div>
+  `).join('');
+
+  stayGrid.innerHTML = STAY_SERVICES.map(service => `
+    <div class="travel-card card">
+      <div class="travel-card__icon">${service.icon}</div>
+      <div class="travel-card__body">
+        <div class="travel-country">${service.name}</div>
+        <div class="travel-category">${service.location}</div>
+        <div class="travel-meta">${service.desc}</div>
+        <div class="travel-provider">💰 ${service.price}</div>
+      </div>
+      <button class="btn btn--glass btn--sm" onclick="openAIShoppingAssistant('Stay at ${service.name}')">
+        Đặt chỗ ngay
+      </button>
+    </div>
+  `).join('');
+}
+
+// ============ AI SHOPPING ASSISTANT (Shopping GPT) ============
+
+function openAIShoppingAssistant(context) {
+  switchView('messages');
+  renderChatMessages({
+    userId: 999, // AI Assistant ID
+    messages: [
+      { from: 'them', text: `Xin chào chiến hữu! Tôi là AI Assistant của DevTrust. Tôi thấy bạn đang quan tâm đến **${context}**.`, time: 'Vừa xong' },
+      { from: 'them', text: 'Tôi có thể hỗ trợ bạn xử lý giấy tờ, đặt chỗ hoặc kết nối trực tiếp với đại diện GreenCanal. Bạn muốn bắt đầu từ đâu?', time: 'Vừa xong' }
+    ]
+  });
+  $('#chat-header').innerHTML = `
+    <div class="messages-chat__user">
+      <div class="avatar avatar--sm online"><img src="https://api.dicebear.com/7.x/bottts/svg?seed=ai" alt="" /></div>
+      <div>
+        <h4>DevTrust AI Shopping 🛍️</h4>
+        <span>Đang hoạt động · GPT-4o Power</span>
+      </div>
+    </div>
+  `;
+}

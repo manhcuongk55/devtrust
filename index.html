@@ -98,8 +98,16 @@
         </a>
         <a href="#" class="sidebar__link" data-view="investor" id="nav-investor">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <span>🧑‍💼 Investor</span>
-          <span class="sidebar__badge sidebar__badge--investor">★</span>
+          <span>📉 Đầu Tư</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="hackathon" id="nav-hackathon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          <span>Build AI Hackathon</span>
+          <span class="sidebar__badge sidebar__badge--hack">DORA</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="travel" id="nav-travel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.7.5-1.1z"/></svg>
+          <span>✈️ Di Chuyển/Visa</span>
         </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -744,6 +752,65 @@
           <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
             <button class="btn btn--primary btn--lg" onclick="openContributeModal(1)">💰 Đầu tư ngay</button>
             <button class="btn btn--glass btn--lg" onclick="switchView('match')">🤝 Gặp founder</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== HACKATHON VIEW (DoraHacks Style) ===== -->
+      <section class="view view--hackathon" id="view-hackathon">
+        <div class="hackathon-hero">
+          <div class="hackathon-hero__glow"></div>
+          <div class="hackathon-hero__content">
+            <div class="hackathon-hero__badge">🚀 DevTrust Hackathon Portal</div>
+            <h1>Build The <span>Future</span></h1>
+            <p>Hợp tác cùng chiến hữu. Nhận Grant từ community fund. Upgrade world.</p>
+            <div class="hackathon-stats">
+              <div class="hack-stat"><strong>2</strong><span>Hackathons đang mở</span></div>
+              <div class="hack-stat"><strong>500M</strong><span>Tổng giải thưởng</span></div>
+              <div class="hack-stat"><strong>120+</strong><span>Dự án tham gia</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="hackathon-tabs">
+          <button class="hack-tab active" data-tab="active">Đang diễn ra</button>
+          <button class="hack-tab" data-tab="grants">Grants/Quỹ hỗ trợ</button>
+          <button class="hack-tab" data-tab="past">Đã kết thúc</button>
+        </div>
+        <div class="hackathon-grid" id="hackathon-grid">
+          <!-- JS populated -->
+        </div>
+      </section>
+
+      <!-- ===== TRAVEL & VISA HUB (GreenCanal) ===== -->
+      <section class="view view--travel" id="view-travel">
+        <div class="travel-hero">
+          <div class="travel-hero__glow"></div>
+          <div class="travel-hero__content">
+            <div class="travel-hero__badge">✈️ GreenCanal x DevTrust</div>
+            <h1>Digital Nomad <span>Support</span></h1>
+            <p>Xử lý Visa, chỗ ăn ở cho team. Tận hưởng hành trình khởi nghiệp toàn cầu.</p>
+            <div class="travel-search-wrap">
+              <div class="travel-search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" placeholder="Tìm kiếm địa điểm: Bangladesh, Úc, Nhật, Singapore..." />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="travel-sections">
+          <div class="travel-section">
+            <div class="travel-section-header">
+              <h3>🛂 Dịch vụ Visa & Giấy tờ</h3>
+              <p>Hỗ trợ Visa xử lý nhanh cho team dev & founder</p>
+            </div>
+            <div class="travel-grid" id="visa-grid"></div>
+          </div>
+          <div class="travel-section" style="margin-top:2rem">
+            <div class="travel-section-header">
+              <h3>🏨 Team Stays & Retreats</h3>
+              <p>Chỗ ăn ở tối ưu cho làm việc tập trung (Co-living)</p>
+            </div>
+            <div class="travel-grid" id="stay-grid"></div>
           </div>
         </div>
       </section>
