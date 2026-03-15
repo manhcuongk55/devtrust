@@ -447,6 +447,11 @@ function switchView(viewName) {
     if (!$('#quiz-section').children.length) renderQuizSection();
     renderLearningProgress();
   }
+  if (viewName === 'shorts') {
+    if (!$('#shorts-container').children.length) renderShortsFeed();
+    _shortsCurrentIdx = 0;
+    setTimeout(() => { const c = $('#shorts-container'); if (c) c.scrollTop = 0; }, 50);
+  }
   if (viewName === 'fund') {
     if (!$('#fund-grid').children.length) renderFundFeed();
     startFundTicker();
@@ -665,7 +670,268 @@ function toggleTheme() {
   if (settingsToggle) settingsToggle.checked = isDark;
 }
 
+// ============ 🎬 SHORTS / PITCH FEED ENGINE ============
+
+const SHORTS_DATA = [
+  // Project pitches
+  {
+    type: 'project', id: 'p1',
+    emoji: '🛡️', name: 'DevTrust',
+    tagline: 'Mạng xã hội P2P dựa trên Lòng Tin',
+    desc: 'Không thuật toán. Không quảng cáo. Chỉ có trust thật — nơi dev đam mê kết nối, gọi vốn, và cùng build thứ gì đó thay đổi thế giới.',
+    tags: ['P2P', 'Gun.js', 'Open Source', 'Community'],
+    stage: '🛠️ MVP', stageColor: '#f59e0b',
+    raised: 62, goal: 100, unit: '%',
+    members: 12, likes: 234,
+    founder: { name: 'Cyrus Dinh', seed: 'owner', trust: 92 },
+    gradient: 'linear-gradient(135deg, #0a1628 0%, #112240 40%, #0d3b1c 100%)',
+    accentColor: '#22c55e',
+    cta: { label: '💰 Góp vốn ngay', action: () => switchView('fund') },
+    cta2: { label: '🤝 Tham gia team', action: () => switchView('match') },
+  },
+  {
+    type: 'founder', id: 'f1',
+    emoji: '🧠', name: 'Cyrus Dinh',
+    tagline: 'AI Founder đang xây Internet of Trust',
+    desc: 'Đốt 1 tỷ marketing để học rằng: sản phẩm tốt + cộng đồng thật > ngân sách khủng. Giờ build P2P ecosystem cho dev Việt không cần đầu tư VC.',
+    tags: ['AI Founder', 'P2P', 'EdTech', '#XKLĐ Nhật'],
+    stage: '🌏 Building', stageColor: '#6366f1',
+    raised: null, goal: null,
+    members: null, likes: 187,
+    founder: { name: 'Cyrus Dinh', seed: 'owner', trust: 92 },
+    gradient: 'linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #0f172a 100%)',
+    accentColor: '#818cf8',
+    seeking: ['Tech Co-founder', 'DevRel', 'Marketer'],
+    cta: { label: '🤝 Kết nối với Cyrus', action: () => switchView('match') },
+    cta2: { label: '🎯 Xem profile', action: () => switchView('profile') },
+  },
+  {
+    type: 'project', id: 'p2',
+    emoji: '🌐', name: 'DevTrust XKLĐ Platform',
+    tagline: 'Học tiếng Nhật → Đi làm Nhật · Thu nhập 40–70tr/tháng',
+    desc: 'P2P kết nối học viên với mentor đáng tin. DỄ hơn trung tâm · RẺ hơn 70% · Học thật, không học cho có. Đã có 100+ học viên của Cường Đinh.',
+    tags: ['EdTech', 'Nhật Bản', 'XKLĐ', 'P2P Mentor'],
+    stage: '💡 Idea → Scale', stageColor: '#22c55e',
+    raised: 62, goal: 100, unit: '%',
+    members: 8, likes: 156,
+    founder: { name: 'Cường Đinh', seed: 'cuong', trust: 88 },
+    gradient: 'linear-gradient(135deg, #0c1f0c 0%, #132f13 40%, #073318 100%)',
+    accentColor: '#4ade80',
+    cta: { label: '📢 Tham gia ngay', action: () => window.open('https://social-network-tau-ten.vercel.app/japan.html', '_blank') },
+    cta2: { label: '💰 Góp vốn', action: () => openContributeModal(1) },
+  },
+  {
+    type: 'project', id: 'p3',
+    emoji: '🤖', name: 'Basao AI',
+    tagline: 'AI Agent cho doanh nghiệp Việt · Zero vendor lock-in',
+    desc: 'Multi-agent framework Go + Python. 8-layer security. Quantum-ready. Deploy onprem hoặc cloud không cần thay code. Đang phục vụ 3 doanh nghiệp.',
+    tags: ['Go', 'Python', 'AI/ML', 'Enterprise', 'Privacy-first'],
+    stage: '📈 Tăng trưởng', stageColor: '#22c55e',
+    raised: 78, goal: 100, unit: '%',
+    members: 5, likes: 312,
+    founder: { name: 'Cyrus Dinh', seed: 'owner', trust: 92 },
+    gradient: 'linear-gradient(135deg, #050d1a 0%, #0a1628 50%, #0d0d2b 100%)',
+    accentColor: '#06b6d4',
+    cta: { label: '💻 Đóng góp code', action: () => switchView('fund') },
+    cta2: { label: '🔗 GitHub', action: () => window.open('https://github.com/manhcuongk55/budai', '_blank') },
+  },
+  {
+    type: 'founder', id: 'f2',
+    emoji: '🌸', name: 'Hương Phạm',
+    tagline: 'Giảng viên N1 · 5 năm tại Nhật · Dạy IT Nhật chuyên ngành',
+    desc: 'Mình từng là kỹ sư tại Fujitsu 5 năm, giờ về VN dạy IT Nhật cho các bạn muốn làm việc tại Nhật. Học với mình = học thật, đi làm được ngay.',
+    tags: ['Tiếng Nhật N1', 'IT Nhật', 'Mentor', 'XKLĐ'],
+    stage: '👩‍🏫 Mentor', stageColor: '#f472b6',
+    raised: null, likes: 98,
+    founder: { name: 'Hương Phạm', seed: 'huong', trust: 88 },
+    gradient: 'linear-gradient(135deg, #1a0a1a 0%, #2d1b2d 50%, #1a0a0a 100%)',
+    accentColor: '#f472b6',
+    seeking: ['Học viên IT muốn đi Nhật', 'Co-founder EdTech', 'Content creator'],
+    cta: { label: '💬 Học thử miễn phí', action: () => window.open('https://social-network-tau-ten.vercel.app/japan.html', '_blank') },
+    cta2: { label: '🤝 Kết nối', action: () => switchView('match') },
+  },
+  {
+    type: 'project', id: 'p4',
+    emoji: '🚀', name: 'Viral EDU',
+    tagline: '100K users trong 12 tháng · 3K beta đang dùng',
+    desc: 'Growth hacking platform cho EdTech. Đã có 3K beta users, revenue 45tr/tháng. Cần dev backend và designer để scale lên 100K trong Q3/2025.',
+    tags: ['EdTech', 'Growth', 'Product-Led', 'SaaS'],
+    stage: '📈 Tăng trưởng', stageColor: '#22c55e',
+    raised: 78, goal: 100, unit: '%',
+    members: 7, likes: 445,
+    founder: { name: 'Phúc Dev', seed: 'phuc', trust: 76 },
+    gradient: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a0a 50%, #0a150a 100%)',
+    accentColor: '#facc15',
+    cta: { label: '💰 Đầu tư ngay', action: () => openContributeModal(3) },
+    cta2: { label: '👥 Join team', action: () => switchView('match') },
+  },
+];
+
+let _shortsCurrentIdx = 0;
+
+function renderShortsFeed() {
+  const container = $('#shorts-container');
+  const dotsEl = $('#shorts-dots');
+  if (!container) return;
+
+  container.innerHTML = '';
+  dotsEl.innerHTML = '';
+
+  SHORTS_DATA.forEach((item, idx) => {
+    const pct = item.raised != null ? item.raised : null;
+    const founder = item.founder;
+    const founderAvatarUrl = avatarUrl(founder.seed);
+    const isProject = item.type === 'project';
+
+    // Build card
+    const card = document.createElement('div');
+    card.className = 'short-card';
+    card.dataset.idx = idx;
+
+    card.innerHTML = `
+      <!-- Progress bar -->
+      <div class="short-card__progress">
+        <div class="short-card__progress-fill" style="width:${pct != null ? pct : 0}%"></div>
+      </div>
+
+      <!-- Background -->
+      <div class="short-card__bg" style="background:${item.gradient};"></div>
+      <div class="short-card__overlay"></div>
+
+      <!-- Stage badge -->
+      <div class="short-card__stage-badge" style="background:${item.stageColor}22;border-color:${item.stageColor}55;color:${item.stageColor}">
+        ${item.stage}
+      </div>
+
+      <!-- Content -->
+      <div class="short-card__content">
+        <span class="short-card__emoji">${item.emoji}</span>
+        <div class="short-card__name">${item.name}</div>
+        <div class="short-card__type">${item.tagline}</div>
+        <div class="short-card__desc">${item.desc}</div>
+        <div class="short-card__tags">
+          ${item.tags.map(t => `<span class="short-card__tag">${t}</span>`).join('')}
+        </div>
+        ${pct != null ? `
+        <div class="short-card__stats">
+          <span>🔥 <strong>${pct}%</strong> đã huy động</span>
+          ${item.members ? `<span>👥 <strong>${item.members}</strong> thành viên</span>` : ''}
+          <span>❤️ <strong>${item.likes}</strong></span>
+        </div>` : `
+        <div class="short-card__stats">
+          ${item.seeking ? `<span>🔍 Cần: <strong style="color:${item.accentColor}">${item.seeking[0]}</strong></span>` : ''}
+          <span>❤️ <strong>${item.likes}</strong></span>
+          <span>🛡️ Trust <strong>${founder.trust}</strong></span>
+        </div>`}
+        <div class="short-card__ctas">
+          <button class="short-btn short-btn--primary" onclick="(${item.cta.action.toString()})()">
+            ${item.cta.label}
+          </button>
+          ${item.cta2 ? `<button class="short-btn short-btn--glass" onclick="(${item.cta2.action.toString()})()">
+            ${item.cta2.label}
+          </button>` : ''}
+        </div>
+      </div>
+
+      <!-- Right actions -->
+      <div class="short-card__actions">
+        <div class="short-founder-avatar-wrap">
+          <img class="short-founder-avatar" src="${founderAvatarUrl}" alt="${founder.name}" />
+          <div class="short-founder-follow">+</div>
+        </div>
+        <button class="short-action" onclick="shortsLike(this, ${idx})">
+          <div class="short-action__icon">❤️</div>
+          <span class="short-action__count likes-count-${idx}">${item.likes}</span>
+        </button>
+        <button class="short-action" onclick="shortsShare(${idx})">
+          <div class="short-action__icon">🔗</div>
+          <span class="short-action__count">Chia sẻ</span>
+        </button>
+        <button class="short-action" onclick="shortsInterest(this, ${idx})">
+          <div class="short-action__icon">⭐</div>
+          <span class="short-action__count">Quan tâm</span>
+        </button>
+      </div>
+    `;
+    container.appendChild(card);
+
+    // Dots
+    const dot = document.createElement('div');
+    dot.className = `shorts-dot${idx === 0 ? ' active' : ''}`;
+    dot.onclick = () => shortsGoTo(idx);
+    dotsEl.appendChild(dot);
+  });
+
+  // Intersection observer to update dots
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const idx = parseInt(entry.target.dataset.idx);
+        _shortsCurrentIdx = idx;
+        updateShortsDots(idx);
+      }
+    });
+  }, { threshold: 0.6, root: container });
+
+  container.querySelectorAll('.short-card').forEach(card => observer.observe(card));
+
+  // Keyboard navigation
+  container.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); shortsNavigate(1); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); shortsNavigate(-1); }
+  });
+  container.setAttribute('tabindex', '0');
+}
+
+function updateShortsDots(idx) {
+  document.querySelectorAll('.shorts-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
+}
+
+function shortsGoTo(idx) {
+  const container = $('#shorts-container');
+  if (!container) return;
+  const cards = container.querySelectorAll('.short-card');
+  if (cards[idx]) {
+    cards[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    _shortsCurrentIdx = idx;
+    updateShortsDots(idx);
+  }
+}
+
+function shortsNavigate(dir) {
+  const next = Math.max(0, Math.min(SHORTS_DATA.length - 1, _shortsCurrentIdx + dir));
+  shortsGoTo(next);
+}
+
+function shortsLike(btn, idx) {
+  const item = SHORTS_DATA[idx];
+  if (!item) return;
+  const isLiked = btn.classList.toggle('liked');
+  item.likes += isLiked ? 1 : -1;
+  const countEl = document.querySelector(`.likes-count-${idx}`);
+  if (countEl) countEl.textContent = item.likes;
+  if (isLiked) showToast('❤️ Đã thích dự án này!', 'success');
+}
+
+function shortsShare(idx) {
+  const item = SHORTS_DATA[idx];
+  if (navigator.share) {
+    navigator.share({ title: item.name, text: item.tagline, url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    showToast('🔗 Đã copy link!', 'success');
+  }
+}
+
+function shortsInterest(btn, idx) {
+  btn.classList.toggle('liked');
+  showToast('⭐ Đã lưu vào danh sách quan tâm!', 'success');
+}
+
 // ============ FUNDRAISING & RESOURCE POOL ENGINE ============
+
 
 // ---- Live Ticker ----
 const TICKER_MESSAGES = [

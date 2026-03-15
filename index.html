@@ -81,6 +81,11 @@
           <span>🤝 Kết Nối</span>
           <span class="sidebar__badge sidebar__badge--match">HOT</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="shorts" id="nav-shorts">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="4"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          <span>🎬 Pitch Feed</span>
+          <span class="sidebar__badge sidebar__badge--shorts">⚡</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="fund" id="nav-fund">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           <span>💰 Gọi Vốn</span>
@@ -387,6 +392,22 @@
             <!-- JS populated -->
           </div>
         </div>
+      </section>
+
+      <!-- ===== SHORTS / PITCH FEED VIEW ===== -->
+      <section class="view view--shorts" id="view-shorts">
+        <div class="shorts-container" id="shorts-container">
+          <!-- JS populated: fullscreen snap cards -->
+        </div>
+        <!-- Navigation arrows -->
+        <button class="shorts-nav shorts-nav--up" id="shorts-nav-up" onclick="shortsNavigate(-1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+        </button>
+        <button class="shorts-nav shorts-nav--down" id="shorts-nav-down" onclick="shortsNavigate(1)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <!-- Dot indicators -->
+        <div class="shorts-dots" id="shorts-dots"></div>
       </section>
 
       <!-- ===== FUND / GỌI VỐN VIEW ===== -->
