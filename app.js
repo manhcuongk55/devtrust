@@ -3669,5 +3669,278 @@ submitPost = function() {
   }
 };
 
+// ============ 🤝 TEAM BOND & APPRECIATION ENGINE ============
+// "Giúp các bạn trân trọng hơn những người chiến hữu bên cạnh"
+// "Không vì bốc đồng mà bỏ bạn bè đội ngũ"
+
+const KUDOS_TYPES = [
+  { emoji: '🔥', label: 'Nhiệt huyết', desc: 'Luôn hết mình với team' },
+  { emoji: '💡', label: 'Ý tưởng hay', desc: 'Mang lại những insight giá trị' },
+  { emoji: '🛡️', label: 'Đáng tin cậy', desc: 'Luôn giữ cam kết với team' },
+  { emoji: '⚡', label: 'Hiệu quả cao', desc: 'Giao việc xong đúng hẹn' },
+  { emoji: '🤗', label: 'Đồng đội tốt', desc: 'Luôn hỗ trợ mọi người' },
+  { emoji: '🌱', label: 'Cầu tiến', desc: 'Liên tục học hỏi và phát triển' },
+];
+
+// Simulated kudos data
+const KUDOS_GIVEN = {
+  1: [{ from: 2, type: 0, note: 'Linh luôn deliver đúng deadline, cảm ơn bạn!' }, { from: 3, type: 2, note: '' }],
+  2: [{ from: 1, type: 3, note: 'Minh refactor code cực nhanh và clean!' }],
+  3: [{ from: 1, type: 1, note: 'Hương có insight AI rất sâu sắc' }, { from: 4, type: 4, note: '' }],
+  4: [{ from: 2, type: 0, note: 'Tuấn P2P expert thực sự!' }, { from: 3, type: 2, note: 'Rất đáng tin' }],
+  5: [{ from: 1, type: 4, note: 'Mai luôn sẵn sàng giúp đỡ mọi người' }],
+};
+
+// Get days since joined (simulated)
+function getDaysTogether(userId) {
+  const bases = { 1: 42, 2: 38, 3: 67, 4: 15, 5: 28, 6: 53, 7: 9, 8: 71, 9: 31, 10: 22 };
+  return bases[userId] || Math.floor(Math.random() * 60) + 7;
+}
+
+function getKudosCount(userId) {
+  return (KUDOS_GIVEN[userId] || []).length;
+}
+
+// Team Bond Score: based on days + kudos + trust
+function getTeamBondScore(userId) {
+  const days = getDaysTogether(userId);
+  const kudos = getKudosCount(userId) * 5;
+  const u = getUser(userId);
+  const trust = u ? Math.floor(u.trustScore / 10) : 0;
+  return Math.min(100, days + kudos + trust);
+}
+
+// Open Kudos modal — send appreciation to a teammate
+function openKudosModal(toUserId) {
+  const toUser = getUser(toUserId);
+  if (!toUser) return;
+  $('#kudos-modal')?.remove();
+
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'kudos-modal';
+  const days = getDaysTogether(toUserId);
+  const existingKudos = KUDOS_GIVEN[toUserId] || [];
+  const bondScore = getTeamBondScore(toUserId);
+
+  modal.innerHTML = `
+    <div class="modal card kudos-modal-inner">
+      <div class="modal__header">
+        <h3>🙏 Gửi lời tri ân đến ${toUser.name}</h3>
+        <button class="modal__close" onclick="document.getElementById('kudos-modal').remove()">✕</button>
+      </div>
+      <div class="kudos-modal-body">
+
+        <!-- Team Bond Status -->
+        <div class="bond-status-card">
+          <div class="bond-status-left">
+            <img class="bond-avatar" src="${avatarUrl(toUser.seed)}" />
+            <div>
+              <div class="bond-name">${toUser.name}</div>
+              <div class="bond-role">${toUser.role}</div>
+            </div>
+          </div>
+          <div class="bond-stats">
+            <div class="bond-stat">
+              <div class="bond-stat__val">${days}</div>
+              <div class="bond-stat__label">Ngày đồng hành</div>
+            </div>
+            <div class="bond-stat">
+              <div class="bond-stat__val">${toUser.trustScore}</div>
+              <div class="bond-stat__label">Trust Score</div>
+            </div>
+            <div class="bond-stat">
+              <div class="bond-stat__val" style="color:var(--success)">${bondScore}</div>
+              <div class="bond-stat__label">Bond Score</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Existing kudos they received -->
+        ${existingKudos.length > 0 ? `
+        <div class="kudos-received">
+          <div class="kudos-received__label">💌 Đã nhận được:</div>
+          <div class="kudos-received__list">
+            ${existingKudos.map(k => {
+              const fromUser = getUser(k.from);
+              const kt = KUDOS_TYPES[k.type];
+              return `<div class="kudos-pill">${kt.emoji} ${kt.label}${k.note ? ` · <em>${k.note}</em>` : ''}</div>`;
+            }).join('')}
+          </div>
+        </div>` : ''}
+
+        <!-- Choose kudos type -->
+        <div class="kudos-section">
+          <div class="kudos-section-label">Bạn muốn khen điều gì?</div>
+          <div class="kudos-types-grid" id="kudos-types-grid">
+            ${KUDOS_TYPES.map((kt, i) => `
+              <button class="kudos-type-btn" data-idx="${i}" onclick="selectKudosType(this)">
+                <span class="kudos-type-emoji">${kt.emoji}</span>
+                <span class="kudos-type-label">${kt.label}</span>
+                <span class="kudos-type-desc">${kt.desc}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Personal note -->
+        <div class="kudos-section">
+          <div class="kudos-section-label">✍️ Lời nhắn cá nhân <small style="opacity:.5">(tuỳ chọn)</small></div>
+          <textarea class="form-input" id="kudos-note" rows="2"
+            placeholder="VD: Cảm ơn bạn đã luôn ở đây khi team cần, mình rất trân trọng điều đó..."></textarea>
+        </div>
+
+        <button class="kudos-submit-btn" id="kudos-submit-btn" onclick="submitKudos(${toUserId})" disabled style="opacity:0.4;cursor:not-allowed">
+          💌 Gửi lời tri ân
+        </button>
+
+        <!-- Anti-churn reminder -->
+        <div class="bond-reminder">
+          💡 <strong>Nhắc nhở:</strong> Chia sẻ sự trân trọng thường xuyên — team gắn kết hơn, dự án thành công hơn.
+          Đừng để những điều tốt đẹp chỉ nằm trong lòng.
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+let _selectedKudosType = null;
+function selectKudosType(btn) {
+  document.querySelectorAll('.kudos-type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _selectedKudosType = parseInt(btn.dataset.idx);
+  const submitBtn = $('#kudos-submit-btn');
+  if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = '1'; submitBtn.style.cursor = 'pointer'; }
+}
+
+function submitKudos(toUserId) {
+  if (_selectedKudosType === null) return;
+  const toUser = getUser(toUserId);
+  const kt = KUDOS_TYPES[_selectedKudosType];
+  const note = $('#kudos-note')?.value.trim() || '';
+
+  // Add kudos
+  if (!KUDOS_GIVEN[toUserId]) KUDOS_GIVEN[toUserId] = [];
+  KUDOS_GIVEN[toUserId].push({ from: 0, type: _selectedKudosType, note });
+
+  $('#kudos-modal')?.remove();
+  _selectedKudosType = null;
+
+  showToast(`💌 Đã gửi lời tri ân "${kt.emoji} ${kt.label}" đến ${toUser?.name}! Trust đôi bên tăng lên.`, 'success');
+
+  // Confetti-style toast
+  setTimeout(() => {
+    showToast(`🎉 ${toUser?.name} vừa nhận được lời khen từ bạn — họ sẽ trân trọng điều này!`, 'success');
+  }, 2500);
+}
+
+// Anti-churn: show what they'd lose before leaving a project
+function showLeaveConfirmation(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  if (!idea) return;
+  const pts = idea.contributions.filter(c => c.userId === 0).reduce((s,c) => s+c.points, 0);
+  const daysIn = 14; // simulated
+  const teamSize = idea.members.length;
+
+  $('#leave-confirm-modal')?.remove();
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'leave-confirm-modal';
+  modal.innerHTML = `
+    <div class="modal card leave-confirm-inner">
+      <div class="leave-confirm-emoji">⚠️</div>
+      <h3 class="leave-confirm-title">Bạn có thực sự muốn rời đội?</h3>
+      <p class="leave-confirm-sub">Hãy dừng lại 30 giây trước khi quyết định.</p>
+
+      <div class="leave-what-you-lose">
+        <div class="leave-lose-title">Nếu bạn rời đi bây giờ, bạn sẽ mất:</div>
+        <div class="leave-lose-item">💎 <strong>${pts.toLocaleString()} điểm equity</strong> bạn đã tích lũy trong ${daysIn} ngày</div>
+        <div class="leave-lose-item">🤝 <strong>${teamSize} người đồng đội</strong> đang tin tưởng vào bạn</div>
+        <div class="leave-lose-item">📉 <strong>Trust Score giảm -15 điểm</strong> vì reputation bị ảnh hưởng</div>
+        <div class="leave-lose-item">⏱️ <strong>${daysIn} ngày</strong> cùng nhau xây dựng — xóa bỏ tất cả</div>
+      </div>
+
+      <div class="leave-team-preview">
+        <div class="leave-team-label">Những người đang cần bạn:</div>
+        <div class="leave-team-avatars">
+          ${idea.members.filter(uid => uid !== 0).slice(0,5).map(uid => {
+            const u = getUser(uid);
+            return u ? `
+              <div class="leave-team-member">
+                <img src="${avatarUrl(u.seed)}" />
+                <span>${u.name.split(' ').pop()}</span>
+              </div>` : '';
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="leave-alternatives">
+        <div class="leave-alternatives-label">💡 Thay vì bỏ đi, hãy thử:</div>
+        <button class="leave-alt-btn" onclick="openKudosModal(${idea.founderId});document.getElementById('leave-confirm-modal').remove()">
+          💌 Gửi feedback cho founder
+        </button>
+        <button class="leave-alt-btn" onclick="switchView('messages');document.getElementById('leave-confirm-modal').remove()">
+          💬 Nói chuyện trực tiếp với team
+        </button>
+        <button class="leave-alt-btn" onclick="document.getElementById('leave-confirm-modal').remove()">
+          ⏸️ Giảm commitment (pause, không bỏ)
+        </button>
+      </div>
+
+      <div class="leave-confirm-actions">
+        <button class="btn btn--glass" onclick="document.getElementById('leave-confirm-modal').remove()">
+          ← Quay lại — Tôi muốn ở lại
+        </button>
+        <button class="btn leave-confirm-btn" onclick="confirmLeaveProject(${ideaId})">
+          Vẫn rời đội
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function confirmLeaveProject(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  $('#leave-confirm-modal')?.remove();
+  showToast(`Đã rời "${idea?.name}". Trust Score -15. Chúc bạn mọi điều tốt lành.`, 'success');
+}
+
+// Inject "Kudos" button into cofounder modal when it opens
+const _origOpenCofounder = openCofounderModal;
+window.openCofounderModal = function(userId) {
+  _origOpenCofounder(userId);
+  // After modal opens, inject kudos + bond info
+  setTimeout(() => {
+    const modal = $('#cofounder-modal');
+    if (!modal) return;
+    const footer = modal.querySelector('.cofounder-modal__actions') || modal.querySelector('.modal__footer');
+    if (!footer) return;
+    // Check if kudos btn already added
+    if (footer.querySelector('.kudos-inject-btn')) return;
+    const kudosBtn = document.createElement('button');
+    kudosBtn.className = 'btn btn--glass kudos-inject-btn';
+    kudosBtn.innerHTML = `💌 Gửi Kudos`;
+    kudosBtn.onclick = () => { openKudosModal(userId); };
+    footer.appendChild(kudosBtn);
+
+    // Inject bond score
+    const days = getDaysTogether(userId);
+    const bond = getTeamBondScore(userId);
+    const kudos = getKudosCount(userId);
+    const bondEl = document.createElement('div');
+    bondEl.className = 'cofounder-bond-row';
+    bondEl.innerHTML = `
+      <div class="bond-mini-stat">🗓️ <strong>${days}</strong> ngày đồng hành</div>
+      <div class="bond-mini-stat">💌 <strong>${kudos}</strong> kudos nhận được</div>
+      <div class="bond-mini-stat" style="color:var(--success)">🔗 Bond <strong>${bond}</strong></div>
+    `;
+    footer.parentElement.insertBefore(bondEl, footer);
+  }, 100);
+};
+
 // Start app
 document.addEventListener('DOMContentLoaded', init);
