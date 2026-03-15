@@ -449,6 +449,8 @@ function switchView(viewName) {
   }
   if (viewName === 'fund') {
     if (!$('#fund-grid').children.length) renderFundFeed();
+    startFundTicker();
+    animateFundCounters();
   }
   if (viewName === 'match') {
     if (!$('#match-grid').children.length) renderMatchFeed();
@@ -664,6 +666,52 @@ function toggleTheme() {
 }
 
 // ============ FUNDRAISING & RESOURCE POOL ENGINE ============
+
+// ---- Live Ticker ----
+const TICKER_MESSAGES = [
+  '🔥 Tuấn vừa góp 30 giờ dev vào EduChain VN · +3,000 điểm equity',
+  '⚡ Hương vừa góp 20 giờ Design vào DevTrust XKLĐ · +1,600 điểm',
+  '💰 Cường Đinh vừa rót 5 triệu vào Viral EDU · +1,000 điểm equity',
+  '🚀 Dự án CloudBase VN vừa đạt 52% mục tiêu!',
+  '🎯 Minh vừa tham gia team DeFi XKLĐ Bond với vai Dev',
+  '💡 Ý tưởng mới: "AgriChain VN" vừa được đăng bởi Linh N.',
+  '🛡️ Trust Score của Hương tăng lên 93 — x1.86 equity multiplier!',
+  '🤝 EduChain VN vừa tuyển được thành viên thứ 4: Thành (Marketing)',
+];
+let _tickerInterval = null;
+let _tickerIdx = 0;
+
+function startFundTicker() {
+  const el = $('#fund-ticker-text');
+  if (!el) return;
+  if (_tickerInterval) clearInterval(_tickerInterval);
+  _tickerIdx = 0;
+  _tickerInterval = setInterval(() => {
+    _tickerIdx = (_tickerIdx + 1) % TICKER_MESSAGES.length;
+    el.style.animation = 'none';
+    el.offsetHeight; // reflow
+    el.style.animation = 'ticker-slide 0.5s ease both';
+    el.textContent = TICKER_MESSAGES[_tickerIdx];
+  }, 4000);
+}
+
+// ---- Animated Counters ----
+function animateFundCounters() {
+  const pills = document.querySelectorAll('.fund-stat-pill__num[data-target]');
+  pills.forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    if (!target) return;
+    let current = 0;
+    const step = Math.ceil(target / 40);
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current;
+      if (current >= target) clearInterval(timer);
+    }, 30);
+  });
+}
+
+
 
 /**
  * Bảng quy đổi nguồn lực → điểm equity

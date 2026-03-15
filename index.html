@@ -391,52 +391,95 @@
 
       <!-- ===== FUND / GỌI VỐN VIEW ===== -->
       <section class="view view--fund" id="view-fund">
+
+        <!-- Live Activity Ticker -->
+        <div class="fund-ticker" id="fund-ticker">
+          <span class="fund-ticker__dot"></span>
+          <span class="fund-ticker__text" id="fund-ticker-text">🔥 Tuấn vừa góp 30 giờ dev vào EduChain VN · +3,000 điểm equity</span>
+        </div>
+
         <!-- Hero -->
         <div class="fund-hero">
           <div class="fund-hero__glow"></div>
+          <div class="fund-hero__particles">
+            <span class="particle">💰</span><span class="particle">🚀</span><span class="particle">💡</span>
+            <span class="particle">⚡</span><span class="particle">🎯</span>
+          </div>
           <div class="fund-hero__content">
-            <div class="fund-hero__badge">💰 Trust-Based Crowdfunding · Góp nguồn lực → Nhận equity</div>
-            <h1 class="fund-hero__title">Gọi Vốn <span>Cộng Đồng</span></h1>
-            <p class="fund-hero__desc">Có ý tưởng? Lập nhóm, góp vốn bằng tiền hoặc kỹ năng. Mỗi đóng góp được quy đổi thành equity minh bạch theo Trust Score.</p>
-            <button class="btn btn--primary btn--lg" id="btn-post-idea" onclick="openIdeaModal()">
-              ✨ Đăng ý tưởng gọi vốn
-            </button>
-          </div>
-        </div>
+            <div class="fund-hero__eyebrow">🌏 Community-Powered Startup Fund · Vietnam</div>
+            <h1 class="fund-hero__title">
+              Ý tưởng của bạn<br/>
+              <span class="fund-hero__title-highlight">xứng đáng được build</span>
+            </h1>
+            <p class="fund-hero__desc">
+              Không cần nhà đầu tư. Không cần hội đồng quản trị.<br/>
+              Cộng đồng DevTrust <strong>góp code, góp design, góp tiền</strong> — cùng nhau sở hữu thứ mình tạo ra.
+            </p>
 
-        <!-- Resource Exchange Rate -->
-        <div class="fund-rate-bar">
-          <div class="fund-rate-title">📐 Bảng Quy Đổi Nguồn Lực</div>
-          <div class="fund-rates">
-            <div class="fund-rate">
-              <div class="fund-rate__icon">💻</div>
-              <div class="fund-rate__label">1 giờ Dev</div>
-              <div class="fund-rate__eq">= 100 điểm</div>
+            <!-- Animated Stats -->
+            <div class="fund-stats-row">
+              <div class="fund-stat-pill">
+                <span class="fund-stat-pill__num" data-target="87">0</span>
+                <span class="fund-stat-pill__label">Founders đã gọi vốn</span>
+              </div>
+              <div class="fund-stat-pill fund-stat-pill--hot">
+                <span class="fund-stat-pill__num" data-target="247">0</span>
+                <span class="fund-stat-pill__label">Contributors đang active</span>
+              </div>
+              <div class="fund-stat-pill">
+                <span class="fund-stat-pill__num">1.2B</span>
+                <span class="fund-stat-pill__label">Điểm equity đã trao</span>
+              </div>
             </div>
-            <div class="fund-rate">
-              <div class="fund-rate__icon">📣</div>
-              <div class="fund-rate__label">1 giờ Marketing</div>
-              <div class="fund-rate__eq">= 60 điểm</div>
-            </div>
-            <div class="fund-rate">
-              <div class="fund-rate__icon">🎨</div>
-              <div class="fund-rate__label">1 giờ Design</div>
-              <div class="fund-rate__eq">= 80 điểm</div>
-            </div>
-            <div class="fund-rate">
-              <div class="fund-rate__icon">💵</div>
-              <div class="fund-rate__label">1 triệu VNĐ</div>
-              <div class="fund-rate__eq">= 200 điểm</div>
-            </div>
-            <div class="fund-rate fund-rate--trust">
-              <div class="fund-rate__icon">🛡️</div>
-              <div class="fund-rate__label">Trust bonus</div>
-              <div class="fund-rate__eq">×1.0–2.0</div>
+
+            <div class="fund-hero__ctas">
+              <button class="btn btn--fund-primary btn--lg" onclick="openIdeaModal()">
+                ✨ Tôi có ý tưởng → Gọi vốn ngay
+              </button>
+              <button class="btn btn--fund-ghost btn--lg" onclick="document.getElementById('fund-grid').scrollIntoView({behavior:'smooth'})">
+                💼 Tôi muốn đầu tư kỹ năng
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Idea Cards Grid -->
+        <!-- Insight Cards (replaces dry rate bar) -->
+        <div class="fund-insight-row">
+          <div class="fund-insight-card fund-insight-card--dev">
+            <div class="fund-insight-card__icon">💻</div>
+            <div>
+              <div class="fund-insight-card__title">Góp Code</div>
+              <div class="fund-insight-card__val">1 giờ = 100–200 điểm</div>
+              <div class="fund-insight-card__note">Tùy Trust Score của bạn</div>
+            </div>
+          </div>
+          <div class="fund-insight-card fund-insight-card--design">
+            <div class="fund-insight-card__icon">🎨</div>
+            <div>
+              <div class="fund-insight-card__title">Góp Design</div>
+              <div class="fund-insight-card__val">1 giờ = 80–160 điểm</div>
+              <div class="fund-insight-card__note">UI/UX, branding, content</div>
+            </div>
+          </div>
+          <div class="fund-insight-card fund-insight-card--money">
+            <div class="fund-insight-card__icon">💵</div>
+            <div>
+              <div class="fund-insight-card__title">Góp Vốn</div>
+              <div class="fund-insight-card__val">1 triệu = 200–400 điểm</div>
+              <div class="fund-insight-card__note">Minh bạch, có thể rút lại</div>
+            </div>
+          </div>
+          <div class="fund-insight-card fund-insight-card--trust">
+            <div class="fund-insight-card__icon">🛡️</div>
+            <div>
+              <div class="fund-insight-card__title">Trust Bonus</div>
+              <div class="fund-insight-card__val">×1.0 → ×2.0</div>
+              <div class="fund-insight-card__note">Trust cao = equity nhiều hơn</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section Header -->
         <div class="fund-section-header">
           <h3>🚀 Dự án đang gọi vốn (<span id="fund-count">0</span>)</h3>
           <div class="fund-filter-tabs" id="fund-filter-tabs">
@@ -450,6 +493,8 @@
           <!-- JS populated -->
         </div>
       </section>
+
+
 
       <!-- ===== MATCH / CO-FOUNDER VIEW ===== -->
       <section class="view view--match" id="view-match">
