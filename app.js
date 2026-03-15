@@ -1269,12 +1269,25 @@ let _joinRole = null;
 let _joinHours = null;
 
 const JOIN_ROLE_EQUITY = {
-  dev: { base: 100, label: '100–200 điểm/giờ đóng góp' },
-  design: { base: 80, label: '80–160 điểm/giờ đóng góp' },
-  marketing: { base: 60, label: '60–120 điểm/giờ đóng góp' },
-  business: { base: 70, label: '70–140 điểm/giờ đóng góp' },
-  money: { base: 200, label: '200–400 điểm/triệu VNĐ' },
-  mentor: { base: 120, label: '120–240 điểm/giờ mentoring' },
+  // Công nghệ
+  dev: { base: 100 }, design: { base: 85 }, data: { base: 95 },
+  devops: { base: 90 }, ai: { base: 110 }, security: { base: 95 },
+  // Y tế
+  doctor: { base: 130 }, nurse: { base: 80 }, psychologist: { base: 100 }, nutrition: { base: 70 },
+  // Giáo dục
+  teacher: { base: 75 }, researcher: { base: 90 }, student: { base: 50 }, trainer: { base: 70 },
+  // Tài chính
+  money: { base: 200 }, accountant: { base: 80 }, banker: { base: 85 }, insurance: { base: 75 },
+  // Pháp lý
+  lawyer: { base: 110 }, government: { base: 65 }, policy: { base: 80 },
+  // Nông nghiệp & Môi trường
+  farmer: { base: 70 }, agri_eng: { base: 85 }, environment: { base: 80 }, energy: { base: 90 },
+  // Sáng tạo
+  creator: { base: 75 }, artist: { base: 70 }, journalist: { base: 70 }, filmmaker: { base: 80 },
+  // Kinh doanh
+  marketing: { base: 65 }, sales: { base: 70 }, business: { base: 75 }, ops: { base: 70 }, mentor: { base: 120 },
+  // Xây dựng
+  architect: { base: 90 }, engineer: { base: 85 }, manufacturing: { base: 75 },
 };
 
 function openJoinSheet(idx) {
@@ -1290,10 +1303,15 @@ function openJoinSheet(idx) {
   // Reset UI
   document.querySelectorAll('.join-role-btn').forEach(b => b.classList.remove('selected'));
   document.querySelectorAll('.join-hours-btn').forEach(b => b.classList.remove('selected'));
+  ['pledge-ambitious','pledge-honest','pledge-loyal','pledge-ethical','pledge-tolerant'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = false;
+  });
   const noteEl = $('#join-note');
   if (noteEl) noteEl.value = '';
   const valEl = $('#join-equity-val');
   if (valEl) valEl.textContent = 'Chọn vai trò để xem';
+  updatePledgeBtn();
 
   const overlay = $('#join-sheet-overlay');
   const sheet = $('#join-sheet');
@@ -1341,25 +1359,39 @@ function updateJoinEquityPreview() {
   valEl.textContent = `${pts} điểm/giờ (Trust ×${mult.toFixed(1)})${hoursText}`;
 }
 
+function updatePledgeBtn() {
+  const ids = ['pledge-ambitious','pledge-honest','pledge-loyal','pledge-ethical','pledge-tolerant'];
+  const allChecked = ids.every(id => { const el = document.getElementById(id); return el && el.checked; });
+  const btn = $('#join-submit-btn');
+  if (!btn) return;
+  if (allChecked) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  } else {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+  }
+}
+
 function submitJoin() {
   if (!_joinRole) {
     showToast('⚠️ Hãy chọn vai trò của bạn!', 'warning');
     return;
   }
+  const ids = ['pledge-ambitious','pledge-honest','pledge-loyal','pledge-ethical','pledge-tolerant'];
+  const allChecked = ids.every(id => { const el = document.getElementById(id); return el && el.checked; });
+  if (!allChecked) {
+    showToast('⚠️ Hãy xác nhận đủ 5 giá trị cốt lõi!', 'warning');
+    return;
+  }
   const item = SHORTS_DATA[_joinTargetIdx];
   if (!item) return;
-
-  // Update member count on card
   if (item.members != null) item.members += 1;
-
-  // Close sheet
   closeJoinSheet();
-
-  // Success feedback
-  showToast(`🎉 Đã đăng ký tham gia "${item.name}"! Founder sẽ liên hệ bạn sớm.`, 'success');
-
-  // Navigate to match view for more connections
-  setTimeout(() => switchView('match'), 2500);
+  showToast(`🌟 "${item.name}" — Cảm ơn bạn đã cam kết Khát vọng · Thật thà · Đạo đức · Chân thành · Bao dung. Founder sẽ liên hệ bạn sớm!`, 'success');
+  setTimeout(() => switchView('match'), 3000);
 }
 
 // ----

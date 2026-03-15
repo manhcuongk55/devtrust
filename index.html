@@ -859,14 +859,97 @@
 
     <!-- Role picker -->
     <div class="join-sheet__section">
-      <div class="join-sheet__label">Bạn sẽ đóng góp bằng vai trò nào?</div>
-      <div class="join-role-grid" id="join-role-grid">
-        <button class="join-role-btn" data-role="dev" onclick="selectJoinRole(this)">💻 Dev</button>
-        <button class="join-role-btn" data-role="design" onclick="selectJoinRole(this)">🎨 Design</button>
-        <button class="join-role-btn" data-role="marketing" onclick="selectJoinRole(this)">📣 Marketing</button>
-        <button class="join-role-btn" data-role="business" onclick="selectJoinRole(this)">📊 Business</button>
-        <button class="join-role-btn" data-role="money" onclick="selectJoinRole(this)">💵 Vốn</button>
-        <button class="join-role-btn" data-role="mentor" onclick="selectJoinRole(this)">🛡️ Mentor</button>
+      <div class="join-sheet__label">Bạn thuộc vai trò nào trong xã hội?</div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">💻 Công nghệ</div>
+        <div class="join-role-grid" id="join-role-grid">
+          <button class="join-role-btn" data-role="dev" onclick="selectJoinRole(this)">💻 Dev</button>
+          <button class="join-role-btn" data-role="design" onclick="selectJoinRole(this)">🎨 Designer</button>
+          <button class="join-role-btn" data-role="data" onclick="selectJoinRole(this)">📊 Data Scientist</button>
+          <button class="join-role-btn" data-role="devops" onclick="selectJoinRole(this)">⚙️ DevOps</button>
+          <button class="join-role-btn" data-role="ai" onclick="selectJoinRole(this)">🤖 AI Engineer</button>
+          <button class="join-role-btn" data-role="security" onclick="selectJoinRole(this)">🔐 Security</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">🩺 Y tế &amp; Sức khỏe</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="doctor" onclick="selectJoinRole(this)">🩺 Bác sĩ</button>
+          <button class="join-role-btn" data-role="nurse" onclick="selectJoinRole(this)">💊 Y tá / Dược sĩ</button>
+          <button class="join-role-btn" data-role="psychologist" onclick="selectJoinRole(this)">🧠 Tâm lý học</button>
+          <button class="join-role-btn" data-role="nutrition" onclick="selectJoinRole(this)">🥗 Dinh dưỡng</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">📚 Giáo dục &amp; Nghiên cứu</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="teacher" onclick="selectJoinRole(this)">📚 Giáo viên</button>
+          <button class="join-role-btn" data-role="researcher" onclick="selectJoinRole(this)">🔬 Nhà nghiên cứu</button>
+          <button class="join-role-btn" data-role="student" onclick="selectJoinRole(this)">🎓 Sinh viên</button>
+          <button class="join-role-btn" data-role="trainer" onclick="selectJoinRole(this)">🏋️ Huấn luyện viên</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">💰 Kinh tế &amp; Tài chính</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="money" onclick="selectJoinRole(this)">💵 Nhà đầu tư</button>
+          <button class="join-role-btn" data-role="accountant" onclick="selectJoinRole(this)">🧾 Kế toán / CFO</button>
+          <button class="join-role-btn" data-role="banker" onclick="selectJoinRole(this)">🏦 Ngân hàng</button>
+          <button class="join-role-btn" data-role="insurance" onclick="selectJoinRole(this)">🛡️ Bảo hiểm</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">⚖️ Pháp lý &amp; Hành chính</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="lawyer" onclick="selectJoinRole(this)">⚖️ Luật sư</button>
+          <button class="join-role-btn" data-role="government" onclick="selectJoinRole(this)">🏛️ Công chức</button>
+          <button class="join-role-btn" data-role="policy" onclick="selectJoinRole(this)">📋 Chính sách công</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">🌾 Nông nghiệp &amp; Môi trường</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="farmer" onclick="selectJoinRole(this)">🌾 Nông dân</button>
+          <button class="join-role-btn" data-role="agri_eng" onclick="selectJoinRole(this)">🚜 Kỹ sư nông nghiệp</button>
+          <button class="join-role-btn" data-role="environment" onclick="selectJoinRole(this)">🌿 Môi trường</button>
+          <button class="join-role-btn" data-role="energy" onclick="selectJoinRole(this)">☀️ Năng lượng sạch</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">🎨 Sáng tạo &amp; Truyền thông</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="creator" onclick="selectJoinRole(this)">📱 Content Creator</button>
+          <button class="join-role-btn" data-role="artist" onclick="selectJoinRole(this)">🎨 Nghệ sĩ / Nhạc sĩ</button>
+          <button class="join-role-btn" data-role="journalist" onclick="selectJoinRole(this)">📰 Báo chí</button>
+          <button class="join-role-btn" data-role="filmmaker" onclick="selectJoinRole(this)">🎬 Đạo diễn / Video</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">🤝 Kinh doanh &amp; Kết nối</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="marketing" onclick="selectJoinRole(this)">📣 Marketing</button>
+          <button class="join-role-btn" data-role="sales" onclick="selectJoinRole(this)">🤝 Sales / BD</button>
+          <button class="join-role-btn" data-role="business" onclick="selectJoinRole(this)">📊 Quản lý / CEO</button>
+          <button class="join-role-btn" data-role="ops" onclick="selectJoinRole(this)">⚡ Vận hành</button>
+          <button class="join-role-btn" data-role="mentor" onclick="selectJoinRole(this)">🧓 Mentor / Cố vấn</button>
+        </div>
+      </div>
+
+      <div class="join-role-category">
+        <div class="join-role-category__label">🏗️ Kỹ thuật &amp; Xây dựng</div>
+        <div class="join-role-grid">
+          <button class="join-role-btn" data-role="architect" onclick="selectJoinRole(this)">🏗️ Kiến trúc sư</button>
+          <button class="join-role-btn" data-role="engineer" onclick="selectJoinRole(this)">⚙️ Kỹ sư xây dựng</button>
+          <button class="join-role-btn" data-role="manufacturing" onclick="selectJoinRole(this)">🏭 Sản xuất</button>
+        </div>
       </div>
     </div>
 
@@ -893,8 +976,55 @@
       <span class="join-equity-preview__val" id="join-equity-val">Chọn vai trò để xem</span>
     </div>
 
-    <button class="join-submit-btn" id="join-submit-btn" onclick="submitJoin()">
-      🚀 Tôi muốn join team này
+    <!-- Ethics Pledge — 5 Giá Trị Cốt Lõi -->
+    <div class="join-pledge" id="join-pledge">
+      <div class="join-pledge__title">🛡️ 5 Giá Trị Cốt Lõi của DevTrust</div>
+      <div class="join-pledge__sub">Trong thời đại AI, con người thắng không phải vì thông minh hơn — mà vì chân thành hơn. Cam kết này là nền tảng cộng đồng.</div>
+
+      <label class="join-pledge__item">
+        <input type="checkbox" id="pledge-ambitious" onchange="updatePledgeBtn()"/>
+        <span class="join-pledge__check">✓</span>
+        <div>
+          <strong>🔥 Khát vọng lớn</strong>
+          <span>Tôi đến đây không phải chỉ để kiếm tiền — mà để tạo ra thứ gì đó có ý nghĩa</span>
+        </div>
+      </label>
+      <label class="join-pledge__item">
+        <input type="checkbox" id="pledge-honest" onchange="updatePledgeBtn()"/>
+        <span class="join-pledge__check">✓</span>
+        <div>
+          <strong>✨ Thật thà</strong>
+          <span>Tôi chỉ cam kết điều tôi thật sự có thể làm được — nói thật về năng lực và giới hạn</span>
+        </div>
+      </label>
+      <label class="join-pledge__item">
+        <input type="checkbox" id="pledge-ethical" onchange="updatePledgeBtn()"/>
+        <span class="join-pledge__check">✓</span>
+        <div>
+          <strong>⚖️ Đạo đức</strong>
+          <span>Tôi đặt lợi ích người dùng và cộng đồng lên trên lợi ích cá nhân ngắn hạn</span>
+        </div>
+      </label>
+      <label class="join-pledge__item">
+        <input type="checkbox" id="pledge-loyal" onchange="updatePledgeBtn()"/>
+        <span class="join-pledge__check">✓</span>
+        <div>
+          <strong>🤝 Chân thành</strong>
+          <span>Tôi tìm đồng hành thật sự — không phải deal, không phải lợi dụng. Giúp người khác từ tâm.</span>
+        </div>
+      </label>
+      <label class="join-pledge__item">
+        <input type="checkbox" id="pledge-tolerant" onchange="updatePledgeBtn()"/>
+        <span class="join-pledge__check">✓</span>
+        <div>
+          <strong>🌸 Bao dung</strong>
+          <span>Tôi chấp nhận sự khác biệt, sẵn sàng tha thứ và cho nhau cơ hội sửa sai</span>
+        </div>
+      </label>
+    </div>
+
+    <button class="join-submit-btn" id="join-submit-btn" onclick="submitJoin()" disabled style="opacity:0.4;cursor:not-allowed">
+      🤝 Cam kết & Tham gia hành trình này
     </button>
   </div>
 
