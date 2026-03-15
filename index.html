@@ -76,6 +76,11 @@
           <span>Học tập</span>
           <span class="sidebar__badge sidebar__badge--new">MỚI</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="match" id="nav-match">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>🤝 Kết Nối</span>
+          <span class="sidebar__badge sidebar__badge--match">HOT</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <span>Tin nhắn</span>
@@ -379,6 +384,62 @@
         </div>
       </section>
 
+      <!-- ===== MATCH / CO-FOUNDER VIEW ===== -->
+      <section class="view view--match" id="view-match">
+        <!-- Hero -->
+        <div class="match-hero">
+          <div class="match-hero__glow"></div>
+          <div class="match-hero__content">
+            <div class="match-hero__badge">🚀 Co-Founder & Founding Team Matching</div>
+            <h1 class="match-hero__title">Tìm <span>Co-Founder</span> của bạn</h1>
+            <p class="match-hero__desc">Kết nối với developer phù hợp để cùng xây dựng startup. Match dựa trên kỹ năng, đam mê, và Trust Score.</p>
+            <div class="match-hero__search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              <input type="text" id="match-search-input" placeholder="Tìm theo kỹ năng: React, P2P, Blockchain..." />
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Chips -->
+        <div class="match-filters" id="match-filters">
+          <div class="match-filter-group">
+            <span class="match-filter-label">Kỹ năng:</span>
+            <button class="match-chip active" data-filter="skill" data-value="all">Tất cả</button>
+            <button class="match-chip" data-filter="skill" data-value="React">React</button>
+            <button class="match-chip" data-filter="skill" data-value="P2P">P2P / Gun.js</button>
+            <button class="match-chip" data-filter="skill" data-value="Blockchain">Blockchain</button>
+            <button class="match-chip" data-filter="skill" data-value="AI/ML">AI/ML</button>
+            <button class="match-chip" data-filter="skill" data-value="Python">Python</button>
+            <button class="match-chip" data-filter="skill" data-value="Backend">Backend</button>
+          </div>
+          <div class="match-filter-group">
+            <span class="match-filter-label">Vùng miền:</span>
+            <button class="match-chip active" data-filter="location" data-value="all">Toàn quốc</button>
+            <button class="match-chip" data-filter="location" data-value="Hà Nội">Hà Nội</button>
+            <button class="match-chip" data-filter="location" data-value="TP.HCM">TP.HCM</button>
+            <button class="match-chip" data-filter="location" data-value="Đà Nẵng">Đà Nẵng</button>
+          </div>
+          <div class="match-filter-group">
+            <span class="match-filter-label">Trust Score:</span>
+            <button class="match-chip active" data-filter="trust" data-value="all">Tất cả</button>
+            <button class="match-chip" data-filter="trust" data-value="high">🟢 Trusted 80+</button>
+            <button class="match-chip" data-filter="trust" data-value="mid">🟡 Rising 50+</button>
+          </div>
+        </div>
+
+        <!-- Match Stats Bar -->
+        <div class="match-stats-bar">
+          <div class="match-stat"><strong id="match-count">0</strong><span>Ứng viên</span></div>
+          <div class="match-stat"><strong>92%</strong><span>Match độ chính xác</span></div>
+          <div class="match-stat"><strong>P2P</strong><span>Trust-verified</span></div>
+        </div>
+
+        <!-- Match Cards Grid -->
+        <div class="match-grid" id="match-grid">
+          <!-- JS populated -->
+        </div>
+      </section>
+
       <!-- ===== NOTIFICATIONS VIEW ===== -->
       <section class="view view--notifications" id="view-notifications">
         <div class="notifications-header">
@@ -519,6 +580,19 @@
       <div class="story-viewer__content" id="story-viewer-content"></div>
       <button class="story-viewer__nav story-viewer__nav--prev" id="story-prev">‹</button>
       <button class="story-viewer__nav story-viewer__nav--next" id="story-next">›</button>
+    </div>
+  </div>
+
+  <!-- ============ CO-FOUNDER DETAIL MODAL ============ -->
+  <div class="modal-overlay hidden" id="cofounder-modal">
+    <div class="modal card cofounder-modal">
+      <div class="modal__header">
+        <h3 id="cofounder-modal-title">Co-Founder Profile</h3>
+        <button class="modal__close" id="btn-close-cofounder-modal">&times;</button>
+      </div>
+      <div class="modal__body" id="cofounder-modal-body">
+        <!-- JS populated -->
+      </div>
     </div>
   </div>
 

@@ -4,16 +4,76 @@
 
 // ============ DATA ============
 const USERS = [
-  { id: 1, name: 'Linh Nguyễn', seed: 'linh', online: true, trustScore: 87 },
-  { id: 2, name: 'Minh Trần', seed: 'minh', online: true, trustScore: 72 },
-  { id: 3, name: 'Hương Phạm', seed: 'huong', online: false, trustScore: 91 },
-  { id: 4, name: 'Tuấn Vũ', seed: 'tuan', online: true, trustScore: 95 },
-  { id: 5, name: 'Mai Lê', seed: 'mai', online: false, trustScore: 63 },
-  { id: 6, name: 'Đức Hoàng', seed: 'duc', online: true, trustScore: 78 },
-  { id: 7, name: 'Thảo Ngô', seed: 'thao', online: true, trustScore: 84 },
-  { id: 8, name: 'Khoa Đặng', seed: 'khoa', online: false, trustScore: 45 },
-  { id: 9, name: 'Anh Bùi', seed: 'anhb', online: true, trustScore: 56 },
-  { id: 10, name: 'Quỳnh Trương', seed: 'quynh', online: false, trustScore: 38 },
+  { id: 1, name: 'Linh Nguyễn', seed: 'linh', online: true, trustScore: 87,
+    skills: ['React', 'TypeScript', 'UI/UX', 'CSS'],
+    interests: ['EdTech', 'Open Source', 'Design Systems'],
+    goals: 'Xây dựng nền tảng e-learning offline-first cho vùng sâu',
+    role: 'Frontend Lead', location: 'Hà Nội',
+    availableHours: '20h/tuần', commitment: 'Part-time', idea: 'EduChain VN'
+  },
+  { id: 2, name: 'Minh Trần', seed: 'minh', online: true, trustScore: 72,
+    skills: ['Backend', 'Node.js', 'PostgreSQL', 'Docker'],
+    interests: ['Fintech', 'Open Source', 'DevOps'],
+    goals: 'Build fintech infrastructure cho SME Việt Nam',
+    role: 'Backend Lead', location: 'TP.HCM',
+    availableHours: '15h/tuần', commitment: 'Part-time', idea: 'SmartPay VN'
+  },
+  { id: 3, name: 'Hương Phạm', seed: 'huong', online: false, trustScore: 91,
+    skills: ['AI/ML', 'Python', 'Data Science', 'NLP'],
+    interests: ['EdTech', 'AI for Good', 'Research'],
+    goals: 'Apply AI để cá nhân hóa lộ trình học tập offline',
+    role: 'AI Lead', location: 'Hà Nội',
+    availableHours: 'Full-time', commitment: 'Full-time', idea: 'PranjaLearn'
+  },
+  { id: 4, name: 'Tuấn Vũ', seed: 'tuan', online: true, trustScore: 95,
+    skills: ['P2P', 'Blockchain', 'Gun.js', 'Web3'],
+    interests: ['Decentralization', 'P2P Networks', 'Open Source'],
+    goals: 'Xây dựng internet phi tập trung cho cộng đồng Việt',
+    role: 'Protocol Architect', location: 'Đà Nẵng',
+    availableHours: 'Full-time', commitment: 'Full-time', idea: 'FreeNet VN'
+  },
+  { id: 5, name: 'Mai Lê', seed: 'mai', online: false, trustScore: 63,
+    skills: ['Marketing', 'Growth Hacking', 'Content', 'SEO'],
+    interests: ['EdTech', 'Startup', 'Community'],
+    goals: 'Scale product EdTech tới 100K user trong 1 năm',
+    role: 'Growth & Marketing', location: 'TP.HCM',
+    availableHours: '10h/tuần', commitment: 'Part-time', idea: 'Viral EDU'
+  },
+  { id: 6, name: 'Đức Hoàng', seed: 'duc', online: true, trustScore: 78,
+    skills: ['Backend', 'Go', 'Microservices', 'K8s'],
+    interests: ['Infrastructure', 'DevOps', 'Open Source'],
+    goals: 'Xây dựng platform microservices mở cho startup',
+    role: 'DevOps / Backend', location: 'Hà Nội',
+    availableHours: '20h/tuần', commitment: 'Part-time', idea: 'CloudBase VN'
+  },
+  { id: 7, name: 'Thảo Ngô', seed: 'thao', online: true, trustScore: 84,
+    skills: ['React', 'Mobile', 'Flutter', 'UI/UX'],
+    interests: ['EdTech', 'Mobile Apps', 'Community'],
+    goals: 'Build mobile app cho Binh dan hoc vu so đến vùng nông thôn',
+    role: 'Mobile Lead', location: 'TP.HCM',
+    availableHours: 'Full-time', commitment: 'Full-time', idea: 'MobileEDU'
+  },
+  { id: 8, name: 'Khoa Đặng', seed: 'khoa', online: false, trustScore: 45,
+    skills: ['Python', 'Data Analysis', 'Excel', 'SQL'],
+    interests: ['Fintech', 'Data', 'Analytics'],
+    goals: 'Build data platform cho SME tự phân tích tài chính',
+    role: 'Data Analyst', location: 'Đà Nẵng',
+    availableHours: '15h/tuần', commitment: 'Part-time', idea: 'DataSME'
+  },
+  { id: 9, name: 'Anh Bùi', seed: 'anhb', online: true, trustScore: 56,
+    skills: ['Blockchain', 'Solidity', 'Web3', 'DeFi'],
+    interests: ['DeFi', 'NFT', 'Decentralization'],
+    goals: 'Xây dựng DeFi platform tự chủ cho nguời Việt',
+    role: 'Smart Contract Dev', location: 'Hà Nội',
+    availableHours: '20h/tuần', commitment: 'Part-time', idea: 'DeFi VN'
+  },
+  { id: 10, name: 'Quỳnh Trương', seed: 'quynh', online: false, trustScore: 38,
+    skills: ['UX Research', 'Product', 'Figma', 'User Testing'],
+    interests: ['EdTech', 'Accessibility', 'Community'],
+    goals: 'Thiết kế UX cho product giáo dục offline dễ dùng nhất Việt Nam',
+    role: 'Product Designer', location: 'TP.HCM',
+    availableHours: '10h/tuần', commitment: 'Part-time', idea: 'DesignEDU'
+  },
 ];
 
 const POSTS = [
@@ -387,6 +447,9 @@ function switchView(viewName) {
     if (!$('#quiz-section').children.length) renderQuizSection();
     renderLearningProgress();
   }
+  if (viewName === 'match') {
+    if (!$('#match-grid').children.length) renderMatchFeed();
+  }
 }
 
 // ============ CHAT ============
@@ -595,6 +658,246 @@ function toggleTheme() {
   const isDark = !document.body.classList.contains('light-theme');
   const settingsToggle = $('#settings-dark-toggle');
   if (settingsToggle) settingsToggle.checked = isDark;
+}
+
+// ============ CO-FOUNDER MATCHING ENGINE ============
+
+// "Owner" profile (current user) used as matching reference
+const OWNER_PROFILE = {
+  id: 0, name: 'David Cuộng', seed: 'owner', online: true, trustScore: 92,
+  skills: ['P2P', 'Gun.js', 'JavaScript', 'Product Management'],
+  interests: ['EdTech', 'Open Source', 'Decentralization', 'Community'],
+  goals: 'Xây dựng DevTrust — mạng xã hội P2P trust cho cộng đồng dev Việt',
+  role: 'Founder / CEO', location: 'Hà Nội'
+};
+
+// Active filters state
+let matchFilters = { skill: 'all', location: 'all', trust: 'all', search: '' };
+
+/**
+ * Calculate compatibility score between two users (0–100)
+ * Formula: Skills overlap (50%) + Interests overlap (30%) + Trust band (20%)
+ */
+function calculateMatchScore(userA, userB) {
+  if (!userA.skills || !userB.skills) return 0;
+
+  // Skills overlap (50%)
+  const sharedSkills = userA.skills.filter(s => userB.skills.includes(s)).length;
+  const totalSkills = new Set([...userA.skills, ...userB.skills]).size;
+  const skillScore = totalSkills > 0 ? (sharedSkills / Math.min(userA.skills.length, userB.skills.length)) * 50 : 0;
+
+  // Interests overlap (30%)
+  const sharedInterests = (userA.interests || []).filter(i => (userB.interests || []).includes(i)).length;
+  const maxInterests = Math.max((userA.interests || []).length, (userB.interests || []).length, 1);
+  const interestScore = (sharedInterests / maxInterests) * 30;
+
+  // Trust band compatibility (20%) — complementary scores preferred
+  const trustDiff = Math.abs(userA.trustScore - userB.trustScore);
+  const trustScore = trustDiff < 15 ? 20 : trustDiff < 30 ? 14 : trustDiff < 50 ? 8 : 4;
+
+  // Complementary skills bonus — different skills = better co-founder pairing
+  const complementBonus = sharedSkills === 0 ? 8 : 0; // bonus if completely different skills
+
+  return Math.min(100, Math.round(skillScore + interestScore + trustScore + complementBonus));
+}
+
+function getMatchGradient(score) {
+  if (score >= 80) return 'linear-gradient(135deg, #10b981, #059669)';
+  if (score >= 60) return 'linear-gradient(135deg, #f59e0b, #d97706)';
+  if (score >= 40) return 'linear-gradient(135deg, #6366f1, #4f46e5)';
+  return 'linear-gradient(135deg, #64748b, #475569)';
+}
+
+function getMatchLabel(score) {
+  if (score >= 80) return '🔥 Super Match';
+  if (score >= 60) return '✨ Good Match';
+  if (score >= 40) return '👥 Potential';
+  return '🔍 Explore';
+}
+
+function renderMatchFeed(usersToRender) {
+  const container = $('#match-grid');
+  if (!container) return;
+
+  const candidates = (usersToRender || USERS).map(u => ({
+    ...u,
+    matchScore: calculateMatchScore(OWNER_PROFILE, u)
+  })).sort((a, b) => b.matchScore - a.matchScore);
+
+  // Update counter
+  const countEl = $('#match-count');
+  if (countEl) countEl.textContent = candidates.length;
+
+  container.innerHTML = '';
+
+  if (candidates.length === 0) {
+    container.innerHTML = `
+      <div class="progress-empty" style="grid-column:1/-1">
+        <div class="progress-empty__icon">🔍</div>
+        <h3>Không tìm thấy ứng viên</h3>
+        <p>Thử điều chỉnh bộ lọc để tìm thêm cơ hội!</p>
+      </div>
+    `;
+    return;
+  }
+
+  candidates.forEach((user, idx) => {
+    const { matchScore } = user;
+    const gradient = getMatchGradient(matchScore);
+    const label = getMatchLabel(matchScore);
+    const trustBadgeClass = user.trustScore >= 80 ? 'high' : user.trustScore >= 50 ? 'mid' : 'low';
+
+    const el = document.createElement('div');
+    el.className = 'match-card';
+    el.style.animationDelay = `${idx * 0.07}s`;
+    el.innerHTML = `
+      <div class="match-card__score-bar" style="background:${gradient}">
+        <div class="match-badge">
+          <div class="match-badge__pct">${matchScore}%</div>
+          <div class="match-badge__label">${label}</div>
+        </div>
+        <div class="match-card__avatar-wrap">
+          <div class="avatar avatar--lg ${user.online ? 'online' : ''}">
+            <img src="${avatarUrl(user.seed)}" alt="${user.name}" />
+          </div>
+        </div>
+      </div>
+      <div class="match-card__body">
+        <div class="match-card__header">
+          <div>
+            <div class="match-card__name">${user.name}</div>
+            <div class="match-card__role">${user.role || 'Developer'}</div>
+          </div>
+          <span class="trust-badge trust-badge--${trustBadgeClass}">🛡️ ${user.trustScore}</span>
+        </div>
+        <div class="match-card__goal">${user.goals || ''}</div>
+        <div class="match-card__location">📍 ${user.location} &middot; ${user.commitment || 'Part-time'}</div>
+        <div class="match-card__skills">
+          ${(user.skills || []).slice(0, 4).map(s =>
+            `<span class="skill-tag">${s}</span>`
+          ).join('')}
+          ${user.skills && user.skills.length > 4 ? `<span class="skill-tag skill-tag--more">+${user.skills.length - 4}</span>` : ''}
+        </div>
+        <div class="match-card__interests">
+          ${(user.interests || []).slice(0, 3).map(i =>
+            `<span class="goal-tag">${i}</span>`
+          ).join('')}
+        </div>
+        <div class="match-card__actions">
+          <button class="btn btn--primary btn--sm" onclick="openCofounderModal(${user.id})">🤝 Kết nối</button>
+          <button class="btn btn--glass btn--sm" onclick="sendMatchMessage(${user.id})">💬 Nhắn tin</button>
+        </div>
+      </div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function filterMatchFeed() {
+  const { skill, location, trust, search } = matchFilters;
+
+  const filtered = USERS.filter(u => {
+    if (skill !== 'all' && !(u.skills || []).includes(skill)) return false;
+    if (location !== 'all' && u.location !== location) return false;
+    if (trust === 'high' && u.trustScore < 80) return false;
+    if (trust === 'mid' && u.trustScore < 50) return false;
+    if (search) {
+      const q = search.toLowerCase();
+      const haystack = [
+        u.name, u.role, u.goals, u.location,
+        ...(u.skills || []), ...(u.interests || [])
+      ].join(' ').toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+    return true;
+  });
+
+  renderMatchFeed(filtered);
+}
+
+function openCofounderModal(userId) {
+  const user = getUser(userId);
+  if (!user) return;
+
+  const matchScore = calculateMatchScore(OWNER_PROFILE, user);
+  const gradient = getMatchGradient(matchScore);
+  const label = getMatchLabel(matchScore);
+
+  const sharedSkills = OWNER_PROFILE.skills.filter(s => (user.skills || []).includes(s));
+  const sharedInterests = OWNER_PROFILE.interests.filter(i => (user.interests || []).includes(i));
+  const uniqueSkills = (user.skills || []).filter(s => !OWNER_PROFILE.skills.includes(s));
+
+  $('#cofounder-modal-title').textContent = `${user.name} — Co-Founder Profile`;
+  const body = $('#cofounder-modal-body');
+  body.innerHTML = `
+    <div class="cofounder-hero" style="background:${gradient}">
+      <div class="avatar avatar--xl">
+        <img src="${avatarUrl(user.seed)}" alt="${user.name}" />
+      </div>
+      <div class="cofounder-hero__info">
+        <h2>${user.name}</h2>
+        <div class="cofounder-hero__role">${user.role || 'Developer'}</div>
+        <div class="match-badge match-badge--lg">
+          <div class="match-badge__pct match-badge__pct--lg">${matchScore}%</div>
+          <div class="match-badge__label">${label}</div>
+        </div>
+      </div>
+    </div>
+    <div class="cofounder-body">
+      <div class="cofounder-section">
+        <h4>🎯 Mục tiêu</h4>
+        <p>${user.goals || 'Chưa cập nhật'}</p>
+      </div>
+      <div class="cofounder-section cofounder-section--grid">
+        <div>
+          <h4>📍 Địa điểm</h4>
+          <p>${user.location || 'Toàn quốc'}</p>
+        </div>
+        <div>
+          <h4>⏰ Thời gian</h4>
+          <p>${user.availableHours || 'Linh hoạt'}</p>
+        </div>
+        <div>
+          <h4>🆝 Trust Score</h4>
+          <p style="color:${user.trustScore >= 80 ? '#10b981' : user.trustScore >= 50 ? '#f59e0b' : '#64748b'}">${user.trustScore}/100</p>
+        </div>
+        <div>
+          <h4>💡 Ý tưởng</h4>
+          <p>${user.idea || 'Đang tìm kiếm'}</p>
+        </div>
+      </div>
+      <div class="cofounder-section">
+        <h4>🛠️ Tất cả kỹ năng</h4>
+        <div class="cofounder-skills">${(user.skills || []).map(s =>
+          `<span class="skill-tag ${uniqueSkills.includes(s) ? 'skill-tag--unique' : sharedSkills.includes(s) ? 'skill-tag--shared' : ''}">${s}</span>`
+        ).join('')}</div>
+        <div class="cofounder-legend">
+          <span class="skill-tag skill-tag--shared">Chưng kỹ năng</span>
+          <span class="skill-tag skill-tag--unique">Kỹ năng bổ trợ cho bạn</span>
+        </div>
+      </div>
+      ${sharedInterests.length > 0 ? `
+      <div class="cofounder-section">
+        <h4>❤️ Chung niềm đam mê</h4>
+        <div>${sharedInterests.map(i => `<span class="goal-tag">${i}</span>`).join('')}</div>
+      </div>` : ''}
+      <div class="cofounder-section cofounder-section--actions">
+        <button class="btn btn--primary" onclick="sendMatchMessage(${user.id});$('#cofounder-modal').classList.add('hidden')">
+          💬 Gửi lời mời hợp tác
+        </button>
+        <button class="btn btn--glass" onclick="$('#cofounder-modal').classList.add('hidden')">
+          ✕ Đóng
+        </button>
+      </div>
+    </div>
+  `;
+  $('#cofounder-modal').classList.remove('hidden');
+}
+
+function sendMatchMessage(userId) {
+  const user = getUser(userId);
+  if (!user) return;
+  showToast(`🤝 Đã gửi lời mời kết nối tới ${user.name}! Trò chuyện sẽ mở trong Messages.`, 'success');
 }
 
 // ============ E-LEARNING DATA ============
@@ -1225,6 +1528,42 @@ function init() {
 
   console.log('✨ DevTrust initialized successfully!');
   console.log('📚 E-Learning module loaded — Bình dân học vụ số ready!');
+  console.log('🤝 Co-Founder Matching engine ready!');
+
+  // ============ CO-FOUNDER MATCHING EVENTS ============
+  // Filter chips
+  $$('.match-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const filterType = chip.dataset.filter;
+      const filterValue = chip.dataset.value;
+      // Deactivate siblings
+      $$(`[data-filter="${filterType}"]`).forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      matchFilters[filterType] = filterValue;
+      filterMatchFeed();
+    });
+  });
+
+  // Search input
+  const matchSearchInput = $('#match-search-input');
+  if (matchSearchInput) {
+    matchSearchInput.addEventListener('input', (e) => {
+      matchFilters.search = e.target.value.trim();
+      filterMatchFeed();
+    });
+  }
+
+  // Co-Founder modal close
+  const closeCofounder = $('#btn-close-cofounder-modal');
+  if (closeCofounder) {
+    closeCofounder.addEventListener('click', () => $('#cofounder-modal').classList.add('hidden'));
+  }
+  const cofounderModal = $('#cofounder-modal');
+  if (cofounderModal) {
+    cofounderModal.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) cofounderModal.classList.add('hidden');
+    });
+  }
 
   // ============ GUN.JS P2P INTEGRATION ============
   initP2P();
