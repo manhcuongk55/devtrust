@@ -79,119 +79,161 @@ const USERS = [
 const POSTS = [
   {
     id: 1, userId: 1,
-    content: 'Vừa hoàn thành dự án mạng xã hội mới! 🚀 Cảm ơn team đã support. Hành trình từ ý tưởng đến hiện thực không hề dễ dàng nhưng kết quả xứng đáng lắm các bạn ơi! 💪',
-    image: 'https://picsum.photos/seed/project1/600/400',
-    likes: 234, comments: 45, shares: 12,
-    reactions: ['❤️', '🔥', '👏'],
+    tag: '🚀 Build In Public',
+    content: '📊 DevTrust — Tuần 8:\n\n✅ 234 users đăng ký (tăng 40% so với tuần trước)\n✅ Join Team flow hoạt động — 12 người đã match thành công\n✅ Pitch Feed: avg session 4.2 phút (TikTok benchmark: 11 phút 😅)\n❌ Bounce rate 67% — landing page chưa đủ hấp dẫn\n❌ Chỉ 8% user quay lại ngày 2\n\n🎯 Tuần tới: onboarding flow mới + email sequence\n\n#BuildInPublic #DevTrust #StartupVN',
+    image: null,
+    likes: 312, comments: 47, shares: 28,
+    reactions: ['🔥', '👏', '❤️'],
     time: '2 giờ trước',
     commentList: [
-      { userId: 2, text: 'Tuyệt vời quá! Chúc mừng team 🎉' },
-      { userId: 4, text: 'Nhìn đẹp quá anh ơi, bao giờ launch?' }
+      { userId: 2, text: 'D1 retention 8% thì cần fix onboarding gấp anh ơi! Có thể thử progressive onboarding không?' },
+      { userId: 4, text: 'Con số 12 match từ Join Team flow sau 1 tuần là rất ổn! 👏 Tập trung convert số này sang active contributor.' }
     ]
   },
   {
-    id: 2, userId: 2,
-    content: 'Hà Nội hôm nay đẹp quá! ☀️ Ai muốn đi cafe không? Quán mới mở ở Tây Hồ siêu chill luôn',
-    image: 'https://picsum.photos/seed/hanoi2/600/450',
-    likes: 189, comments: 32, shares: 5,
-    reactions: ['❤️', '😍'],
+    id: 2, userId: 4,
+    tag: '💡 Product Insight',
+    content: '3 sai lầm lớn nhất khi build MVP mà mình đã mắc phải:\n\n1️⃣ Build quá nhiều feature trước khi có 1 user dùng thật\n→ Giải pháp: Fake it first. Google Doc trước, code sau.\n\n2️⃣ Hỏi user "bạn có dùng cái này không?" thay vì "lần cuối bạn gặp vấn đề này là khi nào?"\n→ Behavior > Opinion\n\n3️⃣ Measure vanity metrics (traffic, signup) thay vì activation + retention\n→ AARRR framework: chỉ có Retention mới chứng minh product-market fit\n\n🔑 Lesson learned sau 2 năm build sản phẩm.\n\n#ProductManagement #MVP #StartupLesson',
+    image: null,
+    likes: 891, comments: 134, shares: 267,
+    reactions: ['🔥', '👏', '💡'],
     time: '4 giờ trước',
     commentList: [
-      { userId: 5, text: 'Ở đâu vậy bạn? Share địa chỉ đi!' }
+      { userId: 6, text: 'Point số 2 chuẩn vãi! Tôi từng hỏi "bạn có cần feature X không?" và 90% nói có nhưng 0% dùng 😂' },
+      { userId: 7, text: 'Fake it first 🔥 Mình build landing page + waitlist trước khi viết 1 dòng code. 200 người đăng ký = đủ validation rồi!' }
     ]
   },
   {
-    id: 3, userId: 4,
-    content: 'Tips cho các bạn mới bắt đầu học lập trình:\n\n1. Đừng sợ sai — mỗi bug là một bài học\n2. Code mỗi ngày, dù chỉ 30 phút\n3. Tham gia cộng đồng — đừng học một mình\n4. Build dự án thực tế — lý thuyết không đủ\n5. Kiên nhẫn — thành công cần thời gian 🌱\n\n#coding #tips #developer',
+    id: 3, userId: 6,
+    tag: '🎯 Problem → Solution',
+    content: 'Vấn đề mình đang cần giải: Làm sao collect user feedback mà không annoying?\n\n❌ Pop-up "rate us" → user skip 95%\n❌ Email survey → open rate < 5%\n❌ In-app survey dài → drop-off\n\n✅ Cách đang test: Micro-surveys 1 câu, xuất hiện ngay sau key action\nVD: Sau khi user join team xong → "Trải nghiệm này có hữu ích không? 👍👎"\n\nAi đang giải vấn đề này tốt? @ mình với! 🙏\n\n#UserResearch #ProductDesign #Feedback',
     image: null,
-    likes: 567, comments: 89, shares: 134,
-    reactions: ['❤️', '👏', '🔥'],
+    likes: 445, comments: 89, shares: 34,
+    reactions: ['💡', '🔥', '❤️'],
     time: '6 giờ trước',
     commentList: [
-      { userId: 6, text: 'Quá chuẩn luôn anh! Đặc biệt tip số 3 👏' },
-      { userId: 7, text: 'Saved lại rồi! Cảm ơn anh nhiều' }
+      { userId: 1, text: 'Mình dùng Hotjar + screen recording — xem user làm gì thay vì hỏi họ nghĩ gì. Game changer!' },
+      { userId: 3, text: 'Intercom có tính năng in-context survey cực ngon. Trigger khi user vừa complete 1 action.' }
     ]
   },
   {
-    id: 4, userId: 6,
-    content: 'Team building cuối tuần rồi vui quá 😂 Highlight là màn nhảy của sếp! Ai có ảnh thêm thì share vào group nhé',
-    image: 'https://picsum.photos/seed/teambuilding/600/400',
-    likes: 345, comments: 56, shares: 8,
-    reactions: ['😂', '❤️', '🔥'],
-    time: '1 ngày trước',
+    id: 4, userId: 7,
+    tag: '📈 Milestone',
+    content: '🎉 HealthTech VN vừa chạm mốc 1,000 lượt khám từ xa!\n\n6 tháng trước: idea trên giấy\n3 tháng trước: 50 users pilot\nHôm nay: 1,000 lượt khám, 23 bác sĩ, 8 tỉnh\n\nMọi người hay hỏi: "Làm sao anh lấy được bác sĩ tham gia?"\n→ Thật ra không ai chịu lúc đầu. Mình đã bị từ chối 47 lần.\n→ Người thứ 48 là em họ mình. Từ đó build social proof.\n→ Lesson: Start với network. Đừng pitch stranger trước.\n\nNext: 10,000 lượt và series A.\n\n#HealthTech #1000Users #StartupVN #Milestone',
+    image: 'https://picsum.photos/seed/milestone/600/350',
+    likes: 1234, comments: 234, shares: 89,
+    reactions: ['🎉', '🔥', '👏'],
+    time: '8 giờ trước',
     commentList: [
-      { userId: 1, text: 'Ahahaha sếp nhảy đỉnh quá 🤣' },
-      { userId: 3, text: 'Tiếc quá không đi được 😢' }
+      { userId: 2, text: '47 lần từ chối 😳 Đây mới là entrepreneurship thật sự. Chúc mừng anh!!!🎉' },
+      { userId: 4, text: '"Start với network" — bài học xương máu của mọi B2B startup. 🔥' }
     ]
   },
   {
-    id: 5, userId: 7,
-    content: 'Review nhanh MacBook Pro M4 sau 1 tháng sử dụng:\n\n✅ Pin trâu cực kỳ — cả ngày không cần sạc\n✅ Mát lịm, quạt gần như không kêu\n✅ Build code nhanh gấp 3 lần\n❌ Giá hơi chát\n❌ Nặng hơn Air\n\nTổng: 9/10, worth every penny! 💻',
-    image: 'https://picsum.photos/seed/macbook/600/350',
-    likes: 423, comments: 73, shares: 45,
-    reactions: ['👏', '🔥', '❤️'],
+    id: 5, userId: 2,
+    tag: '🤔 Founder Question',
+    content: 'Thắc mắc thật: Khi nào thì nên bỏ pivot làm lại từ đầu?\n\nCurrently: App học tiếng Nhật của mình, 300 users sau 4 tháng\n- Retention D7: 12%\n- Churn rate: 40%/tháng\n- Users nói app "hay" nhưng không dùng đều\n\nMình đang phân vân:\nA) Tiếp tục fix UX và marketing\nB) Pivot sang B2B — bán cho công ty có nhân viên đi Nhật\nC) Pivot content: từ app học thành community + mentoring\n\nAi đã từng trong situation này? Tư vấn với! 🙏\n\n#StartupAdvice #Pivot #EdTech',
+    image: null,
+    likes: 567, comments: 123, shares: 45,
+    reactions: ['💡', '🤔', '❤️'],
+    time: '10 giờ trước',
+    commentList: [
+      { userId: 1, text: 'D7 retention 12% + churn 40% = product-market fit chưa có. Mình sẽ pivot B2B — enterprises trả tiền dễ hơn và predictable hơn.' },
+      { userId: 7, text: 'Option C nghe promising hơn! Community + mentoring là sticky hơn app. LINE/Zalo cũng bắt đầu thế.' }
+    ]
+  },
+  {
+    id: 6, userId: 3,
+    tag: '🔬 Research & Findings',
+    content: 'Sau 50 user interviews cho sản phẩm AgriTech:\n\n🌾 Nông dân VN không thiếu thông tin — họ thiếu **người đáng tin để hỏi**\n\nKey findings:\n• 78% tra Google nhưng không biết ai đúng ai sai\n• 91% quyết định mua phân bón dựa trên hàng xóm nói\n• "Trust" là currency lớn hơn "price" trong nông nghiệp\n\n→ Pivot: Không build info platform. Build **trust network** giữa nông dân với nông dân.\n\nUser behavior > user opinion. Luôn luôn.\n\n#UserResearch #AgriTech #ProductDiscovery',
+    image: 'https://picsum.photos/seed/agriresearch/600/400',
+    likes: 678, comments: 91, shares: 156,
+    reactions: ['💡', '🔥', '👏'],
     time: '1 ngày trước',
     commentList: [
-      { userId: 2, text: 'Đang phân vân M4 hay M3, bài review hữu ích quá!' }
+      { userId: 5, text: '"Trust là currency" — cái này cũng đúng cho healthcare, legal, fintech! Insight cực valuable 🔥' },
+      { userId: 1, text: 'Đây là lý do DevTrust tồn tại 🛡️ Trust economy là real.' }
     ]
-  }
+  },
+  {
+    id: 7, userId: 5,
+    tag: '⚡ Quick Win',
+    content: 'Tăng conversion landing page từ 3.2% → 8.7% chỉ bằng 1 thay đổi:\n\nBefore: "Tham gia DevTrust — mạng xã hội cho developer"\nAfter: "Tìm co-founder trong 7 ngày — đã có 234 founder match thành công"\n\n🔑 Lesson:\n• Benefit > Feature\n• Social proof + số cụ thể > mô tả chung chung\n• "Bạn sẽ được gì?" > "Chúng tôi là gì?"\n\nA/B test này chạy 2 tuần, 1,200 visitors mỗi bên.\n\n#GrowthHacking #ConversionOptimization #CopyWriting',
+    image: null,
+    likes: 1089, comments: 167, shares: 345,
+    reactions: ['🔥', '💡', '👏'],
+    time: '1 ngày trước',
+    commentList: [
+      { userId: 4, text: 'Bài học copywriting này worth $1M 🔥 Mình sẽ test ngay trên landing page của mình!' },
+      { userId: 2, text: 'Numbers create trust. "234 founder match" cụ thể hơn "nhiều founder" rất nhiều.' }
+    ]
+  },
+  {
+    id: 8, userId: 8,
+    tag: '🏗️ Technical Deep Dive',
+    content: 'Tại sao chúng ta chọn P2P (Gun.js) thay vì server truyền thống cho DevTrust:\n\n❌ Server tập trung:\n• Ai kiểm soát server → kiểm soát data\n• Chi phí scale tốn kém\n• Single point of failure\n\n✅ P2P với Gun.js:\n• Data thuộc về user\n• Scale tự động theo network\n• Không ai có thể "shut it down"\n\nThách thức:\n⚠️ Conflict resolution khi có concurrent writes\n⚠️ Search / query phức tạp hơn SQL\n⚠️ Offline sync cần handle cẩn thận\n\nAi đang build P2P app? Connect với mình!\n\n#P2P #GunJS #Architecture #Web3',
+    image: null,
+    likes: 445, comments: 78, shares: 112,
+    reactions: ['💻', '🔥', '💡'],
+    time: '2 ngày trước',
+    commentList: [
+      { userId: 1, text: 'Gun.js conflict resolution dùng CRDT — eventual consistency. Đọc paper "Designing Data-Intensive Applications" của Martin Kleppmann đi!' },
+      { userId: 6, text: 'Tradeoff này classic. Centralized = convenient. Decentralized = resilient. Tùy use case.' }
+    ]
+  },
 ];
 
 const STORIES = [
-  { userId: 1, gradient: 'linear-gradient(135deg, #667eea, #764ba2)', text: '✈️ Đà Nẵng Trip' },
-  { userId: 2, gradient: 'linear-gradient(135deg, #f093fb, #f5576c)', text: '🍜 Food Tour HN' },
-  { userId: 4, gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)', text: '💻 Coding Session' },
-  { userId: 6, gradient: 'linear-gradient(135deg, #43e97b, #38f9d7)', text: '🏋️ Gym Day' },
-  { userId: 7, gradient: 'linear-gradient(135deg, #fa709a, #fee140)', text: '☕ Coffee Vibes' },
-  { userId: 3, gradient: 'linear-gradient(135deg, #a18cd1, #fbc2eb)', text: '📚 Study Time' },
-  { userId: 9, gradient: 'linear-gradient(135deg, #ffecd2, #fcb69f)', text: '🌅 Sunset' },
-  { userId: 5, gradient: 'linear-gradient(135deg, #89f7fe, #66a6ff)', text: '🎵 Music Mood' },
+  { userId: 1, gradient: 'linear-gradient(135deg, #22c55e, #16a34a)', text: '📊 Week 8 Update' },
+  { userId: 2, gradient: 'linear-gradient(135deg, #6366f1, #8b5cf6)', text: '🤔 Pivot Decision' },
+  { userId: 4, gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', text: '💡 MVP Lessons' },
+  { userId: 6, gradient: 'linear-gradient(135deg, #06b6d4, #0ea5e9)', text: '🎯 Feedback Loop' },
+  { userId: 7, gradient: 'linear-gradient(135deg, #ef4444, #dc2626)', text: '🎉 1K Milestone' },
+  { userId: 3, gradient: 'linear-gradient(135deg, #84cc16, #65a30d)', text: '🌾 AgriTech Findings' },
+  { userId: 5, gradient: 'linear-gradient(135deg, #f97316, #ea580c)', text: '⚡ 3x Conversion' },
+  { userId: 8, gradient: 'linear-gradient(135deg, #a78bfa, #7c3aed)', text: '🏗️ P2P vs Server' },
 ];
 
 const CHATS = [
   { userId: 1, messages: [
-    { from: 'them', text: 'Hey! Dự án mới thế nào rồi?', time: '14:30' },
-    { from: 'me', text: 'Gần xong rồi, đang test cuối 🔥', time: '14:32' },
-    { from: 'them', text: 'Tuyệt vời! Cần support gì không?', time: '14:33' },
-    { from: 'me', text: 'Thanks chị! Có gì em ping nhé', time: '14:35' },
-    { from: 'them', text: 'OK em, cố lên! 💪', time: '14:36' },
-  ], unread: true, lastTime: '14:36' },
-  { userId: 2, messages: [
-    { from: 'them', text: 'Cuối tuần đi cafe không?', time: '12:15' },
-    { from: 'me', text: 'Được ah, quán nào?', time: '12:20' },
-    { from: 'them', text: 'Quán mới ở Tây Hồ, view hồ đẹp lắm', time: '12:21' },
-  ], unread: true, lastTime: '12:21' },
+    { from: 'them', text: 'Anh ơi D1 retention 8% có fix được không hay pivot luôn?', time: '14:30' },
+    { from: 'me', text: 'Đang test lại onboarding — đặt expectation đúng từ sign-up. 🔥', time: '14:32' },
+    { from: 'them', text: 'Em nghĩ cần value proposition rõ hơn ngay first session', time: '14:33' },
+    { from: 'me', text: 'Đúng! Đang viết lại copy + add quick-win cho user mới', time: '14:35' },
+  ], unread: true, lastTime: '14:35' },
   { userId: 4, messages: [
-    { from: 'me', text: 'Bài viết tips lập trình của a hay quá!', time: '10:00' },
-    { from: 'them', text: 'Cảm ơn em! Có gì thắc mắc cứ hỏi nhé', time: '10:05' },
-  ], unread: false, lastTime: '10:05' },
+    { from: 'them', text: 'Bài post về MVP sai lầm reach 50K rồi 😳', time: '12:15' },
+    { from: 'me', text: 'Thật không?? Cái nào viral nhất?', time: '12:20' },
+    { from: 'them', text: 'Cái "behavior > opinion" — dev đang debate nhau nhiều lắm 🔥', time: '12:21' },
+  ], unread: true, lastTime: '12:21' },
   { userId: 7, messages: [
-    { from: 'them', text: 'Review MacBook mới post rồi nhé!', time: 'Hôm qua' },
-  ], unread: true, lastTime: 'Hôm qua' },
-  { userId: 6, messages: [
-    { from: 'them', text: 'Ảnh team building đây nè 📸', time: 'Hôm qua' },
-    { from: 'me', text: 'Haha sếp nhảy chất quá 😂', time: 'Hôm qua' },
+    { from: 'them', text: 'Cảm ơn đã support mốc 1000 users! Đang chuẩn bị deck cho series A', time: 'Hôm qua' },
+    { from: 'me', text: 'Chúc mừng! Anh có thể review deck không? 🙏', time: 'Hôm qua' },
   ], unread: false, lastTime: 'Hôm qua' },
+  { userId: 2, messages: [
+    { from: 'them', text: 'Bạn nghĩ sao về option B — pivot B2B?', time: '10:00' },
+    { from: 'me', text: 'B2B ổn hơn về revenue nhưng sales cycle dài. B2C mới check PMF được nhanh.', time: '10:05' },
+  ], unread: true, lastTime: '10:05' },
 ];
 
 const NOTIFICATIONS = [
-  { type: 'like', icon: '❤️', userId: 1, text: '<strong>Linh Nguyễn</strong> đã thích bài viết của bạn', time: '5 phút trước', unread: true },
-  { type: 'comment', icon: '💬', userId: 2, text: '<strong>Minh Trần</strong> đã bình luận: "Quá đẹp luôn!"', time: '15 phút trước', unread: true },
-  { type: 'follow', icon: '👤', userId: 8, text: '<strong>Khoa Đặng</strong> bắt đầu theo dõi bạn', time: '1 giờ trước', unread: true },
-  { type: 'like', icon: '❤️', userId: 4, text: '<strong>Tuấn Vũ</strong> và 12 người khác đã thích bài viết của bạn', time: '2 giờ trước', unread: true },
-  { type: 'mention', icon: '📢', userId: 7, text: '<strong>Thảo Ngô</strong> đã nhắc đến bạn trong bình luận', time: '3 giờ trước', unread: true },
-  { type: 'comment', icon: '💬', userId: 5, text: '<strong>Mai Lê</strong> đã trả lời bình luận của bạn', time: '5 giờ trước', unread: false },
-  { type: 'follow', icon: '👤', userId: 10, text: '<strong>Quỳnh Trương</strong> bắt đầu theo dõi bạn', time: '1 ngày trước', unread: false },
-  { type: 'like', icon: '❤️', userId: 3, text: '<strong>Hương Phạm</strong> đã thích ảnh của bạn', time: '1 ngày trước', unread: false },
+  { type: 'like', icon: '🔥', userId: 4, text: '<strong>Tuấn Vũ</strong> và 89 người khác đã thích bài "MVP Lessons" của bạn', time: '5 phút trước', unread: true },
+  { type: 'comment', icon: '💬', userId: 2, text: '<strong>Minh Trần</strong> hỏi: "Anh có template A/B test không?"', time: '15 phút trước', unread: true },
+  { type: 'follow', icon: '👤', userId: 7, text: '<strong>HealthTech Linh</strong> bắt đầu theo dõi — 1,000 users milestone 🎉', time: '1 giờ trước', unread: true },
+  { type: 'mention', icon: '📢', userId: 3, text: '<strong>AgriTech Hoa</strong> nhắc đến bài post của bạn trong "Trust Economy"', time: '2 giờ trước', unread: true },
+  { type: 'comment', icon: '💬', userId: 6, text: '<strong>Khoa Product</strong> trả lời: "Hotjar + screen recording là game changer"', time: '3 giờ trước', unread: true },
+  { type: 'like', icon: '❤️', userId: 5, text: '<strong>Mai Growth</strong> và 456 người thích bài "3x Conversion" của bạn', time: '5 giờ trước', unread: false },
 ];
 
 const TRENDING = [
-  { tag: '#DevTrust', count: '12.5K bài viết', desc: 'Mạng dev trust P2P' },
-  { tag: '#TechVN', count: '8.2K bài viết', desc: 'Công nghệ Việt Nam' },
-  { tag: '#StartupLife', count: '5.7K bài viết', desc: 'Hành trình khởi nghiệp' },
-  { tag: '#AI2026', count: '15.1K bài viết', desc: 'Trí tuệ nhân tạo' },
-  { tag: '#CodingTips', count: '3.4K bài viết', desc: 'Mẹo lập trình' },
+  { tag: '#BuildInPublic', count: '23.4K bài viết', desc: 'Chia sẻ hành trình build sản phẩm thật' },
+  { tag: '#ProductMarketFit', count: '15.1K bài viết', desc: 'Tìm kiếm PMF — câu hỏi muôn thuở' },
+  { tag: '#StartupVN', count: '12.5K bài viết', desc: 'Startup Việt Nam đang thay đổi' },
+  { tag: '#FounderJourney', count: '9.8K bài viết', desc: 'Câu chuyện hành trình thật của founder' },
+  { tag: '#ZeroToOne', count: '7.2K bài viết', desc: 'Từ 0 đến sản phẩm đầu tiên' },
 ];
+
+
 
 // ============ HELPERS ============
 function getUser(id) { return USERS.find(u => u.id === id); }
@@ -237,6 +279,7 @@ function renderPosts(container, posts) {
           <img src="${avatarUrl(user.seed)}" alt="${user.name}" />
         </div>
         <div class="post__header-info">
+          ${post.tag ? `<div class="post__tag">${post.tag}</div>` : ''}
           <div class="post__author">${user.name} ${getTrustBadge(user.trustScore || 50)}</div>
           <div class="post__time">${post.time}</div>
         </div>
@@ -434,7 +477,7 @@ function switchView(viewName) {
     renderExploreGrid();
   }
   if (viewName === 'notifications' && !$('#notifications-list').children.length) {
-    renderNotifications();
+    renderSmartNotifications();
   }
   if (viewName === 'messages') {
     if (!$('#chat-list').children.length) {
@@ -459,6 +502,14 @@ function switchView(viewName) {
   }
   if (viewName === 'match') {
     if (!$('#match-grid').children.length) renderMatchFeed();
+  }
+  if (viewName === 'devmap') {
+    initDevMap();
+  }
+  if (viewName === 'fund') {
+    // Render leaderboard & bounties on first fund visit
+    if (!$('#leaderboard-list').children.length) renderLeaderboard();
+    if (!$('#bounty-list').children.length) renderBountyBoard();
   }
 }
 
@@ -2799,6 +2850,19 @@ function init() {
   console.log('📚 E-Learning module loaded — Bình dân học vụ số ready!');
   console.log('🤝 Co-Founder Matching engine ready!');
 
+  // ============ MOBILE BOTTOM NAV EVENTS ============
+  $$('.bottom-nav__item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const view = item.dataset.view;
+      if (view) {
+        $$('.bottom-nav__item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        switchView(view);
+      }
+    });
+  });
+
   // ============ CO-FOUNDER MATCHING EVENTS ============
   // Filter chips
   $$('.match-chip').forEach(chip => {
@@ -2911,6 +2975,317 @@ function filterCourses(category) {
 }
 
 // ============ VIEW SWITCHING (updated for learning) ============
+
+// ============ 🗺️ DEVMAP ENGINE ============
+
+const CODING_HOUSES = [
+  {
+    id: 'hn', name: 'Coding House Hà Nội',
+    lat: 21.028, lng: 105.834,
+    emoji: '🏠', color: '#6366f1',
+    desc: 'Không gian làm việc P2P · 24/7 · 15 dev đang active',
+    members: 15, wifi: true, coffee: true,
+    address: 'Cầu Giấy, Hà Nội',
+  },
+  {
+    id: 'dn', name: 'Coding House Đà Nẵng',
+    lat: 16.054, lng: 108.202,
+    emoji: '🏠', color: '#f59e0b',
+    desc: 'Hub DevTrust miền Trung · Hackathon mỗi tháng · 8 dev',
+    members: 8, wifi: true, coffee: true,
+    address: 'Hải Châu, Đà Nẵng',
+  },
+  {
+    id: 'sg', name: 'Coding House TP.HCM',
+    lat: 10.762, lng: 106.660,
+    emoji: '🏠', color: '#22c55e',
+    desc: 'Lớn nhất · Startup office + P2P node · 23 dev',
+    members: 23, wifi: true, coffee: true,
+    address: 'Quận 1, TP.HCM',
+  },
+];
+
+// Mock locations for each user (lat/lng near their city)
+const USER_LOCATIONS = {
+  1: { lat: 21.033, lng: 105.840 }, // Linh — HN
+  2: { lat: 10.775, lng: 106.700 }, // Minh — SG
+  3: { lat: 21.022, lng: 105.820 }, // Hương — HN
+  4: { lat: 16.065, lng: 108.210 }, // Tuấn — ĐN
+  5: { lat: 10.756, lng: 106.650 }, // Mai — SG
+  6: { lat: 21.038, lng: 105.810 }, // Đức — HN
+  7: { lat: 10.768, lng: 106.680 }, // Thảo — SG
+  8: { lat: 16.058, lng: 108.195 }, // Khoa — ĐN
+  9: { lat: 21.015, lng: 105.845 }, // Anh — HN
+  10: { lat: 10.780, lng: 106.665 }, // Quỳnh — SG
+};
+
+let _devMap = null;
+
+function initDevMap() {
+  if (typeof L === 'undefined') {
+    $('#devmap-container').innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-secondary)">🗺️ Đang tải bản đồ...</div>';
+    return;
+  }
+  if (_devMap) {
+    _devMap.invalidateSize();
+    return;
+  }
+
+  // Init Leaflet map centered on Vietnam
+  _devMap = L.map('devmap-container', {
+    center: [16.0, 107.0],
+    zoom: 6,
+    zoomControl: true,
+  });
+
+  // Dark tile layer
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 18,
+  }).addTo(_devMap);
+
+  // Add Coding House markers
+  CODING_HOUSES.forEach(house => {
+    const houseIcon = L.divIcon({
+      className: '',
+      html: `<div class="map-house-marker" style="background:${house.color}">${house.emoji}</div>`,
+      iconSize: [44, 44],
+      iconAnchor: [22, 22],
+    });
+    const marker = L.marker([house.lat, house.lng], { icon: houseIcon }).addTo(_devMap);
+    marker.bindPopup(`
+      <div class="map-popup">
+        <div class="map-popup__title">${house.name}</div>
+        <div class="map-popup__desc">${house.desc}</div>
+        <div class="map-popup__meta">📍 ${house.address} · 👥 ${house.members} devs</div>
+        <button class="map-popup__btn" onclick="showToast('🏠 Đã lưu ${house.name} vào danh sách!', \'success\')">+ Lưu địa điểm</button>
+      </div>
+    `);
+  });
+
+  // Add user markers
+  let onlineCount = 0;
+  USERS.forEach(user => {
+    const loc = USER_LOCATIONS[user.id];
+    if (!loc) return;
+    if (user.online) onlineCount++;
+
+    const color = user.trustScore >= 80 ? '#10b981' : user.trustScore >= 50 ? '#f59e0b' : '#64748b';
+    const userIcon = L.divIcon({
+      className: '',
+      html: `<div class="map-user-marker" style="border-color:${color};${user.online ? 'animation:map-pulse 2s infinite' : ''}">
+        <img src="${avatarUrl(user.seed)}" alt="" style="width:100%;height:100%;border-radius:50%" />
+        ${user.online ? '<span class="map-online-dot"></span>' : ''}
+      </div>`,
+      iconSize: [36, 36],
+      iconAnchor: [18, 18],
+    });
+    const marker = L.marker([loc.lat + (Math.random() - 0.5) * 0.02, loc.lng + (Math.random() - 0.5) * 0.02], { icon: userIcon }).addTo(_devMap);
+    marker.bindPopup(`
+      <div class="map-popup">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <img src="${avatarUrl(user.seed)}" style="width:36px;height:36px;border-radius:50%;border:2px solid ${color}" />
+          <div>
+            <div class="map-popup__title" style="margin:0">${user.name}</div>
+            <div style="font-size:11px;color:${color}">🛡️ ${user.trustScore} · ${user.role}</div>
+          </div>
+        </div>
+        <div class="map-popup__desc">${user.goals}</div>
+        <div class="map-popup__meta">📍 ${user.location} · ⏰ ${user.availableHours}</div>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <button class="map-popup__btn" onclick="openCofounderModal(${user.id});this.closest('.leaflet-popup').querySelector('.leaflet-popup-close-button').click()">👤 Xem profile</button>
+          <button class="map-popup__btn map-popup__btn--msg" onclick="sendMatchMessage(${user.id})">💬 Nhắn tin</button>
+        </div>
+      </div>
+    `);
+  });
+
+  // Update stats
+  const devCountEl = $('#devmap-dev-count');
+  const onlineCountEl = $('#devmap-online-count');
+  if (devCountEl) devCountEl.textContent = USERS.length;
+  if (onlineCountEl) onlineCountEl.textContent = onlineCount;
+
+  // Render sidebar
+  renderCodingHousesSidebar();
+  renderNearbyDevsSidebar();
+}
+
+function renderCodingHousesSidebar() {
+  const container = $('#coding-houses-list');
+  if (!container) return;
+  container.innerHTML = CODING_HOUSES.map(h => `
+    <div class="coding-house-item" style="border-left:3px solid ${h.color}" onclick="_devMap && _devMap.flyTo([${h.lat},${h.lng}], 13)">
+      <div class="coding-house-item__name">${h.emoji} ${h.name}</div>
+      <div class="coding-house-item__meta">👥 ${h.members} devs · 📍 ${h.address}</div>
+    </div>
+  `).join('');
+}
+
+function renderNearbyDevsSidebar() {
+  const container = $('#nearby-devs-list');
+  if (!container) return;
+  const sorted = [...USERS].sort((a, b) => b.trustScore - a.trustScore).slice(0, 5);
+  container.innerHTML = sorted.map(u => `
+    <div class="nearby-dev-item" onclick="openCofounderModal(${u.id})">
+      <img class="nearby-dev-avatar" src="${avatarUrl(u.seed)}" />
+      <div class="nearby-dev-info">
+        <div class="nearby-dev-name">${u.name}</div>
+        <div class="nearby-dev-meta">🛡️ ${u.trustScore} · ${u.location}</div>
+      </div>
+      ${u.online ? '<span class="nearby-dev-online"></span>' : ''}
+    </div>
+  `).join('');
+}
+
+// ============ 🏆 LEADERBOARD ENGINE ============
+
+function renderLeaderboard() {
+  const container = $('#leaderboard-list');
+  if (!container) return;
+
+  // Compute scores: trustScore + contribution points
+  const scored = USERS.map(u => {
+    const contribs = FUND_IDEAS.reduce((sum, idea) => {
+      return sum + idea.contributions
+        .filter(c => c.userId === u.id)
+        .reduce((s, c) => s + c.points, 0);
+    }, 0);
+    return { ...u, totalPoints: u.trustScore * 10 + contribs, contribs };
+  }).sort((a, b) => b.totalPoints - a.totalPoints).slice(0, 5);
+
+  const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+  container.innerHTML = scored.map((u, i) => `
+    <div class="leaderboard-item" onclick="openCofounderModal(${u.id})">
+      <span class="leaderboard-item__medal">${medals[i]}</span>
+      <img class="leaderboard-item__avatar" src="${avatarUrl(u.seed)}" />
+      <div class="leaderboard-item__info">
+        <div class="leaderboard-item__name">${u.name}</div>
+        <div class="leaderboard-item__role">${u.role}</div>
+      </div>
+      <div class="leaderboard-item__score">
+        <div class="leaderboard-item__trust">🛡️ ${u.trustScore}</div>
+        ${u.contribs > 0 ? `<div class="leaderboard-item__pts">+${u.contribs.toLocaleString()}đ</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============ 🎯 BOUNTY BOARD ENGINE ============
+
+const BOUNTIES = [
+  { id: 1, icon: '💻', title: 'Build chat plugin P2P (WebRTC)', reward: '15% revenue', difficulty: 3, category: 'dev', status: 'open' },
+  { id: 2, icon: '📱', title: 'Mobile app wrapper (Flutter)', reward: '20% equity', difficulty: 4, category: 'dev', status: 'open' },
+  { id: 3, icon: '🤖', title: 'Teacher Trust Score plugin', reward: '10% revenue', difficulty: 2, category: 'dev', status: 'open' },
+  { id: 4, icon: '📚', title: 'Course marketplace (publish/sell)', reward: '20% equity', difficulty: 4, category: 'dev', status: 'hot' },
+  { id: 5, icon: '🎓', title: 'Certificate generation (trust-based)', reward: 'Trust 85+', difficulty: 2, category: 'design', status: 'open' },
+  { id: 6, icon: '⚡', title: 'Offline sync optimizer (CRDT)', reward: '15% revenue', difficulty: 4, category: 'dev', status: 'open' },
+  { id: 7, icon: '🎨', title: 'UI/UX thiết kế thêm screens', reward: 'Trust 85+', difficulty: 1, category: 'design', status: 'open' },
+  { id: 8, icon: '🌾', title: 'Build offline lesson downloader', reward: '15% revenue', difficulty: 3, category: 'dev', status: 'open' },
+];
+
+function renderBountyBoard() {
+  const container = $('#bounty-list');
+  const totalEl = $('#bounty-total');
+  if (!container) return;
+  if (totalEl) totalEl.textContent = BOUNTIES.length + ' bounties';
+
+  container.innerHTML = BOUNTIES.map(b => `
+    <div class="bounty-card">
+      <div class="bounty-card__icon">${b.icon}</div>
+      <div class="bounty-card__info">
+        <div class="bounty-card__title">${b.title}</div>
+        <div class="bounty-card__meta">
+          ${'⭐'.repeat(b.difficulty)} · <span class="bounty-category">${b.category === 'dev' ? '💻 Dev' : '🎨 Design'}</span>
+        </div>
+      </div>
+      <div class="bounty-card__right">
+        <div class="bounty-reward">${b.reward}</div>
+        ${b.status === 'hot' ? '<span class="bounty-hot">🔥 HOT</span>' : ''}
+        <button class="btn btn--primary btn--sm bounty-claim-btn" onclick="claimBounty(${b.id})">Claim</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function claimBounty(id) {
+  const bounty = BOUNTIES.find(b => b.id === id);
+  if (!bounty) return;
+  const btn = document.querySelector(`.bounty-claim-btn[onclick*="claimBounty(${id})"]`);
+  if (btn) {
+    btn.textContent = 'Đã claim!';
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    btn.style.background = '#22c55e';
+  }
+  showToast(`🎯 Đã claim bounty "${bounty.title}"! Check Messages để nhận task.`, 'success');
+}
+
+// ============ 🔔 SMART NOTIFICATIONS ENGINE ============
+
+// Extend NOTIFICATIONS with connection requests
+const SMART_NOTIFICATIONS = [
+  { type: 'connection_request', icon: '🤝', userId: 3, text: '<strong>Hương Phạm</strong> muốn kết nối — AI Lead · Trust 91 · 5 năm kinh nghiệm', time: '3 phút trước', unread: true, actionable: true },
+  { type: 'connection_request', icon: '🤝', userId: 4, text: '<strong>Tuấn Vũ</strong> gửi lời mời co-founder — P2P Protocol Architect · Trust 95', time: '12 phút trước', unread: true, actionable: true },
+  ...NOTIFICATIONS,
+];
+
+function renderSmartNotifications() {
+  const container = $('#notifications-list');
+  if (!container) return;
+  container.innerHTML = '';
+  SMART_NOTIFICATIONS.forEach((notif, idx) => {
+    const el = document.createElement('div');
+    el.className = `notif-item ${notif.unread ? 'notif-item--unread' : ''} ${notif.actionable ? 'notif-item--actionable' : ''}`;
+    const iconClass = `notif-item__icon--${notif.type}`;
+    el.innerHTML = `
+      <div class="notif-item__icon ${iconClass}">${notif.icon}</div>
+      <div class="notif-item__body">
+        <p>${notif.text}</p>
+        <time>${notif.time}</time>
+        ${notif.actionable ? `
+          <div class="notif-actions" id="notif-actions-${idx}">
+            <button class="notif-btn notif-btn--accept" onclick="acceptConnection(${notif.userId}, ${idx})">✓ Chấp nhận</button>
+            <button class="notif-btn notif-btn--decline" onclick="declineConnection(${notif.userId}, ${idx})">✕ Từ chối</button>
+          </div>` : ''}
+      </div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function acceptConnection(userId, idx) {
+  const user = getUser(userId);
+  const actionsEl = $(`#notif-actions-${idx}`);
+  if (actionsEl) {
+    actionsEl.innerHTML = '<span class="notif-status notif-status--accepted">✅ Đã kết nối!</span>';
+  }
+  // Add to chat list
+  const existingChat = CHATS.find(c => c.userId === userId);
+  if (!existingChat && user) {
+    CHATS.unshift({
+      userId,
+      messages: [
+        { from: 'them', text: 'Xin chào! Mình rất vui được kết nối với bạn trên DevTrust 🤝', time: new Date().toLocaleTimeString('vi', {hour:'2-digit',minute:'2-digit'}) }
+      ],
+      unread: true,
+      lastTime: 'Vừa xong'
+    });
+    // Reset chat list so it re-renders
+    const chatList = $('#chat-list');
+    if (chatList) chatList.innerHTML = '';
+  }
+  showToast(`🤝 Đã chấp nhận kết nối với ${user ? user.name : 'người dùng'}! Bắt đầu trò chuyện ngay.`, 'success');
+}
+
+function declineConnection(userId, idx) {
+  const user = getUser(userId);
+  const actionsEl = $(`#notif-actions-${idx}`);
+  if (actionsEl) {
+    actionsEl.innerHTML = '<span class="notif-status notif-status--declined">Đã từ chối</span>';
+  }
+  showToast(`Đã từ chối lời mời từ ${user ? user.name : 'người dùng'}.`, 'success');
+}
 
 // ============ GUN.JS P2P LAYER ============
 function initP2P() {

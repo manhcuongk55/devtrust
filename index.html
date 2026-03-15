@@ -81,6 +81,11 @@
           <span>🤝 Kết Nối</span>
           <span class="sidebar__badge sidebar__badge--match">HOT</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="devmap" id="nav-devmap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21 3 6"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
+          <span>🗺️ DevMap</span>
+          <span class="sidebar__badge sidebar__badge--map">VN</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="shorts" id="nav-shorts">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="4"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
           <span>🎬 Pitch Feed</span>
@@ -145,13 +150,66 @@
           <!-- JS populated stories -->
         </div>
 
+        <!-- 🧭 Self-Discovery & Focus Widget -->
+        <div class="focus-widget card" id="focus-widget">
+          <div class="focus-widget__header">
+            <div class="focus-widget__streak" id="focus-streak">
+              <span class="focus-streak__fire">🔥</span>
+              <span class="focus-streak__count" id="streak-count">7</span>
+              <span class="focus-streak__label">ngày build liên tiếp</span>
+            </div>
+            <div class="focus-widget__pillars">
+              <span class="focus-pillar" title="Tự giác">🎯</span>
+              <span class="focus-pillar" title="Tập trung">🧘</span>
+              <span class="focus-pillar" title="Sáng tạo">✨</span>
+              <span class="focus-pillar" title="Chân thành">🤝</span>
+            </div>
+          </div>
+
+          <!-- Daily Commitment -->
+          <div class="focus-commit" id="focus-commit">
+            <div class="focus-commit__label">📌 Hôm nay tôi cam kết:</div>
+            <div class="focus-commit__input-row">
+              <input id="focus-commit-input" class="focus-commit__input" type="text"
+                placeholder="VD: Viết spec cho tính năng onboarding mới..." maxlength="120"/>
+              <button class="focus-commit__btn" onclick="submitDailyCommit()">Đặt mục tiêu</button>
+            </div>
+            <div class="focus-commit__active hidden" id="focus-commit-active">
+              <span id="focus-commit-text"></span>
+              <button class="focus-commit__done" onclick="completeDailyCommit()">✅ Hoàn thành!</button>
+            </div>
+          </div>
+
+          <!-- Focus Timer + Creative Prompt -->
+          <div class="focus-bottom-row">
+            <div class="focus-timer" id="focus-timer">
+              <button class="focus-timer__btn" id="focus-timer-btn" onclick="toggleFocusTimer()">
+                <span class="focus-timer__icon">⏱️</span>
+                <span id="focus-timer-display">25:00</span>
+              </button>
+              <span class="focus-timer__label" id="focus-timer-label">Deep Work</span>
+            </div>
+            <div class="focus-creative" id="focus-creative">
+              <span class="focus-creative__icon">💡</span>
+              <span class="focus-creative__text" id="focus-creative-text">Loading creative prompt...</span>
+              <button class="focus-creative__next" onclick="nextCreativePrompt()">↻</button>
+            </div>
+          </div>
+        </div>
+
         <!-- Create Post -->
         <div class="card create-post" id="create-post-card">
           <div class="create-post__top">
             <div class="avatar avatar--sm">
               <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" />
             </div>
-            <button class="create-post__input" id="btn-open-post-modal">Bạn đang nghĩ gì?</button>
+            <button class="create-post__input" id="btn-open-post-modal">Chia sẻ insight · milestone · vấn đề bạn đang giải...</button>
+          </div>
+          <div class="create-post__tags-row">
+            <button class="create-post__tag-btn" onclick="quickPost('🚀 Build In Public')">🚀 Build Update</button>
+            <button class="create-post__tag-btn" onclick="quickPost('💡 Product Insight')">💡 Insight</button>
+            <button class="create-post__tag-btn" onclick="quickPost('🎯 Problem → Solution')">🎯 Problem</button>
+            <button class="create-post__tag-btn" onclick="quickPost('🤔 Founder Question')">🤔 Hỏi cộng đồng</button>
           </div>
           <div class="create-post__actions">
             <button class="create-post__action" id="btn-live">
@@ -513,6 +571,27 @@
         <div class="fund-grid" id="fund-grid">
           <!-- JS populated -->
         </div>
+
+        <!-- Leaderboard & Bounty Section -->
+        <div class="fund-bottom-section">
+          <!-- Leaderboard -->
+          <div class="leaderboard-panel card">
+            <div class="leaderboard-panel__header">
+              <h3>🏆 Top Contributors</h3>
+              <span class="leaderboard-badge">Tuần này</span>
+            </div>
+            <div id="leaderboard-list"></div>
+          </div>
+
+          <!-- Bounty Board -->
+          <div class="bounty-panel card">
+            <div class="bounty-panel__header">
+              <h3>🎯 Bounty Board</h3>
+              <span class="bounty-total" id="bounty-total">0 bounties</span>
+            </div>
+            <div id="bounty-list"></div>
+          </div>
+        </div>
       </section>
 
 
@@ -570,6 +649,33 @@
         <!-- Match Cards Grid -->
         <div class="match-grid" id="match-grid">
           <!-- JS populated -->
+        </div>
+      </section>
+
+      <!-- ===== DEVMAP VIEW ===== -->
+      <section class="view view--devmap" id="view-devmap">
+        <div class="devmap-header">
+          <div class="devmap-header__info">
+            <h2>🗺️ DevMap — Developer Việt Nam</h2>
+            <p class="devmap-header__desc">Tìm developer gần bạn · Khám phá Coding Houses · Kết nối offline</p>
+          </div>
+          <div class="devmap-legend">
+            <span class="devmap-legend-item"><span class="devmap-dot devmap-dot--trusted"></span> Trusted (80+)</span>
+            <span class="devmap-legend-item"><span class="devmap-dot devmap-dot--rising"></span> Rising (50+)</span>
+            <span class="devmap-legend-item"><span class="devmap-dot devmap-dot--house">🏠</span> Coding House</span>
+          </div>
+        </div>
+        <div class="devmap-stats-bar">
+          <div class="devmap-stat"><strong id="devmap-dev-count">0</strong><span>Developers</span></div>
+          <div class="devmap-stat"><strong>3</strong><span>Coding Houses</span></div>
+          <div class="devmap-stat"><strong id="devmap-online-count">0</strong><span>Online now</span></div>
+        </div>
+        <div id="devmap-container" class="devmap-container"></div>
+        <div class="devmap-sidebar" id="devmap-sidebar">
+          <h4>📍 Coding Houses</h4>
+          <div id="coding-houses-list"></div>
+          <h4 style="margin-top:1rem">👥 Gần bạn nhất</h4>
+          <div id="nearby-devs-list"></div>
         </div>
       </section>
 
@@ -647,6 +753,32 @@
         </div>
       </section>
     </div>
+
+    <!-- ============ MOBILE BOTTOM NAV ============ -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <a class="bottom-nav__item active" data-view="feed" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Feed</span>
+      </a>
+      <a class="bottom-nav__item" data-view="learning" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span>Học</span>
+      </a>
+      <a class="bottom-nav__item bottom-nav__item--center" data-view="shorts" href="#">
+        <div class="bottom-nav__center-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="4"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </div>
+        <span>Pitch</span>
+      </a>
+      <a class="bottom-nav__item" data-view="match" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Kết Nối</span>
+      </a>
+      <a class="bottom-nav__item" data-view="profile" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Profile</span>
+      </a>
+    </nav>
 
     <!-- RIGHT SIDEBAR -->
     <aside class="sidebar sidebar--right" id="sidebar-right">
@@ -780,6 +912,8 @@
   <!-- ============ TOAST ============ -->
   <div class="toast-container" id="toast-container"></div>
 
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
   <script src="app.js"></script>
