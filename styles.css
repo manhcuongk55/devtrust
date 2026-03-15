@@ -4944,3 +4944,90 @@ input:focus, textarea:focus, select:focus {
   .home-hero { padding: 1.5rem 1rem; }
   .home-hero__stats { gap: 1rem; }
 }
+
+/* ================ 🌟 INSPIRATION HUB ================ */
+
+.home-inspo-hub { margin-bottom: 2rem; }
+.inspo-tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.inspo-tab {
+  padding: 0.4rem 0.9rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700;
+  background: var(--bg-glass); border: 1px solid var(--border-color);
+  color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+}
+.inspo-tab:hover { background: var(--bg-glass-hover); color: var(--text-primary); }
+.inspo-tab.active { background: rgba(99,102,241,0.12); border-color: var(--accent-primary); color: var(--accent-primary); }
+
+/* ── Legends Grid ── */
+.inspo-legends-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.85rem; }
+.inspo-legend-card {
+  border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+  padding: 1.1rem; display: flex; flex-direction: column; gap: 0.65rem;
+  cursor: pointer; transition: all var(--transition);
+}
+.inspo-legend-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.inspo-legend-card__top { display: flex; gap: 0.75rem; align-items: flex-start; }
+.inspo-legend-icon { font-size: 1.6rem; width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.inspo-legend-era { font-size: 0.67rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.inspo-legend-name { font-size: 0.95rem; font-weight: 800; line-height: 1.2; }
+.inspo-legend-role { font-size: 0.72rem; color: var(--text-tertiary); }
+.inspo-legend-tagline { font-size: 0.8rem; color: var(--text-secondary); font-style: italic; line-height: 1.5; }
+.inspo-legend-story { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6; padding: 0.6rem; background: rgba(255,255,255,0.03); border-radius: var(--radius-sm); }
+.inspo-legend-lesson { font-size: 0.75rem; padding: 0.5rem 0.75rem; border: 1px solid; border-radius: var(--radius-md); font-weight: 600; line-height: 1.4; }
+.inspo-legend-metrics { display: flex; gap: 0.5rem; }
+.inspo-metric { flex: 1; text-align: center; }
+.inspo-metric strong { display: block; font-size: 0.9rem; font-weight: 800; }
+.inspo-metric span { font-size: 0.62rem; color: var(--text-tertiary); }
+.inspo-legend-expand { font-size: 0.7rem; text-align: right; font-weight: 700; cursor: pointer; }
+
+/* ── Brotherhood List ── */
+.inspo-brotherhood-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.inspo-brotherhood-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-left: 4px solid; border-radius: var(--radius-lg);
+  padding: 1.1rem; display: flex; flex-direction: column; gap: 0.6rem;
+}
+.inspo-brotherhood-header { display: flex; align-items: center; gap: 0.75rem; }
+.inspo-brotherhood-icon { font-size: 1.8rem; }
+.inspo-brotherhood-culture { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; }
+.inspo-brotherhood-name { font-size: 0.95rem; font-weight: 800; }
+.inspo-brotherhood-tagline { font-size: 0.82rem; color: var(--text-secondary); font-style: italic; line-height: 1.5; padding: 0.4rem 0.6rem; background: rgba(255,255,255,0.02); border-radius: 4px; }
+.inspo-brotherhood-story { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.6; }
+.inspo-brotherhood-lesson { font-size: 0.78rem; font-weight: 700; }
+
+/* ── Films Grid ── */
+.inspo-films-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem; }
+.inspo-film-card {
+  background: var(--bg-card); border: 1px solid var(--border-color); border-top: 3px solid;
+  border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden;
+  transition: all var(--transition);
+}
+.inspo-film-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.inspo-film-poster { font-size: 2.5rem; display: flex; align-items: center; justify-content: center; height: 80px; }
+.inspo-film-body { padding: 0.85rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.inspo-film-title { font-size: 0.9rem; font-weight: 800; }
+.inspo-film-meta { font-size: 0.67rem; font-weight: 700; }
+.inspo-film-lesson { font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5; flex: 1; }
+.inspo-film-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.25rem; }
+.inspo-film-tag { font-size: 0.62rem; padding: 0.15rem 0.45rem; border-radius: 999px; background: rgba(129,140,248,0.08); color: var(--text-secondary); border: 1px solid var(--border-color); }
+
+/* ── Stories List ── */
+.inspo-stories-list { display: flex; flex-direction: column; gap: 0.85rem; }
+.inspo-story-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 1.1rem; display: flex; flex-direction: column; gap: 0.75rem;
+}
+.inspo-story-header { display: flex; align-items: center; gap: 0.75rem; }
+.inspo-story-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border-color); }
+.inspo-story-author { font-size: 0.9rem; font-weight: 700; display: flex; align-items: center; gap: 0.4rem; }
+.trust-badge-inline { font-size: 0.68rem; background: rgba(16,185,129,0.1); color: #10b981; padding: 1px 6px; border-radius: 999px; font-weight: 700; }
+.inspo-story-role { font-size: 0.72rem; color: var(--text-tertiary); }
+.inspo-story-headline { font-size: 1rem; font-weight: 800; line-height: 1.3; }
+.inspo-story-body { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+.inspo-story-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.inspo-story-metrics { display: flex; gap: 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; }
+.inspo-story-metrics .inspo-metric { border-right: 1px solid var(--border-color); padding: 0.4rem 0.5rem; }
+.inspo-story-metrics .inspo-metric:last-child { border-right: none; }
+
+@media (max-width: 768px) {
+  .inspo-legends-grid, .inspo-films-grid { grid-template-columns: 1fr; }
+}

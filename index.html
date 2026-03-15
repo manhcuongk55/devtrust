@@ -242,6 +242,23 @@
               <button class="home-quick-tag" onclick="quickPost('🤔 Founder Question')">🤔 Hỏi cộng đồng</button>
             </div>
           </div>
+          <!-- 🌟 INSPIRATION HUB -->
+          <div class="home-inspo-hub">
+            <div class="home-section-header" style="margin-bottom:0.75rem">
+              <div>
+                <div class="home-section-title">🌟 Inspiration Hub</div>
+                <div class="home-section-sub">Từ Hán Sở · Tam Quốc → Spotify · SpaceX · Facebook — tinh thần đoàn kết</div>
+              </div>
+            </div>
+            <div class="inspo-tabs">
+              <button class="inspo-tab active" onclick="switchInspoTab(this,'legends')">👑 Huyền Thoại</button>
+              <button class="inspo-tab" onclick="switchInspoTab(this,'brotherhood')">🤝 Chiến Hữu</button>
+              <button class="inspo-tab" onclick="switchInspoTab(this,'films')">🎬 Phim</button>
+              <button class="inspo-tab" onclick="switchInspoTab(this,'stories')">📖 Stories</button>
+            </div>
+            <div class="inspo-content" id="inspo-content"><!-- JS populated --></div>
+          </div>
+
           <!-- Feed Posts -->
           <div class="feed" id="feed-container">
             <!-- JS populated -->

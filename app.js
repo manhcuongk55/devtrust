@@ -786,15 +786,267 @@ function submitDevJoin(ideaId) {
   _devJoinRole = null; _devJoinHours = null; _devJoinIdeaId = null;
 }
 
+
+// ============ 🌟 INSPIRATION HUB ENGINE ============
+
+const INSPO_LEGENDS = [
+  {
+    icon: '⚔️', era: 'Cổ Đại · Trung Quốc', year: '206 TCN',
+    name: 'Lưu Bang & Hàn Tín',
+    role: 'Hán Cao Tổ & Đại Nguyên Soái',
+    tagline: 'Từ tên vô lại thành Hoàng đế nhờ biết dùng người',
+    story: 'Lưu Bang không có tài năng đặc biệt — nhưng ông biết chọn đúng người. Hàn Tín — thiên tài quân sự, Trương Lương — chiến lược gia, Tiêu Hà — quản trị. Ba người khác nhau hoàn toàn, nhưng cùng một mục tiêu. Lưu Bang thắng Hạng Vũ — người tài giỏi hơn, mạnh hơn, nhưng không biết tin tưởng người khác.',
+    lesson: '"Hào kiệt không phải người làm được mọi việc — mà là người biết ai làm được gì."',
+    metrics: [{ val: '400 năm', label: 'Nhà Hán trị vì' }, { val: '3', label: 'Chiến hữu cốt lõi' }, { val: '1', label: 'Kẻ địch tài năng hơn bị đánh bại' }],
+    color: '#f59e0b', bg: 'rgba(245,158,11,0.06)'
+  },
+  {
+    icon: '🌙', era: 'Tam Quốc · Trung Quốc', year: '184 SCN',
+    name: 'Lưu Bị · Quan Vũ · Trương Phi',
+    role: 'Ba anh em Vườn Đào',
+    tagline: 'Lời thề trung thành vĩnh cửu — không cùng sống thì cùng chết',
+    story: 'Ba người không cùng huyết thống, gặp nhau trong thời loạn. Họ thề tại vườn đào: "Dù không sinh cùng ngày, cùng tháng, cùng năm — nguyện chết cùng ngày, cùng tháng, cùng năm." Không có hợp đồng, không có luật sư — chỉ có lời hứa và sự tin tưởng tuyệt đối. Đây là liên minh đã tồn tại ngàn năm trong lòng người.',
+    lesson: '"Trust mạnh nhất không đến từ hợp đồng — mà từ lòng người đã chọn nhau."',
+    metrics: [{ val: '3', label: 'Anh em kết nghĩa' }, { val: '40 năm', label: 'Đồng hành' }, { val: '∞', label: 'Lòng trung thành' }],
+    color: '#818cf8', bg: 'rgba(129,140,248,0.06)'
+  },
+  {
+    icon: '🍎', era: 'Silicon Valley · Mỹ', year: '1976',
+    name: 'Steve Jobs & Steve Wozniak',
+    role: 'Co-founders Apple',
+    tagline: 'Một người bán giấc mơ, một người viết code — cùng thay đổi thế giới',
+    story: 'Wozniak là thiên tài kỹ thuật — Jobs không code được. Jobs là thiên tài vision — Wozniak không quan tâm business. Họ bổ sung nhau hoàn hảo. Garage $1,300 → công ty nghìn tỷ. Jobs bị đuổi, rồi quay lại cứu Apple khỏi phá sản. Bài học: co-founder phù hợp quan trọng hơn tài năng cá nhân.',
+    lesson: '"Design không chỉ là trông đẹp. Design là cách nó hoạt động."',
+    metrics: [{ val: '$3T', label: 'Market cap đỉnh' }, { val: '1976', label: 'Năm thành lập' }, { val: 'Garage', label: 'Nơi bắt đầu' }],
+    color: '#94a3b8', bg: 'rgba(148,163,184,0.06)'
+  },
+  {
+    icon: '🚀', era: 'Silicon Valley · Mỹ', year: '2002',
+    name: 'Elon Musk — SpaceX',
+    role: 'CEO & Chief Engineer',
+    tagline: 'Bị từ chối 3 lần, còn $30M cuối cùng — đặt cược tất cả vào launch thứ 4',
+    story: '3 lần phóng tên lửa đầu tiên đều thất bại. Tháng 8/2008: còn đúng $30M — đủ cho 1 lần phóng nữa. Nếu thất bại, SpaceX đóng cửa. Musk họp team: "Chúng ta làm không phải vì dễ — mà vì quan trọng." Launch thứ 4 thành công. Hôm đó, NASA trao hợp đồng $1.6B. Lesson: đội ngũ tin vào sứ mệnh sẽ không bỏ đi khi khó khăn nhất.',
+    lesson: '"Khi mọi thứ đủ quan trọng, bạn làm dù xác suất thành công không ủng hộ bạn."',
+    metrics: [{ val: '3', label: 'Lần thất bại liên tiếp' }, { val: '$30M', label: 'Còn lại trước launch 4' }, { val: '$1.6B', label: 'NASA contract sau đó' }],
+    color: '#22c55e', bg: 'rgba(34,197,94,0.06)'
+  },
+  {
+    icon: '🎵', era: 'Stockholm · Thụy Điển', year: '2006',
+    name: 'Daniel Ek & Martin Lorentzon',
+    role: 'Co-founders Spotify',
+    tagline: 'Câu trả lời cho piracy không phải là chiến đấu — mà là tạo ra thứ tốt hơn',
+    story: 'Âm nhạc đang bị phá hủy bởi piracy — Napster, Pirate Bay. Thay vì kiện, Daniel Ek nghĩ khác: "Piracy thắng vì nó tiện hơn." Ông và Lorentzon bỏ 2 năm thuyết phục các hãng đĩa — bị từ chối không đếm xuể. Cuối cùng: Spotify launch với mô hình freemium. Ngành âm nhạc hồi sinh. Bài học: đừng fight cái cũ — build cái mới.',
+    lesson: '"Cách tốt nhất để tiêu diệt đối thủ là khiến họ không còn relevant."',
+    metrics: [{ val: '602M', label: 'Monthly active users' }, { val: '2006', label: 'Founded Stockholm' }, { val: '$10B', label: 'Trả cho nghệ sĩ 2023' }],
+    color: '#1db954', bg: 'rgba(29,185,84,0.06)'
+  },
+  {
+    icon: '🌐', era: 'Harvard → Silicon Valley', year: '2004',
+    name: 'Mark Zuckerberg & Eduardo Saverin',
+    role: 'Co-founders Facebook (Maskbook)',
+    tagline: 'Kết nối mọi người — câu chuyện về tình bạn, phản bội, và bài học lòng tin',
+    story: 'Facebook bắt đầu từ dorm room Harvard — Zuck code, Eduardo tài chính. Khi scale, mâu thuẫn nổ ra về vision và quyền kiểm soát. Eduardo bị dilute shares từ 30% xuống 0.03%. The Social Network kể câu chuyện này. Bài học cay đắng nhất Silicon Valley: co-founder agreement cần rõ ràng từ đầu — trust cần được bảo vệ bởi cấu trúc.',
+    lesson: '"Thành công mà mất đi người bạn đồng hành — đó là thành công gì?"',
+    metrics: [{ val: '3B+', label: 'Monthly active users' }, { val: '2004', label: 'Harvard dorm room' }, { val: '$19B', label: 'Mua WhatsApp 2014' }],
+    color: '#1877f2', bg: 'rgba(24,119,242,0.06)'
+  },
+];
+
+const INSPO_BROTHERHOOD = [
+  {
+    icon: '🌸', culture: 'Nhật Bản', name: 'Honda & Fujisawa',
+    tagline: '"Một người làm kỹ sư, một người làm business — không ai can thiệp vào lĩnh vực của nhau."',
+    story: 'Soichiro Honda là thiên tài cơ khí, ghét việc quản lý. Takeo Fujisawa là thiên tài kinh doanh, không hiểu kỹ thuật. Họ ký thỏa thuận thủ công: Honda không bao giờ bàn về business, Fujisawa không bao giờ xen vào kỹ thuật. 25 năm partnership hoàn hảo — khi retire, hai người cùng rời công ty một ngày.',
+    lesson: 'Tin tưởng thật sự là: biết ranh giới của mình và tôn trọng ranh giới của đối tác.',
+    color: '#ef4444'
+  },
+  {
+    icon: '🦁', culture: 'Phim · Brothers', name: '"Band of Brothers" (2001)',
+    tagline: '"Dễ thương với nhau khi tốt đẹp — vĩ đại là ở bên nhau khi địa ngục."',
+    story: 'Easy Company, 506th PIR — những người lính nhảy dù WWII. Không có gì "gắn kết team" hơn chiến trận. Họ không giỏi nhất — nhưng họ không bỏ nhau. Sergeant Carwood Lipton viết về đồng đội: "Tôi biết rằng nếu tôi ngã xuống, họ sẽ không để tôi ở lại." DevTrust DNA: không bỏ teammate khi khó khăn.',
+    lesson: 'Loyalty không phải khi thuận lợi — loyalty là khi mọi thứ sụp đổ.',
+    color: '#64748b'
+  },
+  {
+    icon: '🔬', culture: 'Nga · Khoa học', name: 'Curie & Einstein — Tinh thần khoa học',
+    tagline: '"Những người vĩ đại chia sẻ tất cả — họ không sợ bị steal vì biết mình sẽ tiếp tục tạo ra."',
+    story: 'Marie Curie chia sẻ công thức phóng xạ ra thế giới — không patent, không giữ bí mật. Einstein chia sẻ toàn bộ research. Họ tin rằng kiến thức thuộc về nhân loại. Tinh thần open source của devs bắt nguồn từ đây: Linus Torvalds với Linux, Tim Berners-Lee với World Wide Web — tặng cho thế giới mà không lấy gì.',
+    lesson: 'Build in public, share openly — người chia sẻ nhiều nhất thường được nhớ đến lâu nhất.',
+    color: '#8b5cf6'
+  },
+  {
+    icon: '🤝', culture: 'DevTrust · Vietnam', name: 'Triết lý chiến hữu DevTrust',
+    tagline: '"Không vì bốc đồng mà bỏ bạn bè đội ngũ. Trân trọng người đồng hành."',
+    story: 'Trong bối cảnh Atlassian, Google, Meta layoff hàng nghìn người — dev Việt Nam cần một nơi khác. Không phải job board. Không phải marketplace lạnh lùng. Mà là cộng đồng chiến hữu — nơi trust được đo lường, cống hiến được ghi nhận, và không ai bị bỏ lại một mình. DevTrust được build cho thời đại này — khi AI lấy đi jobs, nhưng không thể lấy đi human connection.',
+    lesson: '"Chân thành và thật thà là vốn." — DNA của DevTrust.',
+    color: '#6366f1'
+  },
+];
+
+const INSPO_FILMS = [
+  { emoji: '🎬', title: 'The Social Network', year: '2010', director: 'David Fincher', lesson: 'Về tham vọng, tình bạn và cái giá của thành công. "You don\'t get to 500M friends without making a few enemies."', tags: ['startup', 'betrayal', 'vision'], color: '#1877f2' },
+  { emoji: '🍎', title: 'Pirates of Silicon Valley', year: '1999', director: 'Martyn Burke', lesson: 'Jobs vs Gates — hai thiên tài, hai style hoàn toàn khác, cùng thay đổi thế giới máy tính.', tags: ['Apple', 'Microsoft', 'rivalry'], color: '#94a3b8' },
+  { emoji: '🚀', title: 'The Founder', year: '2016', director: 'John Lee Hancock', lesson: 'Ray Kroc và McDonald\'s — về franchising, tham vọng, và đôi khi sự tàn nhẫn của business.', tags: ['McDonald\'s', 'franchise', 'ambition'], color: '#f59e0b' },
+  { emoji: '🌍', title: 'Joy', year: '2015', director: 'David O. Russell', lesson: 'Joy Mangano từ một bà mẹ đơn thân thành tỷ phú. Về sự kiên trì khi cả gia đình không tin bạn.', tags: ['female founder', 'hustle', 'product'], color: '#ec4899' },
+  { emoji: '⚡', title: 'The Internship', year: '2013', director: 'Shawn Levy', lesson: 'Hài hước nhẹ nhàng về Google culture, teamwork và việc không bao giờ quá già để học lại.', tags: ['Google', 'teamwork', 'comeback'], color: '#22c55e' },
+  { emoji: '🎸', title: 'Bohemian Rhapsody', year: '2018', director: 'Bryan Singer', lesson: 'Queen không phải startup tech — nhưng đây là câu chuyện về brand building, team conflict và legacy.', tags: ['music', 'brand', 'resilience'], color: '#fbbf24' },
+  { emoji: '🏠', title: 'Air', year: '2023', director: 'Ben Affleck', lesson: 'Nike ký Michael Jordan khi không ai tin — về bet lớn, thuyết phục và thay đổi cả ngành công nghiệp.', tags: ['Nike', 'deal', 'risk'], color: '#f97316' },
+  { emoji: '🤝', title: 'Band of Brothers', year: '2001', director: 'Steven Spielberg', lesson: 'Không phải startup film — nhưng là tác phẩm vĩ đại nhất về team, loyalty và không bỏ teammate.', tags: ['brotherhood', 'loyalty', 'war'], color: '#64748b' },
+];
+
+const INSPO_STORIES = [
+  {
+    founder: USERS[2], // Hương - AI Lead
+    idea: FUND_IDEAS[0],
+    headline: '67 ngày từ idea đến MVP — bằng cách hỏi đúng câu hỏi',
+    story: 'Tôi không bắt đầu với solution. Tôi bắt đầu với một câu hỏi đơn giản: "Tại sao học sinh vùng cao bỏ học nhiều vậy?" 3 tuần field research, 40 cuộc phỏng vấn, và tôi nhận ra: vấn đề không phải thiếu thầy — mà là nội dung không relevant với cuộc sống của họ. EduChain VN ra đời từ đó.',
+    tags: ['EdTech', 'AI', 'Vietnam', 'field research'],
+    metrics: [{ val: '67', label: 'ngày đến MVP' }, { val: '40', label: 'user interviews' }, { val: '91', label: 'Trust Score' }],
+  },
+  {
+    founder: USERS[0], // Linh - Frontend
+    idea: FUND_IDEAS[1],
+    headline: 'Tôi bị từ chối 12 lần trước khi tìm được co-founder',
+    story: 'Mọi người nghĩ tìm co-founder khó vì họ muốn tìm người "perfect". Tôi nghĩ khác — co-founder tốt là người share CÙNG nỗi đau, không phải cùng skill. Sau 12 lần thất bại, Minh Trần accept — vì anh ấy cũng ghét cách SME bị ngân hàng đối xử. SmartPay VN bắt đầu từ nỗi đau chung đó.',
+    tags: ['Fintech', 'co-founder', 'rejection', 'lesson'],
+    metrics: [{ val: '12', label: 'lần từ chối' }, { val: '1', label: 'co-founder đúng' }, { val: '38', label: 'ngày cùng nhau' }],
+  },
+  {
+    founder: USERS[3], // Tuấn - P2P
+    idea: FUND_IDEAS[2],
+    headline: 'Xây P2P app khi không ai tin vào decentralization ở VN',
+    story: 'Năm 2022, tôi pitch ý tưởng P2P social network cho 10 người. 9 người cười. 1 người hỏi "tại sao không?". Đó là lý do tôi tin: sự hoài nghi của số đông thường là dấu hiệu bạn đang làm điều gì đó đúng. TrustChain Social giờ có 3 contributor và growing.',
+    tags: ['P2P', 'blockchain', 'contrarian', 'Vietnam'],
+    metrics: [{ val: '9/10', label: 'người không tin' }, { val: '1', label: 'người tin đủ rồi' }, { val: '95', label: 'Trust Score' }],
+  },
+];
+
+let _currentInspoTab = 'legends';
+
+function switchInspoTab(btn, tab) {
+  document.querySelectorAll('.inspo-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _currentInspoTab = tab;
+  renderInspoContent(tab);
+}
+
+function renderInspoContent(tab) {
+  const container = $('#inspo-content');
+  if (!container) return;
+  if (tab === 'legends') renderInspoLegends(container);
+  else if (tab === 'brotherhood') renderInspoBrotherhood(container);
+  else if (tab === 'films') renderInspoFilms(container);
+  else if (tab === 'stories') renderInspoStories(container);
+}
+
+function renderInspoLegends(container) {
+  container.innerHTML = `<div class="inspo-legends-grid">
+    ${INSPO_LEGENDS.map((l, i) => `
+    <div class="inspo-legend-card" style="background:${l.bg};border-color:${l.color}25" onclick="toggleLegendExpand(this)">
+      <div class="inspo-legend-card__top">
+        <div class="inspo-legend-icon" style="background:${l.color}15;color:${l.color}">${l.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div class="inspo-legend-era" style="color:${l.color}">${l.era} · ${l.year}</div>
+          <div class="inspo-legend-name">${l.name}</div>
+          <div class="inspo-legend-role">${l.role}</div>
+        </div>
+      </div>
+      <div class="inspo-legend-tagline">"${l.tagline}"</div>
+      <div class="inspo-legend-story hidden">${l.story}</div>
+      <div class="inspo-legend-lesson" style="border-color:${l.color}30;color:${l.color}">💡 ${l.lesson}</div>
+      <div class="inspo-legend-metrics">
+        ${l.metrics.map(m => `<div class="inspo-metric"><strong>${m.val}</strong><span>${m.label}</span></div>`).join('')}
+      </div>
+      <div class="inspo-legend-expand" style="color:${l.color}">▼ Đọc thêm</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function toggleLegendExpand(card) {
+  const story = card.querySelector('.inspo-legend-story');
+  const toggle = card.querySelector('.inspo-legend-expand');
+  if (story.classList.contains('hidden')) {
+    story.classList.remove('hidden');
+    toggle.textContent = '▲ Thu gọn';
+  } else {
+    story.classList.add('hidden');
+    toggle.textContent = '▼ Đọc thêm';
+  }
+}
+
+function renderInspoBrotherhood(container) {
+  container.innerHTML = `<div class="inspo-brotherhood-list">
+    ${INSPO_BROTHERHOOD.map(b => `
+    <div class="inspo-brotherhood-card" style="border-left-color:${b.color}">
+      <div class="inspo-brotherhood-header">
+        <span class="inspo-brotherhood-icon">${b.icon}</span>
+        <div>
+          <div class="inspo-brotherhood-culture" style="color:${b.color}">${b.culture}</div>
+          <div class="inspo-brotherhood-name">${b.name}</div>
+        </div>
+      </div>
+      <div class="inspo-brotherhood-tagline">${b.tagline}</div>
+      <div class="inspo-brotherhood-story">${b.story}</div>
+      <div class="inspo-brotherhood-lesson" style="color:${b.color}">🔑 ${b.lesson}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderInspoFilms(container) {
+  container.innerHTML = `<div class="inspo-films-grid">
+    ${INSPO_FILMS.map(f => `
+    <div class="inspo-film-card" style="border-top-color:${f.color}">
+      <div class="inspo-film-poster" style="background:linear-gradient(135deg,${f.color}20,${f.color}08)">${f.emoji}</div>
+      <div class="inspo-film-body">
+        <div class="inspo-film-title">${f.title}</div>
+        <div class="inspo-film-meta" style="color:${f.color}">${f.year} · ${f.director}</div>
+        <div class="inspo-film-lesson">${f.lesson}</div>
+        <div class="inspo-film-tags">
+          ${f.tags.map(t => `<span class="inspo-film-tag" style="background:${f.color}12;color:${f.color}">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderInspoStories(container) {
+  container.innerHTML = `<div class="inspo-stories-list">
+    ${INSPO_STORIES.map(s => {
+      const u = s.founder;
+      const idea = s.idea;
+      return `
+    <div class="inspo-story-card">
+      <div class="inspo-story-header">
+        <img class="inspo-story-avatar" src="${avatarUrl(u.seed)}" />
+        <div>
+          <div class="inspo-story-author">${u.name} <span class="trust-badge-inline">🛡️${u.trustScore}</span></div>
+          <div class="inspo-story-role">${u.role} · ${idea.emoji} ${idea.name}</div>
+        </div>
+        <button class="btn btn--glass btn--sm" onclick="openKudosModal(${u.id})">💌 Kudos</button>
+      </div>
+      <div class="inspo-story-headline">${s.headline}</div>
+      <div class="inspo-story-body">${s.story}</div>
+      <div class="inspo-story-tags">
+        ${s.tags.map(t => `<span class="inspo-film-tag">${t}</span>`).join('')}
+      </div>
+      <div class="inspo-story-metrics">
+        ${s.metrics.map(m => `<div class="inspo-metric"><strong>${m.val}</strong><span>${m.label}</span></div>`).join('')}
+      </div>
+    </div>`;
+    }).join('')}
+  </div>`;
+}
+
 // ============ 🏠 HOME DASHBOARD ENGINE ============
 
 function renderHomeDashboard() {
   renderHomeIdeasGrid();
   renderHomeFundingRounds();
   renderHomeTeamSpotlight();
-  // Animate hero stats
+  renderInspoContent('legends'); // default tab
   animateHomeStats();
 }
+
 
 function animateHomeStats() {
   const totalDevs = FUND_IDEAS.reduce((s,i) => s + i.members.length, 0) + 20;
