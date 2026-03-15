@@ -81,6 +81,11 @@
           <span>🤝 Kết Nối</span>
           <span class="sidebar__badge sidebar__badge--match">HOT</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="fund" id="nav-fund">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>💰 Gọi Vốn</span>
+          <span class="sidebar__badge sidebar__badge--fund">NEW</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <span>Tin nhắn</span>
@@ -384,6 +389,68 @@
         </div>
       </section>
 
+      <!-- ===== FUND / GỌI VỐN VIEW ===== -->
+      <section class="view view--fund" id="view-fund">
+        <!-- Hero -->
+        <div class="fund-hero">
+          <div class="fund-hero__glow"></div>
+          <div class="fund-hero__content">
+            <div class="fund-hero__badge">💰 Trust-Based Crowdfunding · Góp nguồn lực → Nhận equity</div>
+            <h1 class="fund-hero__title">Gọi Vốn <span>Cộng Đồng</span></h1>
+            <p class="fund-hero__desc">Có ý tưởng? Lập nhóm, góp vốn bằng tiền hoặc kỹ năng. Mỗi đóng góp được quy đổi thành equity minh bạch theo Trust Score.</p>
+            <button class="btn btn--primary btn--lg" id="btn-post-idea" onclick="openIdeaModal()">
+              ✨ Đăng ý tưởng gọi vốn
+            </button>
+          </div>
+        </div>
+
+        <!-- Resource Exchange Rate -->
+        <div class="fund-rate-bar">
+          <div class="fund-rate-title">📐 Bảng Quy Đổi Nguồn Lực</div>
+          <div class="fund-rates">
+            <div class="fund-rate">
+              <div class="fund-rate__icon">💻</div>
+              <div class="fund-rate__label">1 giờ Dev</div>
+              <div class="fund-rate__eq">= 100 điểm</div>
+            </div>
+            <div class="fund-rate">
+              <div class="fund-rate__icon">📣</div>
+              <div class="fund-rate__label">1 giờ Marketing</div>
+              <div class="fund-rate__eq">= 60 điểm</div>
+            </div>
+            <div class="fund-rate">
+              <div class="fund-rate__icon">🎨</div>
+              <div class="fund-rate__label">1 giờ Design</div>
+              <div class="fund-rate__eq">= 80 điểm</div>
+            </div>
+            <div class="fund-rate">
+              <div class="fund-rate__icon">💵</div>
+              <div class="fund-rate__label">1 triệu VNĐ</div>
+              <div class="fund-rate__eq">= 200 điểm</div>
+            </div>
+            <div class="fund-rate fund-rate--trust">
+              <div class="fund-rate__icon">🛡️</div>
+              <div class="fund-rate__label">Trust bonus</div>
+              <div class="fund-rate__eq">×1.0–2.0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Idea Cards Grid -->
+        <div class="fund-section-header">
+          <h3>🚀 Dự án đang gọi vốn (<span id="fund-count">0</span>)</h3>
+          <div class="fund-filter-tabs" id="fund-filter-tabs">
+            <button class="fund-tab active" data-stage="all" onclick="filterFund('all')">Tất cả</button>
+            <button class="fund-tab" data-stage="idea" onclick="filterFund('idea')">💡 Ý tưởng</button>
+            <button class="fund-tab" data-stage="mvp" onclick="filterFund('mvp')">🛠️ MVP</button>
+            <button class="fund-tab" data-stage="growth" onclick="filterFund('growth')">📈 Tăng trưởng</button>
+          </div>
+        </div>
+        <div class="fund-grid" id="fund-grid">
+          <!-- JS populated -->
+        </div>
+      </section>
+
       <!-- ===== MATCH / CO-FOUNDER VIEW ===== -->
       <section class="view view--match" id="view-match">
         <!-- Hero -->
@@ -650,5 +717,67 @@
   <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
   <script src="app.js"></script>
+  <!-- Contribute Modal -->
+  <div class="modal-overlay hidden" id="contribute-modal">
+    <div class="modal fund-contribute-modal">
+      <div class="modal__header">
+        <h3 id="contribute-modal-title">Góp nguồn lực</h3>
+        <button class="modal__close" id="btn-close-contribute-modal">✕</button>
+      </div>
+      <div id="contribute-modal-body" class="contribute-body">
+        <!-- JS populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Post Idea Modal -->
+  <div class="modal-overlay hidden" id="post-idea-modal">
+    <div class="modal" style="max-width:520px;width:90vw">
+      <div class="modal__header">
+        <h3>✨ Đăng ý tưởng gọi vốn</h3>
+        <button class="modal__close" id="btn-close-idea-modal">✕</button>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:1rem">
+        <div class="form-group">
+          <label class="form-label">Tên dự án</label>
+          <input type="text" id="idea-name" class="form-input" placeholder="VD: EduChain VN · Học offline P2P" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mô tả ngắn (1-2 câu)</label>
+          <textarea id="idea-desc" class="form-input" rows="2" placeholder="Giải quyết vấn đề gì? Cho ai?"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Giai đoạn</label>
+          <select id="idea-stage" class="form-input">
+            <option value="idea">💡 Ý tưởng — cần validate</option>
+            <option value="mvp">🛠️ MVP — đang build</option>
+            <option value="growth">📈 Tăng trưởng — có user rồi</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cần gì? (chọn nhiều)</label>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+            <label class="fund-checkbox"><input type="checkbox" value="dev" name="need"> 💻 Dev</label>
+            <label class="fund-checkbox"><input type="checkbox" value="design" name="need"> 🎨 Design</label>
+            <label class="fund-checkbox"><input type="checkbox" value="marketing" name="need"> 📣 Marketing</label>
+            <label class="fund-checkbox"><input type="checkbox" value="money" name="need"> 💵 Vốn</label>
+            <label class="fund-checkbox"><input type="checkbox" value="mentor" name="need"> 🧠 Mentor</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mục tiêu vốn cần huy động</label>
+          <div style="display:flex;gap:0.5rem;align-items:center">
+            <input type="number" id="idea-goal" class="form-input" placeholder="50" style="max-width:120px" />
+            <span style="color:var(--text-tertiary);font-size:0.85rem">triệu VNĐ (hoặc tương đương điểm)</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:0.75rem;padding-top:0.5rem">
+          <button class="btn btn--primary" style="flex:1" onclick="submitIdea()">🚀 Đăng dự án</button>
+          <button class="btn btn--glass" onclick="document.getElementById('post-idea-modal').classList.add('hidden')">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

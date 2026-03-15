@@ -447,6 +447,9 @@ function switchView(viewName) {
     if (!$('#quiz-section').children.length) renderQuizSection();
     renderLearningProgress();
   }
+  if (viewName === 'fund') {
+    if (!$('#fund-grid').children.length) renderFundFeed();
+  }
   if (viewName === 'match') {
     if (!$('#match-grid').children.length) renderMatchFeed();
   }
@@ -660,7 +663,326 @@ function toggleTheme() {
   if (settingsToggle) settingsToggle.checked = isDark;
 }
 
+// ============ FUNDRAISING & RESOURCE POOL ENGINE ============
+
+/**
+ * Bảng quy đổi nguồn lực → điểm equity
+ * Trust Score multiplier: trustScore/50 (min 1.0, max 2.0)
+ */
+const RESOURCE_RATES = {
+  dev:       { label: '💻 Dev', pointsPerHour: 100 },
+  design:    { label: '🎨 Design', pointsPerHour: 80 },
+  marketing: { label: '📣 Marketing', pointsPerHour: 60 },
+  mentor:    { label: '🧠 Mentor', pointsPerHour: 70 },
+  money:     { label: '💵 Vốn tiền mặt', pointsPerMillion: 200 },
+};
+
+function calcTrustMultiplier(trustScore) {
+  return Math.min(2.0, Math.max(1.0, trustScore / 50));
+}
+
+function calculateEquity(type, amount, trustScore) {
+  const mult = calcTrustMultiplier(trustScore);
+  if (type === 'money') return Math.round(amount * RESOURCE_RATES.money.pointsPerMillion * mult);
+  const rate = RESOURCE_RATES[type];
+  return rate ? Math.round(amount * rate.pointsPerHour * mult) : 0;
+}
+
+// Mock FUND_IDEAS data
+let FUND_IDEAS = [
+  {
+    id: 1, founderId: 4, stage: 'mvp', emoji: '🌐',
+    name: 'DevTrust XKLĐ Platform',
+    desc: 'P2P platform kết nối học viên tiếng Nhật với mentor đáng tin — không cần trung gian.',
+    needs: ['dev', 'marketing', 'mentor'],
+    goalPoints: 50000, raisedPoints: 31200,
+    members: [4, 3, 1],
+    contributions: [
+      { userId: 3, type: 'dev', amount: 40, points: 4000, note: 'Build AI matching algo' },
+      { userId: 1, type: 'design', amount: 30, points: 2400, note: 'UI/UX cho mobile' },
+      { userId: 4, type: 'money', amount: 12, points: 24000, note: 'Seed capital' },
+    ]
+  },
+  {
+    id: 2, founderId: 1, stage: 'idea', emoji: '📚',
+    name: 'EduChain VN',
+    desc: 'Nền tảng e-learning offline-first cho vùng sâu. Học xong — dữ liệu tiến độ đồng bộ P2P.',
+    needs: ['dev', 'money', 'mentor'],
+    goalPoints: 30000, raisedPoints: 8500,
+    members: [1, 3],
+    contributions: [
+      { userId: 3, type: 'dev', amount: 20, points: 2000, note: 'Research offline sync' },
+      { userId: 1, type: 'money', amount: 3, points: 6000, note: 'Bootstrap UX sprint' },
+    ]
+  },
+  {
+    id: 3, founderId: 5, stage: 'growth', emoji: '🚀',
+    name: 'Viral EDU',
+    desc: 'Growth hacking machine cho startup EdTech — 100K user trong 12 tháng. Đã có 3K beta users.',
+    needs: ['dev', 'design'],
+    goalPoints: 80000, raisedPoints: 62000,
+    members: [5, 2, 7],
+    contributions: [
+      { userId: 2, type: 'dev', amount: 80, points: 8000, note: 'Backend infra' },
+      { userId: 7, type: 'design', amount: 60, points: 4800, note: 'App redesign' },
+      { userId: 5, type: 'money', amount: 24, points: 48000, note: 'Marketing spend' },
+    ]
+  },
+  {
+    id: 4, founderId: 9, stage: 'idea', emoji: '🏗',
+    name: 'DeFi XKLĐ Bond',
+    desc: 'Smart contract bond cho người đi XKLĐ — huy động vốn từ cộng đồng, trả lãi sau khi có thu nhập Nhật.',
+    needs: ['dev', 'mentor', 'money'],
+    goalPoints: 100000, raisedPoints: 15000,
+    members: [9, 4],
+    contributions: [
+      { userId: 4, type: 'dev', amount: 30, points: 3000, note: 'Smart contract prototype' },
+      { userId: 9, type: 'money', amount: 6, points: 12000, note: 'Audit & legal' },
+    ]
+  },
+  {
+    id: 5, founderId: 6, stage: 'mvp', emoji: '☁️',
+    name: 'CloudBase VN',
+    desc: 'Open-source microservices platform cho startup Việt — deploy bằng 1 command, cost giảm 70%.',
+    needs: ['dev', 'marketing'],
+    goalPoints: 40000, raisedPoints: 21000,
+    members: [6, 2],
+    contributions: [
+      { userId: 2, type: 'dev', amount: 50, points: 5000, note: 'K8s config' },
+      { userId: 6, type: 'dev', amount: 80, points: 8000, note: 'Core infra build' },
+      { userId: 6, type: 'money', amount: 4, points: 8000, note: 'Server costs' },
+    ]
+  },
+];
+
+function getFundStageLabel(stage) {
+  return { idea: '💡 Ý tưởng', mvp: '🛠️ MVP', growth: '📈 Tăng trưởng' }[stage] || stage;
+}
+function getFundStageColor(stage) {
+  return { idea: '#6366f1', mvp: '#f59e0b', growth: '#22c55e' }[stage] || '#64748b';
+}
+
+function renderFundFeed(ideasToRender) {
+  const container = $('#fund-grid');
+  if (!container) return;
+  const ideas = ideasToRender || FUND_IDEAS;
+  const countEl = $('#fund-count');
+  if (countEl) countEl.textContent = ideas.length;
+  container.innerHTML = '';
+
+  ideas.forEach((idea, idx) => {
+    const founder = getUser(idea.founderId);
+    const pct = Math.min(100, Math.round(idea.raisedPoints / idea.goalPoints * 100));
+    const stageColor = getFundStageColor(idea.stage);
+    const totalMembers = idea.members.length;
+
+    const el = document.createElement('div');
+    el.className = 'fund-card';
+    el.style.animationDelay = `${idx * 0.06}s`;
+    el.innerHTML = `
+      <div class="fund-card__header" style="border-left:3px solid ${stageColor}">
+        <div class="fund-card__emoji">${idea.emoji}</div>
+        <div class="fund-card__hinfo">
+          <div class="fund-card__stage" style="color:${stageColor}">${getFundStageLabel(idea.stage)}</div>
+          <div class="fund-card__name">${idea.name}</div>
+        </div>
+      </div>
+      <div class="fund-card__desc">${idea.desc}</div>
+      <div class="fund-card__needs">
+        ${idea.needs.map(n => `<span class="fund-need-tag">${RESOURCE_RATES[n]?.label || n}</span>`).join('')}
+      </div>
+      <div class="fund-card__progress-wrap">
+        <div class="fund-card__progress-bar">
+          <div class="fund-card__progress-fill" style="width:${pct}%;background:${stageColor}"></div>
+        </div>
+        <div class="fund-card__progress-info">
+          <span class="fund-card__raised">${idea.raisedPoints.toLocaleString()} điểm</span>
+          <span class="fund-card__pct" style="color:${stageColor}">${pct}%</span>
+          <span class="fund-card__goal">/ ${idea.goalPoints.toLocaleString()}</span>
+        </div>
+      </div>
+      <div class="fund-card__footer">
+        <div class="fund-card__team">
+          ${idea.members.slice(0, 3).map(uid => {
+            const u = getUser(uid);
+            return u ? `<img class="fund-member-avatar" src="${avatarUrl(u.seed)}" title="${u.name}" />` : '';
+          }).join('')}
+          <span class="fund-card__team-count">${totalMembers} thành viên</span>
+        </div>
+        ${founder ? `<div class="fund-card__founder">
+          <img src="${avatarUrl(founder.seed)}" class="fund-founder-avatar" />
+          <span>${founder.name}</span>
+          <span class="fund-trust-badge">🛡️ ${founder.trustScore}</span>
+        </div>` : ''}
+      </div>
+      <div class="fund-card__actions">
+        <button class="btn btn--primary btn--sm" onclick="openContributeModal(${idea.id})">💰 Góp nguồn lực</button>
+        <button class="btn btn--glass btn--sm" onclick="openFundTeamModal(${idea.id})">👥 Xem nhóm</button>
+      </div>
+    `;
+    container.appendChild(el);
+  });
+}
+
+function filterFund(stage) {
+  document.querySelectorAll('.fund-tab').forEach(t => t.classList.remove('active'));
+  const activeTab = document.querySelector(`.fund-tab[data-stage="${stage}"]`);
+  if (activeTab) activeTab.classList.add('active');
+  const filtered = stage === 'all' ? FUND_IDEAS : FUND_IDEAS.filter(i => i.stage === stage);
+  renderFundFeed(filtered);
+}
+
+function openContributeModal(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  if (!idea) return;
+  const founder = getUser(idea.founderId);
+  const pct = Math.min(100, Math.round(idea.raisedPoints / idea.goalPoints * 100));
+
+  $('#contribute-modal-title').textContent = `Góp vốn vào "${idea.name}"`;
+  const body = $('#contribute-modal-body');
+  body.innerHTML = `
+    <div class="contribute-idea-info">
+      <div style="font-size:2rem">${idea.emoji}</div>
+      <div>
+        <div class="contribute-idea-name">${idea.name}</div>
+        <div class="contribute-idea-desc">${idea.desc}</div>
+        <div class="contribute-progress-mini">
+          <div class="contribute-prog-fill" style="width:${pct}%;background:${getFundStageColor(idea.stage)}"></div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text-tertiary);margin-top:0.25rem">
+          ${idea.raisedPoints.toLocaleString()} / ${idea.goalPoints.toLocaleString()} điểm (${pct}%)
+        </div>
+      </div>
+    </div>
+
+    <div class="contribute-form">
+      <div class="contribute-form__label">Chọn loại đóng góp:</div>
+      <div class="contribute-types" id="contribute-types">
+        ${Object.entries(RESOURCE_RATES).map(([key, r]) => `
+          <label class="contribute-type-item">
+            <input type="radio" name="ctype" value="${key}" ${idea.needs.includes(key) ? 'checked' : ''} onchange="updateEquityPreview(${ideaId})">
+            <span class="contribute-type-label">${r.label}</span>
+            <span class="contribute-type-rate">${key === 'money' ? r.pointsPerMillion + ' đ/tr' : r.pointsPerHour + ' đ/h'}</span>
+          </label>
+        `).join('')}
+      </div>
+
+      <div class="contribute-amount-row">
+        <div class="form-group">
+          <label class="form-label" id="contribute-amount-label">Số giờ đóng góp:</label>
+          <input type="number" id="contribute-amount" class="form-input" value="10" min="1" oninput="updateEquityPreview(${ideaId})" placeholder="10" />
+        </div>
+        <div class="contribute-equity-preview" id="equity-preview">
+          <div class="equity-preview__num" id="equity-num">1,000</div>
+          <div class="equity-preview__label">điểm equity</div>
+          <div class="equity-preview__pct" id="equity-pct">~2.0%</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Ghi chú (bạn sẽ làm gì?):</label>
+        <textarea id="contribute-note" class="form-input" rows="2" placeholder="VD: Build API backend cho module matching"></textarea>
+      </div>
+
+      <div class="contribute-trust-info">
+        <div class="trust-mult-badge">🛡️ Trust Score của bạn: <strong>92</strong> → Nhân hệ số <strong>×${calcTrustMultiplier(92).toFixed(1)}</strong></div>
+      </div>
+
+      <div style="display:flex;gap:0.75rem;margin-top:1rem">
+        <button class="btn btn--primary" style="flex:1" onclick="submitContribution(${ideaId})">💰 Xác nhận Góp Vốn</button>
+        <button class="btn btn--glass" onclick="$('#contribute-modal').classList.add('hidden')">Hủy</button>
+      </div>
+    </div>
+
+    <div class="contribute-top-list">
+      <div class="contribute-top-title">🏆 Top contributors</div>
+      ${idea.contributions.map(c => {
+        const u = getUser(c.userId);
+        return u ? `<div class="contribute-top-item">
+          <img class="fund-member-avatar" src="${avatarUrl(u.seed)}" />
+          <div style="flex:1">
+            <div style="font-size:0.82rem;font-weight:600">${u.name}</div>
+            <div style="font-size:0.72rem;color:var(--text-tertiary)">${c.note}</div>
+          </div>
+          <div style="font-size:0.82rem;font-weight:700;color:var(--accent-primary)">${c.points.toLocaleString()} đ</div>
+        </div>` : '';
+      }).join('')}
+    </div>
+  `;
+  $('#contribute-modal').classList.remove('hidden');
+  updateEquityPreview(ideaId);
+}
+
+function updateEquityPreview(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  if (!idea) return;
+  const type = document.querySelector('input[name="ctype"]:checked')?.value || 'dev';
+  const amount = parseFloat($('#contribute-amount')?.value) || 0;
+  const label = $('#contribute-amount-label');
+  if (label) label.textContent = type === 'money' ? 'Số triệu VNĐ:' : 'Số giờ đóng góp:';
+  const points = calculateEquity(type, amount, 92); // 92 = owner trust score
+  const totalAfter = idea.raisedPoints + points;
+  const pct = totalAfter > 0 ? ((points / totalAfter) * 100).toFixed(1) : '0.0';
+  const numEl = $('#equity-num');
+  const pctEl = $('#equity-pct');
+  if (numEl) numEl.textContent = points.toLocaleString();
+  if (pctEl) pctEl.textContent = `~${pct}% equity`;
+}
+
+function submitContribution(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  if (!idea) return;
+  const type = document.querySelector('input[name="ctype"]:checked')?.value || 'dev';
+  const amount = parseFloat($('#contribute-amount')?.value) || 0;
+  const note = $('#contribute-note')?.value || '';
+  const points = calculateEquity(type, amount, 92);
+  idea.raisedPoints += points;
+  idea.contributions.push({ userId: 0, type, amount, points, note });
+  $('#contribute-modal').classList.add('hidden');
+  showToast(`💰 Đã góp ${points.toLocaleString()} điểm equity vào "${idea.name}"! 🎉`, 'success');
+  renderFundFeed();
+}
+
+function openFundTeamModal(ideaId) {
+  const idea = FUND_IDEAS.find(i => i.id === ideaId);
+  if (!idea) return;
+  showToast(`👥 ${idea.name} có ${idea.members.length} thành viên. Tính năng xem chi tiết nhóm sẽ sớm ra mắt!`, 'info');
+}
+
+function openIdeaModal() {
+  $('#post-idea-modal').classList.remove('hidden');
+}
+
+function submitIdea() {
+  const name = $('#idea-name')?.value.trim();
+  const desc = $('#idea-desc')?.value.trim();
+  const stage = $('#idea-stage')?.value || 'idea';
+  const goalMillion = parseFloat($('#idea-goal')?.value) || 10;
+  const needs = [...document.querySelectorAll('input[name="need"]:checked')].map(cb => cb.value);
+  if (!name) { showToast('Vui lòng nhập tên dự án!', 'error'); return; }
+  const stageEmojis = { idea: '💡', mvp: '🛠️', growth: '📈' };
+  const newIdea = {
+    id: FUND_IDEAS.length + 1,
+    founderId: 0,
+    stage, emoji: stageEmojis[stage] || '🚀',
+    name, desc: desc || 'Ý tưởng mới từ cộng đồng DevTrust.',
+    needs: needs.length > 0 ? needs : ['dev'],
+    goalPoints: goalMillion * 200,
+    raisedPoints: 0,
+    members: [0],
+    contributions: [],
+  };
+  FUND_IDEAS.unshift(newIdea);
+  $('#post-idea-modal').classList.add('hidden');
+  $('#idea-name').value = '';
+  $('#idea-desc').value = '';
+  $('#idea-goal').value = '';
+  showToast(`🚀 Đã đăng dự án "${name}"! Cộng đồng sẽ sớm góp nguồn lực cho bạn!`, 'success');
+  renderFundFeed();
+}
+
 // ============ CO-FOUNDER MATCHING ENGINE ============
+
 
 // "Owner" profile (current user) used as matching reference
 const OWNER_PROFILE = {
@@ -1563,6 +1885,22 @@ function init() {
     cofounderModal.addEventListener('click', (e) => {
       if (e.target === e.currentTarget) cofounderModal.classList.add('hidden');
     });
+  }
+
+  // ============ FUND MODAL EVENTS ============
+  const closeContributeModal = $('#btn-close-contribute-modal');
+  if (closeContributeModal) {
+    closeContributeModal.addEventListener('click', () => $('#contribute-modal').classList.add('hidden'));
+  }
+  const contributeModal = $('#contribute-modal');
+  if (contributeModal) {
+    contributeModal.addEventListener('click', (e) => {
+      if (e.target === e.currentTarget) contributeModal.classList.add('hidden');
+    });
+  }
+  const closeIdeaModal = $('#btn-close-idea-modal');
+  if (closeIdeaModal) {
+    closeIdeaModal.addEventListener('click', () => $('#post-idea-modal').classList.add('hidden'));
   }
 
   // ============ GUN.JS P2P INTEGRATION ============
