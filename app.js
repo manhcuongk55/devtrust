@@ -500,6 +500,9 @@ function switchView(viewName) {
     startFundTicker();
     animateFundCounters();
   }
+  if (viewName === 'feed') {
+    renderHomeDashboard();
+  }
   if (viewName === 'match') {
     if (!$('#match-grid').children.length) renderMatchFeed();
   }
@@ -781,6 +784,193 @@ function submitDevJoin(ideaId) {
   showToast(`🎉 Đã tham gia “${idea.name}”! ${pts.toLocaleString()} điểm equity ghi nhận. Welcome to the team!`, 'success');
   setTimeout(() => switchView('fund'), 1200);
   _devJoinRole = null; _devJoinHours = null; _devJoinIdeaId = null;
+}
+
+// ============ 🏠 HOME DASHBOARD ENGINE ============
+
+function renderHomeDashboard() {
+  renderHomeIdeasGrid();
+  renderHomeFundingRounds();
+  renderHomeTeamSpotlight();
+  // Animate hero stats
+  animateHomeStats();
+}
+
+function animateHomeStats() {
+  const totalDevs = FUND_IDEAS.reduce((s,i) => s + i.members.length, 0) + 20;
+  animateCount('hs-ideas', FUND_IDEAS.length);
+  animateCount('hs-devs', totalDevs);
+}
+
+function animateCount(id, target) {
+  const el = $(`#${id}`);
+  if (!el || el.dataset.animated) return;
+  el.dataset.animated = '1';
+  let current = 0;
+  const step = Math.ceil(target / 30);
+  const t = setInterval(() => {
+    current = Math.min(current + step, target);
+    el.textContent = current;
+    if (current >= target) clearInterval(t);
+  }, 40);
+}
+
+function renderHomeIdeasGrid() {
+  const container = $('#home-ideas-grid');
+  if (!container) return;
+  // Show top 3 by momentum (contributions * members)
+  const sorted = [...FUND_IDEAS].sort((a, b) =>
+    (b.contributions.length * b.members.length) - (a.contributions.length * a.members.length)
+  ).slice(0, 3);
+
+  container.innerHTML = sorted.map(idea => {
+    const founder = getUser(idea.founderId);
+    const pct = Math.min(100, Math.round(idea.raisedPoints / idea.goalPoints * 100));
+    const stageColor = getFundStageColor(idea.stage);
+    const equityLeft = Math.max(0, 100 - pct);
+    const openRoles = idea.needs.map(n => RESOURCE_RATES[n]?.label || n);
+
+    return `
+    <div class="home-idea-card" style="--card-accent:${stageColor}">
+      <div class="home-idea-card__glow" style="background:${stageColor}"></div>
+      <div class="home-idea-card__top">
+        <span class="home-idea-card__emoji">${idea.emoji}</span>
+        <span class="home-idea-card__stage" style="background:${stageColor}22;color:${stageColor}">${getFundStageLabel(idea.stage)}</span>
+      </div>
+      <h3 class="home-idea-card__name">${idea.name}</h3>
+      <p class="home-idea-card__desc">${idea.desc}</p>
+
+      <div class="home-idea-card__needs">
+        ${openRoles.slice(0,2).map(r => `<span class="home-idea-need-tag">${r}</span>`).join('')}
+        ${openRoles.length > 2 ? `<span class="home-idea-need-tag">+${openRoles.length-2}</span>` : ''}
+      </div>
+
+      <div class="home-idea-card__metrics">
+        <div class="home-idea-metric">
+          <strong style="color:${stageColor}">${equityLeft}%</strong>
+          <span>Equity còn</span>
+        </div>
+        <div class="home-idea-metric">
+          <strong>${idea.members.length}</strong>
+          <span>Thành viên</span>
+        </div>
+        <div class="home-idea-metric">
+          <strong>${idea.contributions.length}</strong>
+          <span>Contributions</span>
+        </div>
+      </div>
+
+      <div class="home-idea-card__progress">
+        <div class="home-idea-progress-bar">
+          <div class="home-idea-progress-fill" style="width:${pct}%;background:${stageColor}"></div>
+        </div>
+        <span style="color:${stageColor}">${pct}%</span>
+      </div>
+
+      <div class="home-idea-card__team">
+        ${idea.members.slice(0,4).map(uid => {
+          const u = getUser(uid);
+          return u ? `<img class="home-idea-avatar" src="${avatarUrl(u.seed)}" title="${u.name}" />` : '';
+        }).join('')}
+        ${founder ? `<span class="home-idea-founder">by ${founder.name}</span>` : ''}
+      </div>
+
+      <button class="home-idea-join-btn" onclick="openDevJoinModal(${idea.id})" style="--btn-color:${stageColor}">
+        🚀 Xem & Tham gia
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function renderHomeFundingRounds() {
+  const container = $('#home-rounds-list');
+  if (!container) return;
+  const sorted = [...FUND_IDEAS].sort((a, b) => {
+    const aP = a.raisedPoints / a.goalPoints;
+    const bP = b.raisedPoints / b.goalPoints;
+    return bP - aP; // most funded first (most active)
+  });
+
+  container.innerHTML = sorted.map(idea => {
+    const pct = Math.min(100, Math.round(idea.raisedPoints / idea.goalPoints * 100));
+    const stageColor = getFundStageColor(idea.stage);
+    const goalDisplay = (idea.goalPoints / 1000).toFixed(0) + 'K';
+    const raisedDisplay = (idea.raisedPoints / 1000).toFixed(1) + 'K';
+    const timeLeft = Math.floor(Math.random() * 20) + 5; // simulated days left
+    const isHot = idea.contributions.length >= 3;
+
+    return `
+    <div class="home-round-item" onclick="switchView('fund')">
+      <div class="home-round-item__left">
+        <div class="home-round-emoji">${idea.emoji}</div>
+        <div class="home-round-info">
+          <div class="home-round-name">
+            ${idea.name}
+            ${isHot ? '<span class="home-round-hot">🔥 HOT</span>' : ''}
+          </div>
+          <div class="home-round-meta" style="color:${stageColor}">${getFundStageLabel(idea.stage)} · ${timeLeft} ngày còn lại</div>
+        </div>
+      </div>
+
+      <div class="home-round-progress-wrap">
+        <div class="home-round-nums">
+          <span style="color:${stageColor};font-weight:700">${raisedDisplay} pts</span>
+          <span style="color:var(--text-tertiary)">/ ${goalDisplay} pts</span>
+        </div>
+        <div class="home-round-bar">
+          <div class="home-round-bar__fill" style="width:${pct}%;background:linear-gradient(90deg,${stageColor},${stageColor}cc)"></div>
+        </div>
+        <div class="home-round-pct" style="color:${stageColor}">${pct}%</div>
+      </div>
+
+      <div class="home-round-team">
+        ${idea.members.slice(0,3).map(uid => {
+          const u = getUser(uid);
+          return u ? `<img class="home-round-avatar" src="${avatarUrl(u.seed)}" title="${u.name}" />` : '';
+        }).join('')}
+        ${idea.members.length > 3 ? `<span class="home-round-more">+${idea.members.length-3}</span>` : ''}
+      </div>
+
+      <button class="btn btn--primary btn--sm" onclick="event.stopPropagation();openContributeModal(${idea.id})" style="flex-shrink:0">
+        💰 Góp vốn
+      </button>
+    </div>`;
+  }).join('');
+}
+
+function renderHomeTeamSpotlight() {
+  const container = $('#home-team-scroll');
+  if (!container) return;
+  // Top users by trust score + contributions
+  const topUsers = [...USERS].sort((a, b) => b.trustScore - a.trustScore).slice(0, 8);
+
+  container.innerHTML = topUsers.map(user => {
+    const kudos = getKudosCount(user.id);
+    const bond = getTeamBondScore(user.id);
+    const days = getDaysTogether(user.id);
+    const ideaCount = FUND_IDEAS.filter(i => i.members.includes(user.id) || i.founderId === user.id).length;
+
+    return `
+    <div class="home-spotlight-card" onclick="openCofounderModal(${user.id})">
+      <div class="home-spotlight-card__avatar-wrap">
+        <img class="home-spotlight-avatar" src="${avatarUrl(user.seed)}" />
+        ${user.online ? '<span class="home-spotlight-online"></span>' : ''}
+      </div>
+      <div class="home-spotlight-name">${user.name.split(' ').pop()}</div>
+      <div class="home-spotlight-role">${user.role.split(' ')[0]}</div>
+      <div class="home-spotlight-trust" style="color:${user.trustScore >= 80 ? '#10b981' : user.trustScore >= 60 ? '#f59e0b' : '#64748b'}">
+        🛡️ ${user.trustScore}
+      </div>
+      <div class="home-spotlight-meta">
+        <span>💌 ${kudos}</span>
+        <span>🔗 ${bond}</span>
+        <span>⚡ ${ideaCount}</span>
+      </div>
+      <button class="home-spotlight-btn" onclick="event.stopPropagation();openKudosModal(${user.id})">
+        💌 Kudos
+      </button>
+    </div>`;
+  }).join('');
 }
 
 // ============ CHAT ============

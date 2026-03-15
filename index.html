@@ -143,100 +143,113 @@
 
       <!-- ===== FEED VIEW ===== -->
       <section class="view view--feed active" id="view-feed">
-        <!-- Stories -->
-        <div class="stories" id="stories">
-          <div class="story story--create" id="story-create">
-            <div class="story__img-wrap story__img-wrap--create">
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" />
-              <div class="story__plus">+</div>
-            </div>
-            <span class="story__name">Tạo story</span>
-          </div>
-          <!-- JS populated stories -->
-        </div>
 
-        <!-- 🧭 Self-Discovery & Focus Widget -->
-        <div class="focus-widget card" id="focus-widget">
-          <div class="focus-widget__header">
-            <div class="focus-widget__streak" id="focus-streak">
-              <span class="focus-streak__fire">🔥</span>
-              <span class="focus-streak__count" id="streak-count">7</span>
-              <span class="focus-streak__label">ngày build liên tiếp</span>
+        <!-- 🚀 HERO BANNER -->
+        <div class="home-hero">
+          <div class="home-hero__glow"></div>
+          <div class="home-hero__content">
+            <div class="home-hero__eyebrow">
+              <span class="home-hero__live-dot"></span> DevTrust · Vietnam Startup Ecosystem
             </div>
-            <div class="focus-widget__pillars">
-              <span class="focus-pillar" title="Tự giác">🎯</span>
-              <span class="focus-pillar" title="Tập trung">🧘</span>
-              <span class="focus-pillar" title="Sáng tạo">✨</span>
-              <span class="focus-pillar" title="Chân thành">🤝</span>
+            <h1 class="home-hero__title">Build. Fund. <span>Win Together.</span></h1>
+            <p class="home-hero__desc">Nơi dev tìm đồng đội, startup gọi vốn cộng đồng, và ý tưởng biến thành sản phẩm thật.</p>
+            <div class="home-hero__stats" id="home-hero-stats">
+              <div class="home-stat">
+                <span class="home-stat__num" id="hs-ideas">5</span>
+                <span class="home-stat__label">Startup đang build</span>
+              </div>
+              <div class="home-stat">
+                <span class="home-stat__num" id="hs-devs">47</span>
+                <span class="home-stat__label">Dev đã join</span>
+              </div>
+              <div class="home-stat">
+                <span class="home-stat__num" id="hs-raised">1.2B</span>
+                <span class="home-stat__label">Equity phân phối</span>
+              </div>
+              <div class="home-stat">
+                <span class="home-stat__num" id="hs-trust">92%</span>
+                <span class="home-stat__label">Team retain</span>
+              </div>
             </div>
-          </div>
-
-          <!-- Daily Commitment -->
-          <div class="focus-commit" id="focus-commit">
-            <div class="focus-commit__label">📌 Hôm nay tôi cam kết:</div>
-            <div class="focus-commit__input-row">
-              <input id="focus-commit-input" class="focus-commit__input" type="text"
-                placeholder="VD: Viết spec cho tính năng onboarding mới..." maxlength="120"/>
-              <button class="focus-commit__btn" onclick="submitDailyCommit()">Đặt mục tiêu</button>
-            </div>
-            <div class="focus-commit__active hidden" id="focus-commit-active">
-              <span id="focus-commit-text"></span>
-              <button class="focus-commit__done" onclick="completeDailyCommit()">✅ Hoàn thành!</button>
-            </div>
-          </div>
-
-          <!-- Focus Timer + Creative Prompt -->
-          <div class="focus-bottom-row">
-            <div class="focus-timer" id="focus-timer">
-              <button class="focus-timer__btn" id="focus-timer-btn" onclick="toggleFocusTimer()">
-                <span class="focus-timer__icon">⏱️</span>
-                <span id="focus-timer-display">25:00</span>
-              </button>
-              <span class="focus-timer__label" id="focus-timer-label">Deep Work</span>
-            </div>
-            <div class="focus-creative" id="focus-creative">
-              <span class="focus-creative__icon">💡</span>
-              <span class="focus-creative__text" id="focus-creative-text">Loading creative prompt...</span>
-              <button class="focus-creative__next" onclick="nextCreativePrompt()">↻</button>
+            <div class="home-hero__actions">
+              <button class="btn btn--primary" onclick="openDevJoinModal(1)">🚀 Tham gia startup ngay</button>
+              <button class="btn btn--glass" onclick="switchView('investor')">🧑‍💼 Xem portfolio</button>
             </div>
           </div>
         </div>
 
-        <!-- Create Post -->
-        <div class="card create-post" id="create-post-card">
-          <div class="create-post__top">
-            <div class="avatar avatar--sm">
-              <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" />
+        <!-- 🔥 FEATURED IDEAS -->
+        <div class="home-section">
+          <div class="home-section-header">
+            <div>
+              <h2 class="home-section-title">🔥 Startup đang HOT</h2>
+              <p class="home-section-sub">Tìm đội, góp vốn, lấy equity ngay hôm nay</p>
             </div>
-            <button class="create-post__input" id="btn-open-post-modal">Chia sẻ insight · milestone · vấn đề bạn đang giải...</button>
+            <button class="btn btn--glass btn--sm" onclick="switchView('devjoin')">Xem tất cả →</button>
           </div>
-          <div class="create-post__tags-row">
-            <button class="create-post__tag-btn" onclick="quickPost('🚀 Build In Public')">🚀 Build Update</button>
-            <button class="create-post__tag-btn" onclick="quickPost('💡 Product Insight')">💡 Insight</button>
-            <button class="create-post__tag-btn" onclick="quickPost('🎯 Problem → Solution')">🎯 Problem</button>
-            <button class="create-post__tag-btn" onclick="quickPost('🤔 Founder Question')">🤔 Hỏi cộng đồng</button>
-          </div>
-          <div class="create-post__actions">
-            <button class="create-post__action" id="btn-live">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-              <span>Video trực tiếp</span>
-            </button>
-            <button class="create-post__action" id="btn-photo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>Ảnh / Video</span>
-            </button>
-            <button class="create-post__action" id="btn-feeling">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-              <span>Cảm xúc</span>
-            </button>
+          <div class="home-ideas-grid" id="home-ideas-grid">
+            <!-- JS populated -->
           </div>
         </div>
 
-        <!-- Feed Posts -->
-        <div class="feed" id="feed-container">
-          <!-- JS populated -->
+        <!-- 📈 LIVE FUNDING ROUNDS -->
+        <div class="home-section">
+          <div class="home-section-header">
+            <div>
+              <h2 class="home-section-title">📈 Vòng Gọi Vốn Đang Chạy</h2>
+              <p class="home-section-sub">Cộng đồng đang góp code · design · tiền · mentor</p>
+            </div>
+            <button class="btn btn--glass btn--sm" onclick="switchView('fund')">Gọi Vốn →</button>
+          </div>
+          <div class="home-rounds-list" id="home-rounds-list">
+            <!-- JS populated -->
+          </div>
         </div>
+
+        <!-- 👥 TEAM SPOTLIGHT -->
+        <div class="home-section">
+          <div class="home-section-header">
+            <div>
+              <h2 class="home-section-title">👥 Team Spotlight</h2>
+              <p class="home-section-sub">Những chiến hữu tin cậy nhất tuần này</p>
+            </div>
+            <button class="btn btn--glass btn--sm" onclick="switchView('match')">Kết nối →</button>
+          </div>
+          <div class="home-team-scroll" id="home-team-scroll">
+            <!-- JS populated -->
+          </div>
+        </div>
+
+        <!-- ✍️ COMMUNITY PULSE -->
+        <div class="home-section">
+          <div class="home-section-header">
+            <div>
+              <h2 class="home-section-title">✍️ Cộng Đồng đang nói gì</h2>
+              <p class="home-section-sub">Build in public · Insights · Milestone</p>
+            </div>
+          </div>
+          <!-- Compact create post -->
+          <div class="home-create-post card">
+            <div class="home-create-post__row">
+              <div class="avatar avatar--sm"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=owner" alt="" /></div>
+              <button class="home-create-post__btn" id="btn-open-post-modal">Chia sẻ insight · milestone · vấn đề đang giải...</button>
+              <button class="btn btn--primary btn--sm" id="btn-open-post-modal2" onclick="document.getElementById('post-modal').classList.remove('hidden')">✍️ Post</button>
+            </div>
+            <div class="home-create-post__tags">
+              <button class="home-quick-tag" onclick="quickPost('🚀 Build In Public')">🚀 Build Update</button>
+              <button class="home-quick-tag" onclick="quickPost('💡 Product Insight')">💡 Insight</button>
+              <button class="home-quick-tag" onclick="quickPost('🎯 Problem → Solution')">🎯 Problem</button>
+              <button class="home-quick-tag" onclick="quickPost('🤔 Founder Question')">🤔 Hỏi cộng đồng</button>
+            </div>
+          </div>
+          <!-- Feed Posts -->
+          <div class="feed" id="feed-container">
+            <!-- JS populated -->
+          </div>
+        </div>
+
       </section>
+
 
       <!-- ===== EXPLORE VIEW ===== -->
       <section class="view view--explore" id="view-explore">
