@@ -5927,3 +5927,175 @@ function startT3CodeSession(sessionId) {
   document.body.appendChild(modal);
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
 }
+
+// ============ 🎯 CUSTOMER DISCOVERY HUB ============
+
+const DISCOVERY_CAMPAIGNS = [
+  { id: 'dc-1', name: 'Landing Page MVP', product: 'AI Code Review Tool', status: 'active', visitors: 347, signups: 52, conversion: '15%', channel: 'Product Hunt', daysActive: 3, feedback: 18 },
+  { id: 'dc-2', name: 'Beta Waitlist', product: 'P2P Freelance Platform', status: 'active', visitors: 892, signups: 134, conversion: '15%', channel: 'Twitter/X', daysActive: 7, feedback: 43 },
+  { id: 'dc-3', name: 'Problem Validation', product: 'AI Meeting Notes', status: 'completed', visitors: 1205, signups: 231, conversion: '19%', channel: 'LinkedIn', daysActive: 14, feedback: 67 },
+  { id: 'dc-4', name: 'Feature Survey', product: 'DevTrust Platform', status: 'active', visitors: 456, signups: 89, conversion: '20%', channel: 'Zalo Group', daysActive: 5, feedback: 31 },
+];
+
+const CUSTOMER_SURVEYS = [
+  { id: 'cs-1', question: 'Bạn mất bao lâu để đi từ ý tưởng → sản phẩm đầu tiên?', options: [
+    { text: '< 1 tuần', votes: 12, pct: 8 },
+    { text: '1-4 tuần', votes: 45, pct: 30 },
+    { text: '1-3 tháng', votes: 67, pct: 45 },
+    { text: '> 3 tháng', votes: 26, pct: 17 },
+  ], total: 150, status: 'active' },
+  { id: 'cs-2', question: 'Pain point lớn nhất khi khởi nghiệp?', options: [
+    { text: 'Không tìm được co-founder', votes: 89, pct: 35 },
+    { text: 'Không biết khách hàng muốn gì', votes: 72, pct: 28 },
+    { text: 'Thiếu tiền/resources', votes: 54, pct: 21 },
+    { text: 'Không biết bắt đầu từ đâu', votes: 40, pct: 16 },
+  ], total: 255, status: 'active' },
+  { id: 'cs-3', question: 'Bạn sẵn sàng trả bao nhiêu cho AI co-founder?', options: [
+    { text: 'Free only', votes: 23, pct: 15 },
+    { text: '$10-30/tháng', votes: 56, pct: 37 },
+    { text: '$30-100/tháng', votes: 48, pct: 32 },
+    { text: '$100+/tháng', votes: 24, pct: 16 },
+  ], total: 151, status: 'active' },
+];
+
+const USER_INTERVIEWS = [
+  { id: 'ui-1', customer: 'Minh N.', role: 'Fullstack Dev', company: 'Freelancer', topic: 'AI tools for solo builders', status: 'scheduled', date: '2026-03-18', insights: 0 },
+  { id: 'ui-2', customer: 'Linh T.', role: 'Product Manager', company: 'FPT Software', topic: 'Team collaboration obstacles', status: 'completed', date: '2026-03-15', insights: 5 },
+  { id: 'ui-3', customer: 'Huy P.', role: 'CS Student', company: 'HUST', topic: 'Learning path & job readiness', status: 'completed', date: '2026-03-14', insights: 8 },
+  { id: 'ui-4', customer: 'An V.', role: 'Startup Founder', company: 'TechVN', topic: 'Think→Money speed bottlenecks', status: 'scheduled', date: '2026-03-19', insights: 0 },
+  { id: 'ui-5', customer: 'Thao L.', role: 'Designer', company: 'Grab VN', topic: 'AI design tools experience', status: 'invited', date: '2026-03-20', insights: 0 },
+];
+
+const FEATURE_REQUESTS = [
+  { id: 'fr-1', title: 'Mobile app cho DevTrust', desc: 'Cần app mobile để dùng ngoài đường, check trust score, chat với co-founders', votes: 89, status: 'planned', category: 'Mobile' },
+  { id: 'fr-2', title: 'AI auto-pitch deck generator', desc: 'Từ mô tả product → tự generate pitch deck hoàn chỉnh cho investors', votes: 67, status: 'considering', category: 'AI' },
+  { id: 'fr-3', title: 'Revenue sharing smart contract', desc: 'Tự động chia revenue cho team members dựa trên contribution', votes: 54, status: 'planned', category: 'Blockchain' },
+  { id: 'fr-4', title: 'Customer interview AI assistant', desc: 'AI giúp soạn câu hỏi interview, tóm tắt insights, tìm patterns', votes: 43, status: 'building', category: 'AI' },
+  { id: 'fr-5', title: 'One-click landing page builder', desc: 'Describe product → AI tạo landing page + form signup + analytics', votes: 78, status: 'building', category: 'Product' },
+  { id: 'fr-6', title: 'Competitor analysis AI agent', desc: 'AI tự động phân tích competitors, so sánh features, tìm gaps', votes: 35, status: 'considering', category: 'AI' },
+];
+
+function renderDiscoveryHub() {
+  // KPIs
+  const stats = $('#discovery-stats');
+  if (stats) {
+    const totalSignups = DISCOVERY_CAMPAIGNS.reduce((s, c) => s + c.signups, 0);
+    const totalFeedback = DISCOVERY_CAMPAIGNS.reduce((s, c) => s + c.feedback, 0);
+    const avgConversion = Math.round(totalSignups / DISCOVERY_CAMPAIGNS.reduce((s, c) => s + c.visitors, 0) * 100);
+    stats.innerHTML = `
+      <div class="disc-kpi"><strong>${DISCOVERY_CAMPAIGNS.filter(c => c.status === 'active').length}</strong><span>Active Campaigns</span></div>
+      <div class="disc-kpi"><strong>${totalSignups}</strong><span>Total Signups</span></div>
+      <div class="disc-kpi"><strong>${avgConversion}%</strong><span>Avg Conversion</span></div>
+      <div class="disc-kpi"><strong>${totalFeedback}</strong><span>Feedback Collected</span></div>
+      <div class="disc-kpi"><strong>${USER_INTERVIEWS.filter(i => i.status === 'completed').length}</strong><span>Interviews Done</span></div>
+    `;
+  }
+
+  // Campaigns
+  const campaigns = $('#discovery-campaigns');
+  if (campaigns) {
+    campaigns.innerHTML = DISCOVERY_CAMPAIGNS.map((c, idx) => {
+      const statusMap = { active: ['🟢', '#4ade80'], completed: ['✅', '#60a5fa'], paused: ['⏸️', '#fbbf24'] };
+      const [icon, color] = statusMap[c.status] || ['⚪', '#666'];
+      return `
+        <div class="disc-campaign" style="animation-delay:${idx * 0.08}s">
+          <div class="disc-camp-top">
+            <span class="disc-camp-name">${c.name}</span>
+            <span style="color:${color};font-size:0.75rem;font-weight:700">${icon} ${c.status}</span>
+          </div>
+          <div class="disc-camp-product">${c.product}</div>
+          <div class="disc-camp-metrics">
+            <div class="disc-metric"><strong>${c.visitors.toLocaleString()}</strong><span>Visitors</span></div>
+            <div class="disc-metric"><strong>${c.signups}</strong><span>Signups</span></div>
+            <div class="disc-metric"><strong>${c.conversion}</strong><span>Conv.</span></div>
+            <div class="disc-metric"><strong>${c.feedback}</strong><span>Feedback</span></div>
+          </div>
+          <div class="disc-camp-footer">
+            <span>📢 ${c.channel}</span><span>📅 ${c.daysActive} days</span>
+          </div>
+          ${c.status === 'active' ? '<button class="btn btn--sm btn--primary" onclick="showToast(\'📊 Campaign analytics mở rồi!\', \'success\')">📊 View Analytics</button>' : ''}
+        </div>`;
+    }).join('');
+  }
+
+  // Surveys
+  const surveys = $('#discovery-surveys');
+  if (surveys) {
+    surveys.innerHTML = CUSTOMER_SURVEYS.map((s, idx) => `
+      <div class="disc-survey" style="animation-delay:${idx * 0.08}s">
+        <div class="disc-survey-q">❓ ${s.question}</div>
+        <div class="disc-survey-options">
+          ${s.options.map(o => `
+            <div class="disc-option" onclick="voteOption(this)">
+              <div class="disc-option-bar" style="width:${o.pct}%;background:linear-gradient(90deg,rgba(99,102,241,0.15),rgba(99,102,241,0.05))"></div>
+              <span class="disc-option-text">${o.text}</span>
+              <span class="disc-option-votes">${o.votes} votes (${o.pct}%)</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="disc-survey-total">${s.total} responses</div>
+      </div>
+    `).join('');
+  }
+
+  // User Interviews
+  const interviews = $('#discovery-interviews');
+  if (interviews) {
+    interviews.innerHTML = USER_INTERVIEWS.map((i, idx) => {
+      const statusMap = { scheduled: ['📅', '#fbbf24'], completed: ['✅', '#4ade80'], invited: ['📨', '#a78bfa'] };
+      const [icon, color] = statusMap[i.status] || ['⚪', '#666'];
+      return `
+        <div class="disc-interview" style="animation-delay:${idx * 0.06}s">
+          <div class="disc-int-left">
+            <div class="disc-int-avatar">${i.customer.charAt(0)}</div>
+            <div>
+              <div class="disc-int-name">${i.customer}</div>
+              <div class="disc-int-role">${i.role} @ ${i.company}</div>
+            </div>
+          </div>
+          <div class="disc-int-topic">${i.topic}</div>
+          <div class="disc-int-right">
+            <span style="color:${color};font-weight:700;font-size:0.75rem">${icon} ${i.status}</span>
+            ${i.insights > 0 ? `<span class="disc-insights">💡 ${i.insights} insights</span>` : `<span style="font-size:0.72rem;color:var(--text-tertiary)">${i.date}</span>`}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // Feature Requests
+  const features = $('#discovery-features');
+  if (features) {
+    const sorted = [...FEATURE_REQUESTS].sort((a, b) => b.votes - a.votes);
+    features.innerHTML = sorted.map((f, idx) => {
+      const statusColors = { planned: '#60a5fa', building: '#4ade80', considering: '#fbbf24' };
+      return `
+        <div class="disc-feature" style="animation-delay:${idx * 0.06}s">
+          <button class="disc-upvote" onclick="upvoteFeature(this, ${f.votes})">
+            <span>▲</span><strong>${f.votes}</strong>
+          </button>
+          <div class="disc-feature-info">
+            <div class="disc-feature-title">${f.title}</div>
+            <div class="disc-feature-desc">${f.desc}</div>
+            <div class="disc-feature-meta">
+              <span class="disc-feature-cat">${f.category}</span>
+              <span class="disc-feature-status" style="color:${statusColors[f.status] || '#666'}">${f.status}</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+}
+
+function voteOption(el) {
+  el.style.borderColor = 'var(--accent-primary)';
+  el.style.background = 'rgba(99,102,241,0.08)';
+  showToast('✅ Vote recorded! Cảm ơn bạn đã feedback.', 'success');
+}
+
+function upvoteFeature(btn, currentVotes) {
+  const strong = btn.querySelector('strong');
+  strong.textContent = currentVotes + 1;
+  btn.style.color = '#6366f1';
+  btn.style.borderColor = '#6366f1';
+  showToast('👍 Upvoted! Feature sẽ được ưu tiên develop.', 'success');
+}

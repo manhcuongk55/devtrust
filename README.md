@@ -1,7 +1,7 @@
-# 🛡️ DevTrust — Dev Không Sợ AI. Dev Cùng AI Khởi Nghiệp.
+# 🛡️ DevTrust — Think → Money. Nhanh Nhất.
 
-> **"AI không cướp việc của bạn. AI giải phóng bạn — để bạn làm điều lớn hơn."**  
-> DevTrust là nơi dev Việt Nam cùng AI agents khởi nghiệp, giải quyết bài toán mới, và xây dựng tương lai.
+> **"Từ ý tưởng đến tiền — nhanh nhất có thể."**  
+> DevTrust là framework startup nhanh nhất thế giới: Think → Build → Ship → Money trong giờ, không phải tháng.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-devtrust-818cf8?style=for-the-badge)](https://social-network-tau-ten.vercel.app)
 [![License](https://img.shields.io/badge/License-MIT-34d399?style=for-the-badge)](LICENSE)
@@ -10,73 +10,74 @@
 
 ---
 
-## 🌍 TẦM NHÌN — Tại sao DevTrust tồn tại?
-
-### Nỗi sợ lớn nhất của dev năm 2026:
+## 🚀 THINK → MONEY — Framework Startup Nhanh Nhất
 
 ```
-  "AI sẽ thay thế tôi."
-  "AI viết code nhanh hơn tôi."
-  "AI không cần lương, không cần nghỉ."
-  "Tôi học 4 năm Đại học... để bị AI thay?"
+  ┌──────────────────────────────────────────────────────────┐
+  │                                                          │
+  │   💡 THINK        Có ý tưởng? Bắt đầu từ đây.          │
+  │      ↓                                                   │
+  │   🤖 BUILD        AI agents viết code, design, test.     │
+  │      ↓            (ClawWork + T3Code + ClawHub)          │
+  │   🚀 SHIP         Deploy trong phút, không phải tuần.    │
+  │      ↓                                                   │
+  │   💰 MONEY        AI agents kiếm tiền thật $19K/8hrs.   │
+  │      ↓                                                   │
+  │   📈 SCALE        Trust Protocol + P2P + Co-founders.    │
+  │                                                          │
+  │   ⏱️ TỔNG THỜI GIAN: GIỜ, không phải THÁNG.            │
+  │                                                          │
+  └──────────────────────────────────────────────────────────┘
 ```
 
-### Nhưng sự thật là:
+### Tại sao nhanh nhất?
+
+| | Startup truyền thống | DevTrust Think→Money |
+|---|---|---|
+| 💡 Idea → MVP | 3-6 tháng | **2-4 tuần** |
+| 👥 Tìm co-founder | 6-12 tháng | **1 ngày** (Trust matching) |
+| 💻 Coding team | Thuê 3-5 devs ($15K/tháng) | **AI agents ($100/tháng)** |
+| 🧪 QA/Testing | 2-4 tuần | **AI QA 24/7 tự động** |
+| 💰 First revenue | 6-12 tháng | **Giờ đầu tiên** (ClawWork) |
+| 📈 Marketing | Thuê agency ($5K/tháng) | **AI Growth Agent** |
+
+### 4 Accelerators — Tại sao Think→Money nhanh?
 
 ```
-  ❌ AI KHÔNG thay thế dev.
-  ✅ AI thay thế dev KHÔNG BIẾT DÙNG AI.
-
-  ❌ AI KHÔNG cướp việc.  
-  ✅ AI GIẢI PHÓNG dev — để dev làm việc LỚN HƠN.
-
-  ❌ Tương lai KHÔNG PHẢI dev vs AI.
-  ✅ Tương lai LÀ dev + AI = SIÊU NĂNG LỰC.
-```
-
-### DevTrust = Nơi dev biến nỗi sợ AI thành CƠ HỘI
-
-```
-  ┌──────────────────────────────────────────────────────┐
-  │                                                       │
-  │   THẾ GIỚI CŨ:                                       │
-  │   Dev → Viết code → Nhận lương → Về nhà              │
-  │                                                       │
-  │   THẾ GIỚI MỚI (DevTrust):                           │
-  │   Dev + AI Agents → Giải bài toán mới                │
-  │        ↓                                              │
-  │   Tìm đồng đội (DevTrust matching)                   │
-  │        ↓                                              │
-  │   Cùng nhau khởi nghiệp                              │
-  │        ↓                                              │
-  │   AI làm 80% code, dev tập trung 20% sáng tạo       │
-  │        ↓                                              │
-  │   Sản phẩm ra đời nhanh gấp 10x                     │
-  │        ↓                                              │
-  │   Revenue chia P2P — công bằng, minh bạch            │
-  │                                                       │
-  └──────────────────────────────────────────────────────┘
+  DevTrust Think→Money Framework
+       │
+       ├── 🐻 ClawWork  → AI agents KIẾM TIỀN ($19K/8hrs, 44 nghề)
+       ├── 🦀 ClawHub   → AI agents CÓ SKILLS (install like npm)
+       ├── ⚡ T3Code    → AI agents VIẾT CODE (Codex + Claude Code)
+       ├── 🔗 Browser   → AI agents DUYỆT WEB (research, scraping)
+       │
+       └── 🛡️ DevTrust Trust Protocol
+           → Mỗi output = Proof of Human Intent
+           → Mỗi agent = Trust inherited from owner
+           → Mỗi skill = Community verified
+           → Mỗi dollar = Tracked on-chain
 ```
 
 ---
 
 ## 💡 TRIẾT LÝ CỐT LÕI
 
-### 1. "AI là đồng đội, không phải đối thủ"
+### 1. "Think → Money — Không có bước thừa"
 
-Trước: Dev sợ AI → Chống lại AI → Tụt hậu  
-Sau: Dev ôm AI → Dùng AI → Siêu năng lực
+Mọi feature trong DevTrust đều phục vụ 1 mục đích: **biến ý tưởng thành tiền nhanh nhất.**
 
-**DevTrust giúp mỗi dev có fleet AI agents riêng** — như có team 10 người nhưng chi phí gần bằng 0.
+- ❌ Không lý thuyết suông — chỉ action
+- ❌ Không build rồi để đó — build xong là kiếm tiền
+- ❌ Không solo — AI agents + co-founders = team mạnh nhất
+- ✅ Think → Build → Ship → Money → Scale → Repeat
 
-### 2. "Một mình thì nhanh, cùng nhau thì xa"
+### 2. "AI là đồng đội, không phải đối thủ"
 
-AI giải quyết vấn đề kỹ thuật. Nhưng startup thành công cần **con người tin nhau.**
+AI KHÔNG cướp việc. AI GIẢI PHÓNG bạn — để bạn **tập trung vào 20% sáng tạo** mà AI chưa làm được.
 
-DevTrust giải quyết bài toán:
-- 🔍 **Tìm co-founder** — matching theo skills, trust score, shared vision
-- 🛡️ **Xây trust** — không bằng profile đẹp mà bằng **hành động thật** (code contributions, verify lẫn nhau)
-- 💰 **Chia revenue công bằng** — P2P, transparent, không trung gian
+**DevTrust giúp mỗi dev có fleet AI agents riêng** — như có team 50 người nhưng chi phí $100/tháng.
+
+### 3. "Một mình thì nhanh, cùng nhau thì xa — cùng AI thì SIÊU"
 
 ### 3. "Giải bài toán mới, không chạy đua bài toán cũ"
 
