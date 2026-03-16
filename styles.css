@@ -6025,3 +6025,36 @@ input:focus, textarea:focus, select:focus {
   .disc-int-left { min-width: auto; }
   .disc-int-right { flex-direction: row; }
 }
+
+/* ================ 🧲 GROWTH HUB ================ */
+.growth-tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+.growth-tool-card {
+  background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+  padding: 1.25rem; cursor: pointer; transition: all var(--transition); animation: fadeInUp 0.3s ease both;
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.growth-tool-card:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.3); }
+.growth-tool-icon { font-size: 2rem; }
+.growth-tool-card h4 { font-size: 0.95rem; font-weight: 800; margin: 0; }
+.growth-tool-card p { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; margin: 0; }
+.growth-tool-cta { font-size: 0.78rem; font-weight: 700; color: #a855f7; margin-top: auto; }
+.growth-form label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.3rem; }
+.growth-ref-card {
+  background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 1.25rem;
+}
+.growth-ref-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.growth-ref-tiers { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+.growth-ref-tier {
+  flex: 1; text-align: center; padding: 0.5rem; border-radius: var(--radius-md);
+  background: var(--bg-glass); border: 1px solid var(--border-color); opacity: 0.5;
+  display: flex; flex-direction: column; align-items: center; gap: 0.1rem;
+}
+.growth-ref-tier.active { opacity: 1; border-color: rgba(168,85,247,0.3); }
+.growth-ref-tier strong { font-size: 0.68rem; }
+.growth-share-btn {
+  display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.5rem 1rem;
+  border-radius: var(--radius-md); color: #fff; font-size: 0.78rem; font-weight: 700;
+  text-decoration: none; border: none; cursor: pointer; transition: opacity var(--transition-fast);
+}
+.growth-share-btn:hover { opacity: 0.85; }
+@media (max-width: 768px) { .growth-tools-grid { grid-template-columns: 1fr; } .growth-ref-tiers { gap: 0.25rem; } }

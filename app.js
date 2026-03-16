@@ -579,6 +579,15 @@ function switchView(viewName) {
   if (viewName === 'startup-builder') {
     if (!$('#ai-cofounder-grid').children.length) renderStartupBuilder();
   }
+  if (viewName === 'workspace') {
+    if (!$('#clawwork-tasks').children.length) renderAgentWorkspace();
+  }
+  if (viewName === 'discovery') {
+    if (!$('#discovery-campaigns').children.length) renderDiscoveryHub();
+  }
+  if (viewName === 'growth') {
+    renderGrowthHub();
+  }
 }
 
 // ============ 🧑‍💼 INVESTOR DASHBOARD ENGINE ============
@@ -6098,4 +6107,352 @@ function upvoteFeature(btn, currentVotes) {
   btn.style.color = '#6366f1';
   btn.style.borderColor = '#6366f1';
   showToast('👍 Upvoted! Feature sẽ được ưu tiên develop.', 'success');
+}
+
+// ============ 🧲 GROWTH ENGINE — Kéo User Vào Nền Tảng ============
+
+/*
+  CHIẾN LƯỢC KÉO USER:
+  1. FREE TOOLS (Hook) → Cho giá trị trước, tạo "AHA moment"
+  2. REFERRAL PROGRAM → Mỗi user kéo 3 user mới
+  3. VIRAL SHARING → Share kết quả → bạn bè tò mò → vào dùng
+  4. COMMUNITY CHALLENGES → Thi đua → engagement cao
+*/
+
+// ─── 1. FREE TOOL: AI Startup Cost Calculator ───
+function openCostCalculator() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'cost-calc-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:560px">
+      <div class="modal__header">
+        <h3>🧮 AI Startup Cost Calculator</h3>
+        <button class="modal__close" onclick="document.getElementById('cost-calc-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:1rem">
+          So sánh chi phí khởi nghiệp truyền thống vs dùng AI agents. <strong>Free tool — không cần đăng ký.</strong>
+        </p>
+        <div class="growth-form">
+          <label>👥 Team size bạn cần?</label>
+          <select id="calc-team" style="width:100%;padding:0.5rem;border-radius:var(--radius-md);border:1px solid var(--border-color);background:var(--bg-glass);color:var(--text-primary)">
+            <option value="3">3 người (CTO + Designer + Marketer)</option>
+            <option value="5" selected>5 người (Full team)</option>
+            <option value="8">8 người (Scaling team)</option>
+            <option value="15">15+ người (Enterprise)</option>
+          </select>
+          <label style="margin-top:0.75rem">📅 Thời gian đến MVP?</label>
+          <select id="calc-time" style="width:100%;padding:0.5rem;border-radius:var(--radius-md);border:1px solid var(--border-color);background:var(--bg-glass);color:var(--text-primary)">
+            <option value="1">1 tháng</option>
+            <option value="3" selected>3 tháng</option>
+            <option value="6">6 tháng</option>
+            <option value="12">12 tháng</option>
+          </select>
+          <label style="margin-top:0.75rem">🏢 Lĩnh vực?</label>
+          <select id="calc-sector" style="width:100%;padding:0.5rem;border-radius:var(--radius-md);border:1px solid var(--border-color);background:var(--bg-glass);color:var(--text-primary)">
+            <option value="saas">SaaS / Web App</option>
+            <option value="ecom">E-Commerce</option>
+            <option value="ai">AI / ML Product</option>
+            <option value="mobile">Mobile App</option>
+            <option value="edtech">EdTech</option>
+          </select>
+        </div>
+        <button class="btn btn--primary" style="width:100%;margin-top:1rem" onclick="calculateStartupCost()">
+          🧮 Tính Chi Phí
+        </button>
+        <div id="calc-result" style="display:none;margin-top:1rem"></div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function calculateStartupCost() {
+  const teamSize = parseInt($('#calc-team').value);
+  const months = parseInt($('#calc-time').value);
+  const avgSalary = { 3: 4000, 5: 4500, 8: 5000, 15: 5500 }[teamSize] || 4500;
+  const traditionalCost = teamSize * avgSalary * months;
+  const aiCost = 55 * months;
+  const saved = traditionalCost - aiCost;
+  const savedPct = Math.round((saved / traditionalCost) * 100);
+  const timeTraditional = months;
+  const timeAI = Math.max(1, Math.round(months * 0.3));
+  
+  const result = $('#calc-result');
+  result.style.display = 'block';
+  result.innerHTML = `
+    <div style="background:var(--bg-glass);border:1px solid rgba(74,222,128,0.2);border-radius:var(--radius-lg);padding:1rem">
+      <div style="text-align:center;margin-bottom:0.75rem">
+        <div style="font-size:0.72rem;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.1em">Bạn tiết kiệm</div>
+        <div style="font-size:2rem;font-weight:900;color:#4ade80">$${saved.toLocaleString()}</div>
+        <div style="font-size:0.82rem;color:#4ade80;font-weight:700">${savedPct}% cheaper</div>
+      </div>
+      <table style="width:100%;font-size:0.78rem;border-collapse:collapse">
+        <tr style="border-bottom:1px solid var(--border-color)">
+          <td style="padding:0.4rem 0"></td>
+          <td style="padding:0.4rem 0;text-align:right;color:#f87171;font-weight:700">Truyền thống</td>
+          <td style="padding:0.4rem 0;text-align:right;color:#4ade80;font-weight:700">DevTrust+AI</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border-color)">
+          <td style="padding:0.4rem 0">💰 Chi phí</td>
+          <td style="padding:0.4rem 0;text-align:right">$${traditionalCost.toLocaleString()}</td>
+          <td style="padding:0.4rem 0;text-align:right;color:#4ade80;font-weight:700">$${aiCost.toLocaleString()}</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border-color)">
+          <td style="padding:0.4rem 0">⏱️ Thời gian</td>
+          <td style="padding:0.4rem 0;text-align:right">${timeTraditional} tháng</td>
+          <td style="padding:0.4rem 0;text-align:right;color:#4ade80;font-weight:700">${timeAI} tháng</td>
+        </tr>
+        <tr>
+          <td style="padding:0.4rem 0">👥 Team size</td>
+          <td style="padding:0.4rem 0;text-align:right">${teamSize} người</td>
+          <td style="padding:0.4rem 0;text-align:right;color:#4ade80;font-weight:700">1 người + AI</td>
+        </tr>
+      </table>
+      <div style="display:flex;gap:0.5rem;margin-top:1rem">
+        <button class="btn btn--primary btn--sm" style="flex:1" onclick="shareGrowthResult('cost', '${savedPct}%', '${saved}')">📤 Share kết quả</button>
+        <button class="btn btn--secondary btn--sm" style="flex:1" onclick="document.getElementById('cost-calc-modal').remove();switchView('startup-builder')">🚀 Bắt đầu ngay</button>
+      </div>
+    </div>`;
+}
+
+// ─── 2. FREE TOOL: Startup Readiness Quiz ───
+const QUIZ_QUESTIONS = [
+  { q: 'Bạn đã có idea cụ thể chưa?', options: ['Chưa có gì', 'Có idea sơ bộ', 'Idea rõ ràng + target user', 'Đã validate với khách hàng'], scores: [1, 2, 3, 4] },
+  { q: 'Kỹ năng coding của bạn?', options: ['Không biết code', 'Biết cơ bản', 'Mid-level dev', 'Senior / Lead'], scores: [1, 2, 3, 4] },
+  { q: 'Bạn có co-founder chưa?', options: ['Chưa', 'Đang tìm', 'Có 1 người', 'Có team 2-3 người'], scores: [1, 2, 3, 4] },
+  { q: 'Budget khởi nghiệp?', options: ['$0 — Bootstrapping', '$100-500/tháng', '$500-2000/tháng', '$2000+/tháng'], scores: [2, 3, 3, 4] },
+  { q: 'Thời gian dành cho startup?', options: ['< 5h/tuần (side project)', '10-20h/tuần', '30-40h/tuần', 'Full-time 40h+'], scores: [1, 2, 3, 4] },
+  { q: 'Bạn đã dùng AI tools chưa?', options: ['Chưa bao giờ', 'Dùng ChatGPT cơ bản', 'Dùng AI cho coding', 'Dùng AI cho mọi thứ'], scores: [1, 2, 3, 4] },
+  { q: 'Mục tiêu revenue đầu tiên?', options: ['Chưa nghĩ đến', '< $1K/tháng', '$1K-5K/tháng', '$5K+/tháng'], scores: [1, 2, 3, 4] },
+];
+
+var _quizStep = 0, _quizScores = [];
+
+function openStartupQuiz() {
+  _quizStep = 0; _quizScores = [];
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'quiz-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:500px">
+      <div class="modal__header">
+        <h3>🧠 Startup Readiness Quiz</h3>
+        <button class="modal__close" onclick="document.getElementById('quiz-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem" id="quiz-body">
+        <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:1rem">
+          7 câu hỏi → Biết bạn sẵn sàng khởi nghiệp chưa + DevTrust giúp gì. <strong>Free, 2 phút.</strong>
+        </p>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  renderQuizStep();
+}
+
+function renderQuizStep() {
+  const body = $('#quiz-body');
+  if (!body) return;
+  if (_quizStep >= QUIZ_QUESTIONS.length) { showQuizResult(); return; }
+  const q = QUIZ_QUESTIONS[_quizStep];
+  body.innerHTML = `
+    <div style="font-size:0.68rem;color:var(--text-tertiary);margin-bottom:0.5rem">${_quizStep + 1} / ${QUIZ_QUESTIONS.length}</div>
+    <div style="height:4px;background:var(--bg-glass);border-radius:99px;margin-bottom:1rem;overflow:hidden">
+      <div style="height:100%;width:${((_quizStep + 1)/QUIZ_QUESTIONS.length)*100}%;background:linear-gradient(90deg,#6366f1,#a78bfa);border-radius:99px;transition:width 0.3s"></div>
+    </div>
+    <div style="font-size:0.95rem;font-weight:800;margin-bottom:1rem">${q.q}</div>
+    <div style="display:flex;flex-direction:column;gap:0.4rem">
+      ${q.options.map((opt, i) => `
+        <button class="disc-option" style="width:100%;text-align:left;background:var(--bg-glass);cursor:pointer" onclick="_quizScores.push(${q.scores[i]});_quizStep++;renderQuizStep()">
+          <span class="disc-option-text">${opt}</span>
+        </button>
+      `).join('')}
+    </div>`;
+}
+
+function showQuizResult() {
+  const body = $('#quiz-body');
+  const total = _quizScores.reduce((a, b) => a + b, 0);
+  const max = QUIZ_QUESTIONS.length * 4;
+  const pct = Math.round((total / max) * 100);
+  let level, color, emoji, advice;
+  if (pct >= 80) { level = 'READY TO LAUNCH'; color = '#4ade80'; emoji = '🚀'; advice = 'Bạn đã sẵn sàng! DevTrust sẽ giúp bạn launch nhanh hơn 10x. Bắt đầu với Startup Builder ngay.'; }
+  else if (pct >= 60) { level = 'ALMOST READY'; color = '#60a5fa'; emoji = '💪'; advice = 'Gần sẵn sàng! Bạn cần validate idea với khách hàng. Dùng Discovery Hub để test market fit.'; }
+  else if (pct >= 40) { level = 'BUILDING FOUNDATION'; color = '#fbbf24'; emoji = '🔧'; advice = 'Đang xây nền. Hãy dùng AI agents để bù đắp gaps. ClawWork giúp kiếm revenue ngay để fund learning.'; }
+  else { level = 'EXPLORING'; color = '#a78bfa'; emoji = '🌱'; advice = 'Mới bắt đầu — hoàn hảo! Tham gia community DevTrust, học từ builders khác, dùng free AI tools.'; }
+  
+  body.innerHTML = `
+    <div style="text-align:center;margin-bottom:1rem">
+      <div style="font-size:3rem">${emoji}</div>
+      <div style="font-size:1.5rem;font-weight:900;color:${color};margin:0.5rem 0">${level}</div>
+      <div style="font-size:2rem;font-weight:900">${pct}%</div>
+      <div style="font-size:0.78rem;color:var(--text-tertiary)">Startup Readiness Score</div>
+    </div>
+    <div style="background:var(--bg-glass);border-radius:var(--radius-md);padding:0.75rem;font-size:0.82rem;color:var(--text-secondary);margin-bottom:1rem">
+      💡 <strong>Lời khuyên:</strong> ${advice}
+    </div>
+    <div style="display:flex;gap:0.5rem">
+      <button class="btn btn--primary btn--sm" style="flex:1" onclick="shareGrowthResult('quiz', '${pct}%', '${level}')">📤 Share Score</button>
+      <button class="btn btn--secondary btn--sm" style="flex:1" onclick="document.getElementById('quiz-modal').remove();switchView('startup-builder')">🚀 Bắt đầu</button>
+    </div>`;
+}
+
+// ─── 3. REFERRAL PROGRAM ───
+const REFERRAL_TIERS = [
+  { name: 'Bronze', min: 0, icon: '🥉', reward: 'Free AI Agent 1 tháng', color: '#cd7f32' },
+  { name: 'Silver', min: 3, icon: '🥈', reward: '+3 ClawWork tasks/ngày', color: '#c0c0c0' },
+  { name: 'Gold', min: 10, icon: '🥇', reward: 'Premium features trọn đời', color: '#fbbf24' },
+  { name: 'Diamond', min: 25, icon: '💎', reward: 'Revenue share + VIP access', color: '#60a5fa' },
+];
+
+function renderGrowthHub() {
+  // KPIs
+  const stats = $('#growth-stats');
+  if (stats) {
+    stats.innerHTML = `
+      <div class="disc-kpi"><strong>247</strong><span>Users This Week</span></div>
+      <div class="disc-kpi"><strong>3.2x</strong><span>Viral Coefficient</span></div>
+      <div class="disc-kpi"><strong>68%</strong><span>Activation Rate</span></div>
+      <div class="disc-kpi"><strong>42</strong><span>Referrals Today</span></div>
+    `;
+  }
+  
+  // Free Tools
+  const tools = $('#growth-free-tools');
+  if (tools) {
+    tools.innerHTML = `
+      <div class="growth-tool-card" onclick="openCostCalculator()">
+        <div class="growth-tool-icon">🧮</div>
+        <h4>AI Startup Cost Calculator</h4>
+        <p>So sánh chi phí truyền thống vs AI. Biết tiết kiệm bao nhiêu.</p>
+        <span class="growth-tool-cta">Tính ngay — Free →</span>
+      </div>
+      <div class="growth-tool-card" onclick="openStartupQuiz()">
+        <div class="growth-tool-icon">🧠</div>
+        <h4>Startup Readiness Quiz</h4>
+        <p>7 câu hỏi → Biết bạn sẵn sàng khởi nghiệp chưa.</p>
+        <span class="growth-tool-cta">Làm quiz — 2 phút →</span>
+      </div>
+      <div class="growth-tool-card" onclick="openIdeaValidator()">
+        <div class="growth-tool-icon">💡</div>
+        <h4>AI Idea Validator</h4>
+        <p>Mô tả idea → AI phân tích market size, competition, feasibility.</p>
+        <span class="growth-tool-cta">Validate idea — Free →</span>
+      </div>
+    `;
+  }
+  
+  // Referral
+  const ref = $('#growth-referral');
+  if (ref) {
+    const myReferrals = 4;
+    const currentTier = REFERRAL_TIERS.filter(t => myReferrals >= t.min).pop();
+    const nextTier = REFERRAL_TIERS.find(t => myReferrals < t.min);
+    ref.innerHTML = `
+      <div class="growth-ref-card">
+        <div class="growth-ref-header">
+          <div>
+            <div style="font-size:0.72rem;color:var(--text-tertiary);text-transform:uppercase">Your Tier</div>
+            <div style="font-size:1.3rem;font-weight:900;color:${currentTier.color}">${currentTier.icon} ${currentTier.name}</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:2rem;font-weight:900;color:var(--accent-primary)">${myReferrals}</div>
+            <div style="font-size:0.72rem;color:var(--text-tertiary)">Referrals</div>
+          </div>
+        </div>
+        ${nextTier ? `<div style="margin:0.75rem 0">
+          <div style="font-size:0.72rem;color:var(--text-tertiary);margin-bottom:0.3rem">${nextTier.min - myReferrals} more → ${nextTier.icon} ${nextTier.name}: ${nextTier.reward}</div>
+          <div style="height:6px;background:var(--bg-glass);border-radius:99px;overflow:hidden">
+            <div style="height:100%;width:${(myReferrals/nextTier.min)*100}%;background:linear-gradient(90deg,${currentTier.color},${nextTier.color});border-radius:99px"></div>
+          </div>
+        </div>` : ''}
+        <div style="background:var(--bg-glass);border-radius:var(--radius-md);padding:0.6rem;display:flex;align-items:center;gap:0.5rem;margin:0.75rem 0">
+          <code style="flex:1;font-size:0.75rem;color:var(--accent-primary)">devtrust.app/join?ref=DT-${Math.random().toString(36).substring(2, 8).toUpperCase()}</code>
+          <button class="btn btn--sm btn--primary" onclick="navigator.clipboard.writeText(this.previousElementSibling.textContent);showToast('📋 Link copied!','success')">📋 Copy</button>
+        </div>
+        <div class="growth-ref-tiers">
+          ${REFERRAL_TIERS.map(t => `
+            <div class="growth-ref-tier ${myReferrals >= t.min ? 'active' : ''}">
+              <span>${t.icon}</span>
+              <strong style="color:${t.color}">${t.name}</strong>
+              <span style="font-size:0.62rem">${t.min}+ refs</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+  }
+  
+  // Share buttons
+  const share = $('#growth-share');
+  if (share) {
+    const msg = encodeURIComponent('🚀 DevTrust — Framework startup nhanh nhất: Think → Money trong GIỜ, không phải THÁNG. AI agents kiếm $19K/8hrs. Free tools: Cost Calculator, Readiness Quiz. Join: devtrust.app');
+    share.innerHTML = `
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <a href="https://twitter.com/intent/tweet?text=${msg}" target="_blank" class="growth-share-btn" style="background:#1da1f2">𝕏 Twitter</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?quote=${msg}" target="_blank" class="growth-share-btn" style="background:#1877f2">📘 Facebook</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://devtrust.app" target="_blank" class="growth-share-btn" style="background:#0a66c2">💼 LinkedIn</a>
+        <button class="growth-share-btn" style="background:#0068ff" onclick="navigator.clipboard.writeText(decodeURIComponent('${msg}'));showToast('📋 Copied! Paste vào Zalo.','success')">💬 Zalo</button>
+        <button class="growth-share-btn" style="background:var(--accent-primary)" onclick="navigator.clipboard.writeText(decodeURIComponent('${msg}'));showToast('📋 Copied!','success')">📋 Copy All</button>
+      </div>`;
+  }
+}
+
+function openIdeaValidator() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'idea-val-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:500px">
+      <div class="modal__header">
+        <h3>💡 AI Idea Validator</h3>
+        <button class="modal__close" onclick="document.getElementById('idea-val-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:1rem">
+          Mô tả idea của bạn → AI phân tích market, competition, feasibility. <strong>Free.</strong>
+        </p>
+        <textarea id="idea-input" rows="4" placeholder="VD: App giúp freelancer Việt Nam quản lý invoice, tracking giờ làm, và tự động gửi bill cho client..." style="width:100%;padding:0.75rem;border-radius:var(--radius-md);border:1px solid var(--border-color);background:var(--bg-glass);color:var(--text-primary);font-size:0.85rem;resize:vertical;font-family:inherit"></textarea>
+        <button class="btn btn--primary" style="width:100%;margin-top:0.75rem" onclick="validateIdea()">💡 Validate Idea</button>
+        <div id="idea-result" style="display:none;margin-top:1rem"></div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function validateIdea() {
+  const idea = $('#idea-input').value.trim();
+  if (!idea || idea.length < 20) { showToast('Mô tả idea chi tiết hơn (ít nhất 20 ký tự)', 'error'); return; }
+  const result = $('#idea-result');
+  result.style.display = 'block';
+  const scores = { market: 60 + Math.floor(Math.random() * 35), competition: 40 + Math.floor(Math.random() * 50), feasibility: 55 + Math.floor(Math.random() * 40), monetization: 45 + Math.floor(Math.random() * 45) };
+  const avg = Math.round((scores.market + scores.competition + scores.feasibility + scores.monetization) / 4);
+  const verdict = avg >= 75 ? ['🟢 GO!', '#4ade80', 'Idea có tiềm năng cao. Validate ngay với Discovery Hub!'] : avg >= 55 ? ['🟡 Cần refine', '#fbbf24', 'Idea ổn nhưng cần sharpen. Nói chuyện với khách hàng thật.'] : ['🔴 Pivot', '#f87171', 'Market khó. Thử approach khác hoặc niche down.'];
+  result.innerHTML = `
+    <div style="text-align:center;padding:0.75rem;background:var(--bg-glass);border-radius:var(--radius-lg);border:1px solid ${verdict[1]}22">
+      <div style="font-size:1.8rem;font-weight:900;color:${verdict[1]}">${avg}/100</div>
+      <div style="font-size:1rem;font-weight:800;color:${verdict[1]}">${verdict[0]}</div>
+      <div style="font-size:0.78rem;color:var(--text-secondary);margin:0.5rem 0">${verdict[2]}</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin-top:0.75rem">
+        ${Object.entries(scores).map(([k, v]) => `<div><div style="font-size:0.95rem;font-weight:800;color:${v >= 70 ? '#4ade80' : v >= 50 ? '#fbbf24' : '#f87171'}">${v}</div><div style="font-size:0.6rem;color:var(--text-tertiary)">${k}</div></div>`).join('')}
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.75rem">
+        <button class="btn btn--primary btn--sm" style="flex:1" onclick="shareGrowthResult('idea', '${avg}/100', '${verdict[0]}')">📤 Share</button>
+        <button class="btn btn--secondary btn--sm" style="flex:1" onclick="document.getElementById('idea-val-modal').remove();switchView('discovery')">🎯 Validate Now</button>
+      </div>
+    </div>`;
+}
+
+function shareGrowthResult(type, score, extra) {
+  const msgs = {
+    cost: `🧮 Tôi tiết kiệm ${extra} với DevTrust AI agents! Traditional: $$$ → DevTrust: $55/tháng. Tính chi phí free: devtrust.app`,
+    quiz: `🧠 Startup Readiness Score: ${score} — ${extra}! Bạn sẵn sàng chưa? Quiz free: devtrust.app`,
+    idea: `💡 Idea score: ${score} — ${extra}! AI validate idea trong 30 giây. Free tool: devtrust.app`
+  };
+  const text = msgs[type] || 'DevTrust — Think → Money nhanh nhất!';
+  if (navigator.share) {
+    navigator.share({ title: 'DevTrust', text, url: 'https://devtrust.app' }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(text);
+    showToast('📋 Copied! Share cho bạn bè để cùng khởi nghiệp.', 'success');
+  }
 }
