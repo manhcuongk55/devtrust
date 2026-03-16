@@ -588,6 +588,9 @@ function switchView(viewName) {
   if (viewName === 'growth') {
     renderGrowthHub();
   }
+  if (viewName === 'studio') {
+    renderProductStudio();
+  }
 }
 
 // ============ 🧑‍💼 INVESTOR DASHBOARD ENGINE ============
@@ -6455,4 +6458,263 @@ function shareGrowthResult(type, score, extra) {
     navigator.clipboard.writeText(text);
     showToast('📋 Copied! Share cho bạn bè để cùng khởi nghiệp.', 'success');
   }
+}
+
+// ============ 🏭 PRODUCT STUDIO — Build → Ship → Money ============
+
+var _studioStep = 0;
+var _studioProduct = { name: '', tagline: '', category: 'saas', target: '' };
+
+const STUDIO_STEPS = [
+  { id: 'define', label: '💡 Define', desc: 'Mô tả sản phẩm' },
+  { id: 'build', label: '🔧 Build', desc: 'AI tạo code' },
+  { id: 'deploy', label: '🚀 Deploy', desc: 'Đưa lên internet' },
+  { id: 'monetize', label: '💰 Monetize', desc: 'Thiết lập kiếm tiền' },
+  { id: 'revenue', label: '📈 Revenue', desc: 'Theo dõi thu nhập' },
+];
+
+function renderProductStudio() {
+  const el = $('#studio-content');
+  if (!el) return;
+
+  const stepBar = `<div class="studio-steps">${STUDIO_STEPS.map((s, i) => `
+    <div class="studio-step ${i < _studioStep ? 'done' : ''} ${i === _studioStep ? 'active' : ''}">
+      <div class="studio-step-num">${i < _studioStep ? '✓' : i + 1}</div>
+      <div><div class="studio-step-label">${s.label}</div><div class="studio-step-desc">${s.desc}</div></div>
+    </div>
+    ${i < STUDIO_STEPS.length - 1 ? '<div class="studio-step-line"></div>' : ''}
+  `).join('')}</div>`;
+
+  const stepContent = [renderStudioDefine, renderStudioBuild, renderStudioDeploy, renderStudioMonetize, renderStudioRevenue][_studioStep]();
+
+  el.innerHTML = stepBar + `<div class="studio-body">${stepContent}</div>`;
+}
+
+function renderStudioDefine() {
+  return `
+    <h3>💡 Bước 1: Mô Tả Sản Phẩm</h3>
+    <p class="studio-hint">Chỉ cần mô tả — AI sẽ build cho bạn.</p>
+    <div class="studio-form">
+      <label>📦 Tên sản phẩm</label>
+      <input type="text" id="studio-name" value="${_studioProduct.name}" placeholder="VD: InvoiceBot, SmartNote, CodeReview Pro..." class="studio-input"/>
+      <label>✨ Tagline (1 câu mô tả)</label>
+      <input type="text" id="studio-tagline" value="${_studioProduct.tagline}" placeholder="VD: Quản lý invoice cho freelancer bằng AI..." class="studio-input"/>
+      <label>🏷️ Loại sản phẩm</label>
+      <select id="studio-cat" class="studio-input">
+        <option value="saas" ${_studioProduct.category==='saas'?'selected':''}>SaaS / Web App</option>
+        <option value="tool" ${_studioProduct.category==='tool'?'selected':''}>Developer Tool</option>
+        <option value="marketplace" ${_studioProduct.category==='marketplace'?'selected':''}>Marketplace</option>
+        <option value="mobile" ${_studioProduct.category==='mobile'?'selected':''}>Mobile App</option>
+        <option value="ai" ${_studioProduct.category==='ai'?'selected':''}>AI Product</option>
+        <option value="content" ${_studioProduct.category==='content'?'selected':''}>Content Platform</option>
+      </select>
+      <label>👥 Khách hàng mục tiêu</label>
+      <input type="text" id="studio-target" value="${_studioProduct.target}" placeholder="VD: Freelancer Việt Nam, startup founders, students..." class="studio-input"/>
+    </div>
+    <button class="btn btn--primary" style="width:100%;margin-top:1rem" onclick="studioNext()">Tiếp → AI sẽ Build</button>`;
+}
+
+function renderStudioBuild() {
+  const stacks = {
+    saas: { fe: 'React + Vite', be: 'Node.js + Express', db: 'PostgreSQL', deploy: 'Vercel' },
+    tool: { fe: 'Vue 3', be: 'FastAPI', db: 'SQLite', deploy: 'Railway' },
+    marketplace: { fe: 'Next.js', be: 'Node.js + Prisma', db: 'PostgreSQL', deploy: 'Vercel' },
+    mobile: { fe: 'React Native', be: 'Supabase', db: 'PostgreSQL', deploy: 'Expo' },
+    ai: { fe: 'Streamlit', be: 'Python + FastAPI', db: 'Vector DB', deploy: 'Railway' },
+    content: { fe: 'Astro', be: 'Supabase', db: 'PostgreSQL', deploy: 'Netlify' },
+  };
+  const stack = stacks[_studioProduct.category] || stacks.saas;
+  return `
+    <h3>🔧 Bước 2: AI Đang Build "${_studioProduct.name}"</h3>
+    <p class="studio-hint">AI agents đang viết code cho bạn. Ngồi uống café đi ☕</p>
+    <div class="studio-tech-stack">
+      <div class="studio-tech"><span>🖥️ Frontend</span><strong>${stack.fe}</strong></div>
+      <div class="studio-tech"><span>⚙️ Backend</span><strong>${stack.be}</strong></div>
+      <div class="studio-tech"><span>💾 Database</span><strong>${stack.db}</strong></div>
+      <div class="studio-tech"><span>🚀 Deploy</span><strong>${stack.deploy}</strong></div>
+    </div>
+    <div class="studio-agents">
+      <h4>🤖 AI Agents đang làm việc:</h4>
+      <div class="studio-agent-row"><span>⚡ T3Code Agent</span><span class="studio-status-active">Viết code...</span></div>
+      <div class="studio-agent-row"><span>🦀 ClawHub: code-reviewer</span><span class="studio-status-active">Review code...</span></div>
+      <div class="studio-agent-row"><span>🦀 ClawHub: api-tester</span><span class="studio-status-wait">Chờ code xong...</span></div>
+      <div class="studio-agent-row"><span>🎨 AI Design Agent</span><span class="studio-status-active">Thiết kế UI...</span></div>
+    </div>
+    <div class="studio-progress">
+      <div class="studio-progress-bar" id="studio-build-bar" style="width:0%"></div>
+    </div>
+    <div class="studio-progress-text" id="studio-build-text">Đang khởi tạo project...</div>
+    <button class="btn btn--primary" style="width:100%;margin-top:1rem" onclick="simulateBuild()">▶️ Bắt đầu Build</button>`;
+}
+
+function simulateBuild() {
+  const phases = [
+    [10, '📦 Tạo project structure...'],
+    [25, '⚡ T3Code: Viết API endpoints...'],
+    [40, '🎨 Design Agent: Tạo UI components...'],
+    [55, '💾 Setup database schema...'],
+    [70, '🦀 code-reviewer: Review & optimize...'],
+    [85, '🧪 api-tester: Chạy tests...'],
+    [95, '✅ Build thành công! 12 files, 2,847 lines'],
+    [100, '🚀 Ready to deploy!'],
+  ];
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i >= phases.length) { clearInterval(interval); return; }
+    const bar = document.getElementById('studio-build-bar');
+    const text = document.getElementById('studio-build-text');
+    if (bar) bar.style.width = phases[i][0] + '%';
+    if (text) text.textContent = phases[i][1];
+    if (i === phases.length - 1) {
+      setTimeout(() => {
+        const btn = document.querySelector('.studio-body .btn--primary');
+        if (btn) { btn.textContent = 'Tiếp → Deploy 🚀'; btn.onclick = () => studioNext(); }
+      }, 500);
+    }
+    i++;
+  }, 800);
+}
+
+function renderStudioDeploy() {
+  const platforms = [
+    { name: 'Vercel', icon: '▲', desc: 'Best for web apps', time: '~2 min', free: true, color: '#000' },
+    { name: 'Railway', icon: '🚂', desc: 'Best for backends', time: '~3 min', free: true, color: '#7c3aed' },
+    { name: 'Netlify', icon: '◆', desc: 'Best for static sites', time: '~1 min', free: true, color: '#00c7b7' },
+  ];
+  return `
+    <h3>🚀 Bước 3: Deploy "${_studioProduct.name}"</h3>
+    <p class="studio-hint">Chọn platform → 1 click → sản phẩm live trên internet.</p>
+    <div class="studio-deploy-grid">
+      ${platforms.map(p => `
+        <div class="studio-deploy-card" onclick="deployProduct('${p.name}')">
+          <div style="font-size:1.5rem">${p.icon}</div>
+          <strong>${p.name}</strong>
+          <span style="font-size:0.72rem;color:var(--text-tertiary)">${p.desc}</span>
+          <span style="font-size:0.72rem">⏱️ ${p.time} · ${p.free ? '🆓 Free tier' : '💰 Paid'}</span>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+function deployProduct(platform) {
+  showToast('🚀 Deploying to ' + platform + '...', 'success');
+  setTimeout(() => {
+    showToast('✅ ' + _studioProduct.name + ' is LIVE! URL: ' + _studioProduct.name.toLowerCase().replace(/\\s+/g,'-') + '.vercel.app', 'success');
+    setTimeout(() => studioNext(), 1000);
+  }, 2000);
+}
+
+function renderStudioMonetize() {
+  return `
+    <h3>💰 Bước 4: Kiếm Tiền Từ "${_studioProduct.name}"</h3>
+    <p class="studio-hint">Chọn mô hình kiếm tiền. AI suggest pricing dựa trên market research.</p>
+    <div class="studio-pricing-models">
+      <div class="studio-pricing-card selected" onclick="selectPricing(this,'freemium')">
+        <div style="font-size:1.3rem">🆓</div>
+        <strong>Freemium</strong>
+        <span>Free basic + Paid premium</span>
+        <div class="studio-pricing-example">VD: $0 → $9 → $29/tháng</div>
+      </div>
+      <div class="studio-pricing-card" onclick="selectPricing(this,'subscription')">
+        <div style="font-size:1.3rem">🔄</div>
+        <strong>Subscription</strong>
+        <span>Monthly recurring revenue</span>
+        <div class="studio-pricing-example">VD: $19 → $49 → $99/tháng</div>
+      </div>
+      <div class="studio-pricing-card" onclick="selectPricing(this,'onetime')">
+        <div style="font-size:1.3rem">💎</div>
+        <strong>One-time</strong>
+        <span>Pay once, use forever</span>
+        <div class="studio-pricing-example">VD: $29 → $79 → $199</div>
+      </div>
+      <div class="studio-pricing-card" onclick="selectPricing(this,'usage')">
+        <div style="font-size:1.3rem">📊</div>
+        <strong>Pay-per-use</strong>
+        <span>Charge by API calls/usage</span>
+        <div class="studio-pricing-example">VD: $0.01/request → $0.001 bulk</div>
+      </div>
+    </div>
+    <div class="studio-revenue-projection">
+      <h4>📈 Revenue Projection (6 tháng)</h4>
+      <div class="studio-proj-grid">
+        <div><div class="studio-proj-num" style="color:#fbbf24">$0</div><span>Tháng 0</span></div>
+        <div><div class="studio-proj-num" style="color:#fbbf24">$180</div><span>Tháng 1</span></div>
+        <div><div class="studio-proj-num" style="color:#4ade80">$890</div><span>Tháng 2</span></div>
+        <div><div class="studio-proj-num" style="color:#4ade80">$2,100</div><span>Tháng 3</span></div>
+        <div><div class="studio-proj-num" style="color:#4ade80">$4,500</div><span>Tháng 4-5</span></div>
+        <div><div class="studio-proj-num" style="color:#22c55e">$8,200</div><span>Tháng 6</span></div>
+      </div>
+    </div>
+    <button class="btn btn--primary" style="width:100%;margin-top:1rem" onclick="studioNext()">Tiếp → Xem Revenue Dashboard 📈</button>`;
+}
+
+function selectPricing(el, model) {
+  document.querySelectorAll('.studio-pricing-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function renderStudioRevenue() {
+  return `
+    <h3>📈 Revenue Dashboard — "${_studioProduct.name}"</h3>
+    <p class="studio-hint">Tổng thu nhập từ sản phẩm + ClawWork agents. Think → Money — DONE! ✅</p>
+    <div class="studio-rev-kpis">
+      <div class="studio-rev-kpi">
+        <div class="studio-rev-label">💰 Product MRR</div>
+        <div class="studio-rev-value" style="color:#4ade80">$2,340</div>
+        <div class="studio-rev-change">↑ 23% tuần này</div>
+      </div>
+      <div class="studio-rev-kpi">
+        <div class="studio-rev-label">🐻 ClawWork Income</div>
+        <div class="studio-rev-value" style="color:#fbbf24">$1,850</div>
+        <div class="studio-rev-change">44 tasks completed</div>
+      </div>
+      <div class="studio-rev-kpi">
+        <div class="studio-rev-label">📊 Total Revenue</div>
+        <div class="studio-rev-value" style="color:#a78bfa">$4,190</div>
+        <div class="studio-rev-change">Think → Money ✅</div>
+      </div>
+      <div class="studio-rev-kpi">
+        <div class="studio-rev-label">👥 Customers</div>
+        <div class="studio-rev-value" style="color:#60a5fa">127</div>
+        <div class="studio-rev-change">↑ 18 tuần này</div>
+      </div>
+    </div>
+    <div class="studio-rev-breakdown">
+      <h4>📊 Revenue Breakdown</h4>
+      <div class="studio-rev-row"><span>🔄 Subscription revenue</span><strong style="color:#4ade80">$1,740</strong></div>
+      <div class="studio-rev-row"><span>🆓 Freemium upgrade</span><strong style="color:#4ade80">$600</strong></div>
+      <div class="studio-rev-row"><span>🐻 ClawWork: Software tasks</span><strong style="color:#fbbf24">$920</strong></div>
+      <div class="studio-rev-row"><span>🐻 ClawWork: Content tasks</span><strong style="color:#fbbf24">$450</strong></div>
+      <div class="studio-rev-row"><span>🐻 ClawWork: Data analysis</span><strong style="color:#fbbf24">$480</strong></div>
+      <div class="studio-rev-row" style="border-top:2px solid var(--border-color);padding-top:0.5rem;margin-top:0.3rem"><span style="font-weight:800">💰 Tổng thu nhập tháng này</span><strong style="color:#a78bfa;font-size:1.1rem">$4,190</strong></div>
+    </div>
+    <div class="studio-rev-tip">
+      <strong>💡 Tips tăng revenue:</strong>
+      <ul style="margin:0.5rem 0 0;padding-left:1.2rem;font-size:0.78rem;color:var(--text-secondary)">
+        <li>Launch thêm 2-3 ClawWork tasks/ngày → +$500/tháng</li>
+        <li>Thêm enterprise tier ($99/tháng) → +$2K MRR</li>
+        <li>Referral program → +30% organic growth</li>
+        <li>Install clawhub deploy-hero skill → auto-deploy updates</li>
+      </ul>
+    </div>
+    <div style="display:flex;gap:0.5rem;margin-top:1rem">
+      <button class="btn btn--primary" style="flex:1" onclick="_studioStep=0;renderProductStudio();showToast('🔄 Tạo sản phẩm mới!','success')">🆕 Tạo Sản Phẩm Mới</button>
+      <button class="btn btn--secondary" style="flex:1" onclick="switchView('workspace')">🔗 Mở Workspace</button>
+    </div>`;
+}
+
+function studioNext() {
+  if (_studioStep === 0) {
+    const name = document.getElementById('studio-name');
+    const tagline = document.getElementById('studio-tagline');
+    const cat = document.getElementById('studio-cat');
+    const target = document.getElementById('studio-target');
+    if (name) _studioProduct.name = name.value || 'My Product';
+    if (tagline) _studioProduct.tagline = tagline.value || '';
+    if (cat) _studioProduct.category = cat.value;
+    if (target) _studioProduct.target = target.value || '';
+    if (!_studioProduct.name.trim()) { showToast('Nhập tên sản phẩm!', 'error'); return; }
+  }
+  _studioStep = Math.min(_studioStep + 1, STUDIO_STEPS.length - 1);
+  renderProductStudio();
 }
