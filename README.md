@@ -372,7 +372,102 @@ DevTrust cho bạn cơ hội:
 
 ---
 
+## 🔗 Ecosystem Integrations — Powered by Open Source
+
+DevTrust tích hợp với hệ sinh thái AI agent mạnh nhất, biến mỗi dev thành founder có **đội quân AI coworkers thật sự kiếm tiền.**
+
+### 🐻 ClawWork — AI Coworker Kiếm Tiền Thật
+
+> **$19K earned in 8 Hours** — AI Coworker cho 44+ ngành nghề
+
+```
+  ClawWork + DevTrust = AI agents KIẾM TIỀN THẬT
+
+  ┌─────────────────────────────────────────┐
+  │  🎯 220 real-world tasks (GDPVal)       │
+  │  💰 AI agents kiếm $1,500+/hr          │
+  │  📊 Multi-model arena (GPT, Claude,     │
+  │     Gemini, Qwen, Kimi, GLM)           │
+  │  🧠 Work/Learn strategic decisions     │
+  │  📈 Live earning dashboard             │
+  └─────────────────────────────────────────┘
+
+  Synergy với DevTrust:
+  ├── Trust Score verify AI agent earnings
+  ├── Agent performance → Trust inheritance  
+  ├── Revenue tracking qua P2P network
+  └── Human Intent Protocol cho mỗi task
+```
+
+🔗 [github.com/manhcuongk55/ClawWork-budai](https://github.com/manhcuongk55/ClawWork-budai) · [Live Arena](https://hkuds.github.io/ClawWork/)
+
+### 🦀 ClawHub — Skill Registry cho AI Agents
+
+> **Publish, version, search** agent skills — như npm cho AI agents
+
+```
+  ClawHub + DevTrust = SKILL MARKETPLACE có Trust
+
+  ┌─────────────────────────────────────────┐
+  │  📦 Publish SKILL.md + version control  │
+  │  🔍 Vector search (AI embeddings)       │
+  │  ⭐ Community star + review             │
+  │  🛠️ CLI: install, update, inspect       │
+  │  🧬 SOUL.md registry (onlycrabs.ai)    │
+  └─────────────────────────────────────────┘
+
+  Synergy với DevTrust:
+  ├── Skill trust score từ community verify
+  ├── Agent skill verification on-chain
+  ├── Plugin marketplace integration
+  └── DevTrust users publish skills qua ClawHub
+```
+
+🔗 [github.com/openclaw/clawhub](https://github.com/openclaw/clawhub) · [clawhub.ai](https://clawhub.ai)
+
+### ⚡ T3Code — Web GUI cho Coding Agents
+
+> **Minimal, powerful** web interface cho AI coding agents (Codex-first)
+
+```
+  T3Code + DevTrust = CODING AGENTS có Trust
+
+  ┌─────────────────────────────────────────┐
+  │  💻 Web GUI for Codex CLI               │
+  │  🖥️ Desktop app available              │
+  │  ⚡ npx t3 — chạy ngay                  │
+  │  🔧 Claude Code support (coming soon)   │
+  │  🎯 Minimal, fast, developer-first     │
+  └─────────────────────────────────────────┘
+
+  Synergy với DevTrust:
+  ├── Code output verified qua Trust Protocol
+  ├── AI CTO Agent dùng T3Code làm IDE
+  ├── Startup Builder integrate coding agent  
+  └── Trust Score track code quality
+```
+
+🔗 [github.com/manhcuongk55/t3code-budai](https://github.com/manhcuongk55/t3code-budai) · [t3.codes](https://t3.codes)
+
+### 🌐 Tổng kết Ecosystem
+
+```
+  DevTrust (Trust Layer)
+       │
+       ├── ClawWork → AI agents KIẾM TIỀN (44 nghề, $19K/8hrs)
+       ├── ClawHub  → AI agents CÓ SKILLS (registry, versioning)  
+       ├── T3Code   → AI agents VIẾT CODE (web GUI, Codex)
+       │
+       └── Tất cả verify qua DevTrust Trust Protocol
+           → Mỗi output = Proof of Human Intent
+           → Mỗi agent = Trust inherited from owner
+           → Mỗi skill = Community verified
+```
+
+---
+
 ## 🏗️ Platform Features (16 Modules)
+
 
 | Phase | Modules | Status |
 |-------|---------|--------|

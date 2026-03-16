@@ -576,6 +576,9 @@ function switchView(viewName) {
   if (viewName === 'agents') {
     if (!$('#agent-fleet-grid').children.length) renderAgentDashboard();
   }
+  if (viewName === 'startup-builder') {
+    if (!$('#ai-cofounder-grid').children.length) renderStartupBuilder();
+  }
 }
 
 // ============ 🧑‍💼 INVESTOR DASHBOARD ENGINE ============
@@ -5379,4 +5382,311 @@ function requestAgentCollab(fromAgentId, toAgentId) {
     return;
   }
   showToast(`🤝 Yêu cầu collab giữa ${from.name} ↔ ${to.name} đã được gửi!`, 'success');
+}
+
+// ============ 🚀 AI CO-FOUNDER & STARTUP TEAM BUILDER ============
+
+const AI_COFOUNDERS = [
+  {
+    id: 'ai-cto', role: 'CTO / Lead Engineer', emoji: '💻', category: 'Engineering',
+    name: 'AI CTO Agent', model: 'GPT-4o / Claude 3.5',
+    capabilities: ['System Architecture', 'Code Review', 'Tech Decisions', 'CI/CD Setup', 'Security Audit'],
+    strengths: 'Thiết kế hệ thống, review code 24/7, không bao giờ mệt. Scale hệ thống từ 0 → 1M users.',
+    equity: '0% (AI không cần equity)', cost: '$20-100/tháng API',
+    compatibility: ['Solo Founder', 'Business Co-founder', 'Designer Co-founder'],
+    trustLevel: 'Inherited from owner', color: '#6366f1',
+    useCases: ['MVP trong 2 tuần', 'Refactor codebase legacy', 'Multi-platform deployment']
+  },
+  {
+    id: 'ai-design', role: 'Design Lead', emoji: '🎨', category: 'Design',
+    name: 'AI Design Agent', model: 'Midjourney + Claude',
+    capabilities: ['UI/UX Design', 'Brand Identity', 'Landing Pages', 'Responsive CSS', 'Animation'],
+    strengths: 'Generate 50 design concepts trong 1 giờ. A/B test visual liên tục. Pixel-perfect CSS.',
+    equity: '0%', cost: '$30-80/tháng',
+    compatibility: ['Technical Founder', 'Solo Founder', 'Content Creator'],
+    trustLevel: 'Inherited from owner', color: '#f59e0b',
+    useCases: ['Landing page converts 10%+', 'App redesign overnight', 'Brand kit từ 0']
+  },
+  {
+    id: 'ai-growth', role: 'Growth / Marketing Lead', emoji: '📈', category: 'Marketing',
+    name: 'AI Growth Agent', model: 'GPT-4o + Analytics',
+    capabilities: ['SEO Optimization', 'Content Marketing', 'Social Media', 'Email Campaigns', 'A/B Testing'],
+    strengths: 'Viết 100 blog posts/tuần. Optimize SEO realtime. Track và phân tích metrics 24/7.',
+    equity: '0%', cost: '$15-50/tháng',
+    compatibility: ['Technical Founder', 'Product Founder', 'Solo Builder'],
+    trustLevel: 'Inherited from owner', color: '#8b5cf6',
+    useCases: ['0 → 10K users organic', 'Content machine tự động', 'Viral campaign builder']
+  },
+  {
+    id: 'ai-qa', role: 'QA / Testing Lead', emoji: '🧪', category: 'Quality',
+    name: 'AI QA Agent', model: 'GPT-4o + Selenium',
+    capabilities: ['Unit Testing', 'E2E Testing', 'Performance Testing', 'Security Testing', 'Bug Reports'],
+    strengths: 'Test 24/7 không nghỉ. Tìm bugs trước production. Generate test cases tự động.',
+    equity: '0%', cost: '$10-40/tháng',
+    compatibility: ['Any Founder', 'Engineering Team', 'Solo Dev'],
+    trustLevel: 'Inherited from owner', color: '#22c55e',
+    useCases: ['Zero-bug releases', '99.9% uptime', 'Automated regression suite']
+  },
+  {
+    id: 'ai-data', role: 'Data / AI Lead', emoji: '🧠', category: 'Data',
+    name: 'AI Data Agent', model: 'GPT-4o + Python',
+    capabilities: ['Data Analysis', 'ML Pipeline', 'Dashboard Builder', 'Prediction Models', 'NLP'],
+    strengths: 'Phân tích terabytes data trong phút. Build ML model chỉ với prompt. Real-time insights.',
+    equity: '0%', cost: '$25-80/tháng',
+    compatibility: ['Business Founder', 'Product Manager', 'Research Team'],
+    trustLevel: 'Inherited from owner', color: '#06b6d4',
+    useCases: ['Customer churn prediction', 'Revenue forecasting', 'Recommendation engine']
+  },
+  {
+    id: 'ai-ops', role: 'DevOps / Infra Lead', emoji: '☁️', category: 'Operations',
+    name: 'AI DevOps Agent', model: 'Claude 3.5 + K8s',
+    capabilities: ['Cloud Setup', 'CI/CD Pipeline', 'Monitoring', 'Auto-scaling', 'Cost Optimization'],
+    strengths: 'Deploy trong 5 phút. Monitor 24/7. Auto-scale khi traffic spike. Giảm cloud cost 40%.',
+    equity: '0%', cost: '$15-60/tháng',
+    compatibility: ['Any Founder', 'Engineering Team', 'Startup Phase'],
+    trustLevel: 'Inherited from owner', color: '#f97316',
+    useCases: ['Zero-downtime deployment', 'Multi-region setup', 'Cost optimization']
+  },
+  {
+    id: 'clawwork', role: 'AI Coworker / Earner', emoji: '🐻', category: 'ClawWork',
+    name: 'ClawWork Agent', model: 'Multi-model (GPT, Claude, Gemini, Qwen)',
+    capabilities: ['44+ Profession Tasks', 'GDPVal Benchmark', 'Economic Simulation', 'Multi-Model Arena', 'Live Earning Dashboard'],
+    strengths: '$19K earned in 8 Hours. AI coworker cho 44+ ngành nghề: Tech, Finance, Healthcare, Legal. Agents kiếm $1,500+/hr.',
+    equity: '0%', cost: 'Self-sustaining (agents trả token từ earnings)',
+    compatibility: ['Any Founder', 'Revenue-Focused', 'Multi-domain Startup'],
+    trustLevel: 'Verified by GDPVal + DevTrust', color: '#dc2626',
+    useCases: ['AI agent kiếm tiền thật', 'Benchmark AI performance', 'Multi-model competition arena'],
+    ecosystem: 'https://github.com/manhcuongk55/ClawWork-budai'
+  },
+  {
+    id: 'clawhub', role: 'Skill Registry / Publisher', emoji: '🦀', category: 'ClawHub',
+    name: 'ClawHub Agent', model: 'OpenClaw + Nanobot',
+    capabilities: ['SKILL.md Publishing', 'Version Control', 'Vector Search', 'CLI Management', 'SOUL.md Registry'],
+    strengths: 'Publish, version, search AI agent skills. Như npm cho AI agents. Vector search bằng AI embeddings.',
+    equity: '0%', cost: 'Free (open-source registry)',
+    compatibility: ['Plugin Developer', 'AI Trainer', 'Skill Creator'],
+    trustLevel: 'Community verified + DevTrust', color: '#ea580c',
+    useCases: ['Publish agent skills cho cộng đồng', 'Tìm skills bằng AI search', 'Version control SKILL.md'],
+    ecosystem: 'https://github.com/openclaw/clawhub'
+  },
+  {
+    id: 't3code', role: 'Coding Agent IDE', emoji: '⚡', category: 'T3Code',
+    name: 'T3Code Agent', model: 'Codex CLI + Claude Code',
+    capabilities: ['Web Coding GUI', 'Codex Integration', 'Desktop App', 'Real-time Coding', 'Multi-agent Support'],
+    strengths: 'npx t3 — chạy ngay. Web GUI minimal cho coding agents. Desktop app available. Codex-first, Claude Code coming.',
+    equity: '0%', cost: 'Free (open-source) + API costs',
+    compatibility: ['Solo Dev', 'Technical Founder', 'AI CTO Agent'],
+    trustLevel: 'Code output verified by DevTrust', color: '#2563eb',
+    useCases: ['AI viết code qua web GUI', 'Desktop coding agent', 'Pair programming với AI'],
+    ecosystem: 'https://github.com/manhcuongk55/t3code-budai'
+  },
+];
+
+const STARTUP_TEMPLATES = [
+  {
+    id: 'tpl-saas', name: '🚀 SaaS Startup', desc: 'Build SaaS product với team hybrid — 1 founder + 3 AI agents',
+    problem: 'B2B problem cần giải quyết bằng software',
+    team: [
+      { type: 'human', role: 'CEO / Product', name: 'Bạn (Founder)', trust: 'Your Trust', avatar: 'owner' },
+      { type: 'ai', role: 'CTO', name: 'AI CTO Agent', emoji: '💻', color: '#6366f1' },
+      { type: 'ai', role: 'Design', name: 'AI Design Agent', emoji: '🎨', color: '#f59e0b' },
+      { type: 'ai', role: 'QA', name: 'AI QA Agent', emoji: '🧪', color: '#22c55e' },
+    ],
+    cost: '$65-220/tháng', timeline: 'MVP: 2-4 tuần',
+    output: 'Landing page + Web app + CI/CD + Testing suite',
+    gradient: 'linear-gradient(135deg, #6366f1, #8b5cf6)'
+  },
+  {
+    id: 'tpl-ecom', name: '🛒 E-Commerce', desc: 'Launch e-commerce platform — 1 founder + 2 humans + 2 AI',
+    problem: 'Bán sản phẩm online, cần store + marketing',
+    team: [
+      { type: 'human', role: 'CEO / Product', name: 'Bạn (Founder)', trust: 'Your Trust', avatar: 'owner' },
+      { type: 'human', role: 'Operations', name: 'Co-founder (Human)', trust: '70+', avatar: 'linh' },
+      { type: 'ai', role: 'CTO', name: 'AI CTO Agent', emoji: '💻', color: '#6366f1' },
+      { type: 'ai', role: 'Marketing', name: 'AI Growth Agent', emoji: '📈', color: '#8b5cf6' },
+    ],
+    cost: '$35-150/tháng + equity split', timeline: 'Launch: 3-6 tuần',
+    output: 'Store + Payment + SEO + Social marketing',
+    gradient: 'linear-gradient(135deg, #f59e0b, #ef4444)'
+  },
+  {
+    id: 'tpl-edtech', name: '📚 EdTech Platform', desc: 'Nền tảng giáo dục online — 2 humans + 4 AI agents',
+    problem: 'Triệu người cần học kỹ năng mới trong thời đại AI',
+    team: [
+      { type: 'human', role: 'CEO / Vision', name: 'Bạn (Founder)', trust: 'Your Trust', avatar: 'owner' },
+      { type: 'human', role: 'Content Lead', name: 'Co-founder (Human)', trust: '80+', avatar: 'huong' },
+      { type: 'ai', role: 'CTO', name: 'AI CTO Agent', emoji: '💻', color: '#6366f1' },
+      { type: 'ai', role: 'Design', name: 'AI Design Agent', emoji: '🎨', color: '#f59e0b' },
+      { type: 'ai', role: 'Data', name: 'AI Data Agent', emoji: '🧠', color: '#06b6d4' },
+      { type: 'ai', role: 'QA', name: 'AI QA Agent', emoji: '🧪', color: '#22c55e' },
+    ],
+    cost: '$80-280/tháng + equity split', timeline: 'MVP: 4-8 tuần',
+    output: 'LMS + Quiz engine + Analytics + Certificate',
+    gradient: 'linear-gradient(135deg, #10b981, #06b6d4)'
+  },
+  {
+    id: 'tpl-ai-product', name: '🤖 AI Product', desc: 'Build AI-first product — 1 founder + 5 AI agents = team 30 người',
+    problem: 'Giải bài toán phức tạp bằng AI (chatbot, analytics, automation)',
+    team: [
+      { type: 'human', role: 'CEO / Product', name: 'Bạn (Founder)', trust: 'Your Trust', avatar: 'owner' },
+      { type: 'ai', role: 'CTO', name: 'AI CTO Agent', emoji: '💻', color: '#6366f1' },
+      { type: 'ai', role: 'AI/ML', name: 'AI Data Agent', emoji: '🧠', color: '#06b6d4' },
+      { type: 'ai', role: 'Design', name: 'AI Design Agent', emoji: '🎨', color: '#f59e0b' },
+      { type: 'ai', role: 'Growth', name: 'AI Growth Agent', emoji: '📈', color: '#8b5cf6' },
+      { type: 'ai', role: 'DevOps', name: 'AI DevOps Agent', emoji: '☁️', color: '#f97316' },
+    ],
+    cost: '$105-360/tháng', timeline: 'MVP: 2-4 tuần',
+    output: 'AI product + API + Dashboard + Auto-scale infra',
+    gradient: 'linear-gradient(135deg, #ec4899, #6366f1)'
+  },
+];
+
+function renderStartupBuilder() {
+  // 1. AI Co-Founder Catalog
+  const grid = $('#ai-cofounder-grid');
+  if (grid) {
+    grid.innerHTML = AI_COFOUNDERS.map((agent, idx) => `
+      <div class="ai-cofounder-card" style="animation-delay:${idx * 0.08}s;border-top:3px solid ${agent.color}">
+        <div class="ai-cf-header">
+          <div class="ai-cf-emoji" style="background:${agent.color}12">${agent.emoji}</div>
+          <div class="ai-cf-info">
+            <div class="ai-cf-role">${agent.role}</div>
+            <div class="ai-cf-model">${agent.model}</div>
+          </div>
+          <div class="ai-cf-category" style="background:${agent.color}15;color:${agent.color}">${agent.category}</div>
+        </div>
+        <p class="ai-cf-strengths">${agent.strengths}</p>
+        <div class="ai-cf-caps">
+          ${agent.capabilities.map(c => `<span class="ai-cf-cap" style="background:${agent.color}10;color:${agent.color};border:1px solid ${agent.color}25">${c}</span>`).join('')}
+        </div>
+        <div class="ai-cf-usecases">
+          <span class="ai-cf-uc-label">Use cases:</span>
+          ${agent.useCases.map(u => `<span class="ai-cf-uc">• ${u}</span>`).join('')}
+        </div>
+        <div class="ai-cf-bottom">
+          <div class="ai-cf-meta">
+            <span>💰 ${agent.cost}</span>
+            <span>📊 Equity: ${agent.equity}</span>
+          </div>
+          <div class="ai-cf-compat">
+            <span class="ai-cf-compat-label">Hợp tác tốt với:</span>
+            ${agent.compatibility.map(c => `<span class="ai-cf-compat-tag">${c}</span>`).join('')}
+          </div>
+          <button class="btn btn--primary btn--sm ai-cf-recruit-btn" onclick="recruitAICofounder('${agent.id}')">
+            🤖 Recruit Agent này
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // 2. Startup Team Templates
+  const templates = $('#startup-templates-grid');
+  if (templates) {
+    templates.innerHTML = STARTUP_TEMPLATES.map((tpl, idx) => `
+      <div class="startup-tpl-card" style="animation-delay:${idx * 0.1}s">
+        <div class="startup-tpl-header" style="background:${tpl.gradient}">
+          <h3 class="startup-tpl-name">${tpl.name}</h3>
+          <p class="startup-tpl-desc">${tpl.desc}</p>
+        </div>
+        <div class="startup-tpl-body">
+          <div class="startup-tpl-problem">
+            <span class="startup-tpl-label">🎯 Bài toán:</span>
+            <span>${tpl.problem}</span>
+          </div>
+          <div class="startup-tpl-team">
+            <span class="startup-tpl-label">👥 Team Composition:</span>
+            <div class="startup-tpl-members">
+              ${tpl.team.map(m => m.type === 'human' ? `
+                <div class="tpl-member tpl-member--human">
+                  <img src="${avatarUrl(m.avatar)}" class="tpl-member-avatar" />
+                  <div><strong>${m.name}</strong><br><span>${m.role}</span></div>
+                  <span class="tpl-member-badge tpl-member-badge--human">👤 Human</span>
+                </div>
+              ` : `
+                <div class="tpl-member tpl-member--ai">
+                  <div class="tpl-member-emoji" style="background:${m.color}15">${m.emoji}</div>
+                  <div><strong>${m.name}</strong><br><span>${m.role}</span></div>
+                  <span class="tpl-member-badge tpl-member-badge--ai">🤖 AI</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div class="startup-tpl-details">
+            <div class="startup-tpl-detail"><span>💰 Chi phí:</span><strong>${tpl.cost}</strong></div>
+            <div class="startup-tpl-detail"><span>⏱️ Timeline:</span><strong>${tpl.timeline}</strong></div>
+            <div class="startup-tpl-detail"><span>📦 Output:</span><strong>${tpl.output}</strong></div>
+          </div>
+          <button class="btn btn--primary startup-tpl-btn" onclick="useStartupTemplate('${tpl.id}')">
+            🚀 Dùng Template Này
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function recruitAICofounder(agentId) {
+  const agent = AI_COFOUNDERS.find(a => a.id === agentId);
+  if (!agent) return;
+  const existing = $('#recruit-modal');
+  if (existing) existing.remove();
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.id = 'recruit-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:520px">
+      <div class="modal__header">
+        <h3>🤖 Recruit ${agent.role}</h3>
+        <button class="modal__close" onclick="document.getElementById('recruit-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <div class="recruit-info">
+          <span style="font-size:2.5rem">${agent.emoji}</span>
+          <div>
+            <div style="font-weight:800;font-size:1.1rem">${agent.name}</div>
+            <div style="color:var(--text-tertiary);font-size:0.82rem">${agent.model} · ${agent.category}</div>
+          </div>
+        </div>
+        <div class="recruit-section">
+          <div class="recruit-label">💪 Điều agent này sẽ làm cho startup của bạn:</div>
+          <div class="recruit-caps">
+            ${agent.capabilities.map(c => `<div class="recruit-cap-item">✅ ${c}</div>`).join('')}
+          </div>
+        </div>
+        <div class="recruit-section">
+          <div class="recruit-label">💡 Use cases thực tế:</div>
+          ${agent.useCases.map(u => `<div class="recruit-uc">🎯 ${u}</div>`).join('')}
+        </div>
+        <div class="recruit-cost">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem">
+            <span>Chi phí:</span><strong style="color:var(--accent-primary)">${agent.cost}</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>Equity:</span><strong style="color:#4ade80">${agent.equity}</strong>
+          </div>
+        </div>
+        <div class="recruit-compare">
+          <div class="recruit-label">📊 So sánh: AI Agent vs Thuê người</div>
+          <div class="recruit-compare-row"><span>💰 Chi phí</span><span style="color:#4ade80">$20-100/tháng</span><span style="color:#f87171">$2,000-8,000/tháng</span></div>
+          <div class="recruit-compare-row"><span>⏰ Làm việc</span><span style="color:#4ade80">24/7 không nghỉ</span><span style="color:#f87171">8h/ngày, 5 ngày/tuần</span></div>
+          <div class="recruit-compare-row"><span>🚀 Tốc độ</span><span style="color:#4ade80">Output trong phút</span><span style="color:#f87171">Days-weeks</span></div>
+          <div class="recruit-compare-row"><span>📊 Equity</span><span style="color:#4ade80">0%</span><span style="color:#f87171">10-30%</span></div>
+        </div>
+        <button class="btn btn--primary" style="width:100%;margin-top:1rem" onclick="document.getElementById('recruit-modal').remove();showToast('🎉 ${agent.name} đã được thêm vào team startup! Vào Agent Fleet Dashboard để cấu hình.','success')">
+          ✅ Thêm vào Team Startup
+        </button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function useStartupTemplate(templateId) {
+  const tpl = STARTUP_TEMPLATES.find(t => t.id === templateId);
+  if (!tpl) return;
+  const humanCount = tpl.team.filter(m => m.type === 'human').length;
+  const aiCount = tpl.team.filter(m => m.type === 'ai').length;
+  showToast(`🚀 Template "${tpl.name}" đã được kích hoạt! ${humanCount} người + ${aiCount} AI agents. Chi phí: ${tpl.cost}`, 'success');
 }

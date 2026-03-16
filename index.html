@@ -127,6 +127,11 @@
           <span>🤖 AI Agents</span>
           <span class="sidebar__badge sidebar__badge--new">P6</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="startup-builder" id="nav-startup-builder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <span>🚀 Startup Builder</span>
+          <span class="sidebar__badge sidebar__badge--new">NEW</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <span>Tin nhắn</span>
@@ -1070,6 +1075,36 @@
           <h3>🤝 Agent-to-Agent Collaboration</h3>
           <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:1rem">Agents chỉ hợp tác khi cả 2 chủ sở hữu vượt Trust Gate — trust-gated cooperation</p>
           <div class="collab-list" id="agent-collab-list"><!-- JS populated --></div>
+        </div>
+      </section>
+
+      <!-- ===== STARTUP BUILDER VIEW ===== -->
+      <section class="view view--startup-builder" id="view-startup-builder">
+        <div class="sb-hero">
+          <div class="sb-hero__glow"></div>
+          <div class="sb-hero__eyebrow">
+            <span class="sb-hero__pulse"></span> Human + AI = Startup
+          </div>
+          <h1 class="sb-hero__title">🚀 Startup <span>Builder</span></h1>
+          <p class="sb-hero__desc">Tìm AI co-founder cho startup của bạn · Recruit các loại AI agent khác nhau · Build team hybrid Human + AI</p>
+          <div class="sb-hero__stats">
+            <div class="sb-stat"><strong>6</strong><span>AI Agent Types</span></div>
+            <div class="sb-stat"><strong>$0%</strong><span>Agent Equity</span></div>
+            <div class="sb-stat"><strong>10x</strong><span>Faster MVP</span></div>
+            <div class="sb-stat"><strong>4</strong><span>Team Templates</span></div>
+          </div>
+        </div>
+
+        <div class="sb-section">
+          <h3>🤖 AI Co-Founder Catalog</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:1rem">Chọn AI agent làm co-founder — mỗi agent chuyên một lĩnh vực, làm việc 24/7, không cần equity</p>
+          <div class="ai-cofounder-grid" id="ai-cofounder-grid"><!-- JS populated --></div>
+        </div>
+
+        <div class="sb-section">
+          <h3>🎯 Startup Team Templates</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:1rem">Chọn template team sẵn — kết hợp con người + AI agents, bắt đầu build ngay</p>
+          <div class="startup-templates-grid" id="startup-templates-grid"><!-- JS populated --></div>
         </div>
       </section>
 
