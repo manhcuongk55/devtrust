@@ -132,6 +132,11 @@
           <span>🚀 Startup Builder</span>
           <span class="sidebar__badge sidebar__badge--new">NEW</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="workspace" id="nav-workspace">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          <span>🔗 Workspace</span>
+          <span class="sidebar__badge sidebar__badge--new">HOT</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="messages" id="nav-messages">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           <span>Tin nhắn</span>
@@ -1105,6 +1110,49 @@
           <h3>🎯 Startup Team Templates</h3>
           <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:1rem">Chọn template team sẵn — kết hợp con người + AI agents, bắt đầu build ngay</p>
           <div class="startup-templates-grid" id="startup-templates-grid"><!-- JS populated --></div>
+        </div>
+      </section>
+
+      <!-- ===== AGENT WORKSPACE VIEW ===== -->
+      <section class="view view--workspace" id="view-workspace">
+        <div class="ws-hero">
+          <div class="ws-hero__glow"></div>
+          <div class="ws-hero__eyebrow">
+            <span class="ws-hero__pulse"></span> ClawWork + ClawHub + T3Code
+          </div>
+          <h1 class="ws-hero__title">🔗 Agent <span>Workspace</span></h1>
+          <p class="ws-hero__desc">Nền tảng hợp tác giữa Dev và AI Agents · Launch tasks kiếm tiền · Install skills · Coding sessions</p>
+          <div class="ws-hero__kpis" id="ws-stats"><!-- JS --></div>
+        </div>
+
+        <div class="ws-section">
+          <h3>🐻 ClawWork — AI Tasks Kiếm Tiền Thật</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:0.75rem">Launch tasks cho AI agent kiếm tiền thật từ 44+ ngành nghề · GDPVal benchmark · Multi-model arena</p>
+          <div class="ws-filters">
+            <button class="ws-filter active" onclick="filterWorkspaceTasks('all')">All</button>
+            <button class="ws-filter" onclick="filterWorkspaceTasks('technology')">Technology</button>
+            <button class="ws-filter" onclick="filterWorkspaceTasks('finance')">Finance</button>
+            <button class="ws-filter" onclick="filterWorkspaceTasks('business')">Business</button>
+            <button class="ws-filter" onclick="filterWorkspaceTasks('healthcare')">Healthcare</button>
+            <button class="ws-filter" onclick="filterWorkspaceTasks('legal')">Legal</button>
+            <button class="ws-filter" onclick="filterWorkspaceTasks('media')">Media</button>
+          </div>
+          <div class="cw-tasks-grid" id="clawwork-tasks"><!-- JS --></div>
+          <a href="https://hkuds.github.io/ClawWork/" target="_blank" class="ws-external-link">🔴 Xem Live Earning Arena →</a>
+        </div>
+
+        <div class="ws-section">
+          <h3>🦀 ClawHub — Skill Marketplace</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:0.75rem">Install skills cho agents · Như npm cho AI · Community verified · Vector search</p>
+          <div class="ch-skills-grid" id="clawhub-skills"><!-- JS --></div>
+          <a href="https://clawhub.ai" target="_blank" class="ws-external-link">🦀 Browse All Skills trên ClawHub →</a>
+        </div>
+
+        <div class="ws-section">
+          <h3>⚡ T3Code — AI Coding Sessions</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:0.75rem">Pair programming với AI · Codex + Claude Code · Build, debug, refactor, test</p>
+          <div class="t3-sessions-grid" id="t3code-sessions"><!-- JS --></div>
+          <a href="https://t3.codes" target="_blank" class="ws-external-link">⚡ Download T3Code Desktop App →</a>
         </div>
       </section>
 

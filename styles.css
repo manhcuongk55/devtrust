@@ -5791,3 +5791,120 @@ input:focus, textarea:focus, select:focus {
   .sb-hero { padding: 2rem 1rem 1.5rem; }
   .sb-hero__stats { gap: 0.75rem; }
 }
+
+/* ================ 🔗 AGENT WORKSPACE ================ */
+.ws-hero {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0a0a1a 0%, #0a1a0a 30%, #1a0a20 70%, #0a0a1a 100%);
+  border: 1px solid rgba(34,197,94,0.15); border-radius: 20px;
+  padding: 3rem 2rem 2rem; margin-bottom: 2rem; text-align: center;
+}
+.ws-hero__glow {
+  position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 350px; border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(34,197,94,0.08) 0%, rgba(99,102,241,0.06) 50%, transparent 70%);
+  pointer-events: none;
+}
+.ws-hero__eyebrow {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-size: 0.78rem; color: #4ade80; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem;
+}
+.ws-hero__pulse { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 3px rgba(74,222,128,0.2); animation: pulse 2s infinite; }
+.ws-hero__title { font-size: clamp(2rem,5vw,3rem); font-weight: 900; margin-bottom: 0.75rem; }
+.ws-hero__title span { background: linear-gradient(135deg, #4ade80, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.ws-hero__desc { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 600px; margin-inline: auto; }
+.ws-hero__kpis { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+.ws-kpi {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 1rem 1.5rem; min-width: 110px; text-align: center;
+}
+.ws-kpi strong { display: block; font-size: 1.6rem; font-weight: 900; }
+.ws-kpi span { font-size: 0.72rem; color: var(--text-tertiary); }
+.ws-kpi--green { color: #4ade80; }
+.ws-kpi--gold { color: #fbbf24; }
+.ws-kpi--blue { color: #60a5fa; }
+.ws-kpi--purple { color: #a78bfa; }
+.ws-section { margin-bottom: 2rem; }
+.ws-section h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.25rem; }
+
+.ws-filters {
+  display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.ws-filter {
+  padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+  background: var(--bg-glass); border: 1px solid var(--border-color);
+  color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+}
+.ws-filter:hover { background: var(--bg-glass-hover); }
+.ws-filter.active { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; border-color: transparent; }
+
+.ws-external-link {
+  display: inline-block; margin-top: 0.75rem; font-size: 0.82rem; font-weight: 700;
+  color: var(--accent-primary); text-decoration: none; transition: color var(--transition-fast);
+}
+.ws-external-link:hover { color: #a78bfa; }
+
+/* ClawWork Tasks */
+.cw-tasks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.cw-task-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  transition: all var(--transition); animation: fadeInUp 0.3s ease both;
+}
+.cw-task-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.cw-task-top { display: flex; justify-content: space-between; align-items: center; }
+.cw-task-sector { font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; background: rgba(99,102,241,0.1); color: var(--accent-primary); }
+.cw-task-status { font-size: 0.72rem; font-weight: 700; }
+.cw-task-profession { font-size: 0.95rem; font-weight: 800; }
+.cw-task-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; }
+.cw-task-meta { display: flex; gap: 0.75rem; font-size: 0.75rem; color: var(--text-secondary); flex-wrap: wrap; }
+.cw-task-diff { font-weight: 700; padding: 0.1rem 0.4rem; border-radius: 999px; font-size: 0.65rem; }
+.cw-task-diff--beginner { background: rgba(34,197,94,0.1); color: #4ade80; }
+.cw-task-diff--intermediate { background: rgba(251,191,36,0.1); color: #fbbf24; }
+.cw-task-diff--advanced { background: rgba(239,68,68,0.1); color: #f87171; }
+.cw-task-models { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+.cw-model-tag { font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 999px; background: rgba(255,255,255,0.05); color: var(--text-tertiary); border: 1px solid rgba(255,255,255,0.08); }
+.cw-completed { font-size: 0.78rem; color: #4ade80; font-weight: 700; }
+.cw-in-progress { font-size: 0.78rem; color: #fbbf24; font-weight: 600; }
+
+/* ClawHub Skills */
+.ch-skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+.ch-skill-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  transition: all var(--transition); animation: fadeInUp 0.3s ease both;
+}
+.ch-skill-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.ch-skill-top { display: flex; justify-content: space-between; align-items: center; }
+.ch-skill-name { font-size: 0.9rem; font-weight: 800; font-family: monospace; }
+.ch-skill-ver { font-size: 0.65rem; color: var(--text-tertiary); font-weight: 400; margin-left: 0.4rem; }
+.ch-verified { font-size: 0.68rem; color: #4ade80; font-weight: 700; }
+.ch-unverified { font-size: 0.68rem; color: #fbbf24; font-weight: 600; }
+.ch-skill-desc { font-size: 0.78rem; color: var(--text-secondary); line-height: 1.4; }
+.ch-skill-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+.ch-tag { font-size: 0.62rem; padding: 0.1rem 0.4rem; border-radius: 999px; background: rgba(234,88,12,0.08); color: #f97316; font-weight: 600; }
+.ch-skill-stats { display: flex; gap: 0.75rem; font-size: 0.75rem; color: var(--text-tertiary); }
+
+/* T3Code Sessions */
+.t3-sessions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.t3-session-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg); padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  transition: all var(--transition); animation: fadeInUp 0.3s ease both;
+}
+.t3-session-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+.t3-session-top { display: flex; justify-content: space-between; align-items: center; }
+.t3-session-name { font-size: 0.9rem; font-weight: 800; }
+.t3-session-agent { font-size: 0.68rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 999px; background: rgba(37,99,235,0.1); color: #60a5fa; }
+.t3-session-desc { font-size: 0.78rem; color: var(--text-secondary); }
+.t3-session-meta { display: flex; gap: 0.75rem; font-size: 0.75rem; color: var(--text-tertiary); }
+
+@media (max-width: 768px) {
+  .cw-tasks-grid, .ch-skills-grid, .t3-sessions-grid { grid-template-columns: 1fr; }
+  .ws-hero { padding: 2rem 1rem 1.5rem; }
+  .ws-hero__kpis { gap: 0.75rem; }
+}

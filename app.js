@@ -5690,3 +5690,240 @@ function useStartupTemplate(templateId) {
   const aiCount = tpl.team.filter(m => m.type === 'ai').length;
   showToast(`🚀 Template "${tpl.name}" đã được kích hoạt! ${humanCount} người + ${aiCount} AI agents. Chi phí: ${tpl.cost}`, 'success');
 }
+
+// ============ 🔗 AGENT WORKSPACE — ClawWork + ClawHub + T3Code ============
+
+const CLAWWORK_TASKS = [
+  { id: 'cw-1', profession: 'Software Engineering', sector: 'Technology', difficulty: 'Advanced', payout: '$85-120', duration: '2-4 hrs', desc: 'Build REST API with auth, rate limiting, and documentation', models: ['GPT-4o', 'Claude 3.5', 'Gemini 3.1 Pro'], status: 'available' },
+  { id: 'cw-2', profession: 'Data Analysis', sector: 'Finance', difficulty: 'Intermediate', payout: '$60-90', duration: '1-3 hrs', desc: 'Analyze financial dataset, create visualizations and insights report', models: ['GPT-4o', 'Qwen-3.5'], status: 'available' },
+  { id: 'cw-3', profession: 'Content Marketing', sector: 'Business', difficulty: 'Beginner', payout: '$25-45', duration: '1-2 hrs', desc: 'Write SEO-optimized blog posts with keyword research', models: ['Claude 3.5', 'GPT-4o'], status: 'in-progress' },
+  { id: 'cw-4', profession: 'UI/UX Design', sector: 'Technology', difficulty: 'Advanced', payout: '$95-150', duration: '3-5 hrs', desc: 'Design complete mobile app UI with design system and prototypes', models: ['Claude 3.5', 'Midjourney'], status: 'available' },
+  { id: 'cw-5', profession: 'Legal Research', sector: 'Legal', difficulty: 'Advanced', payout: '$110-180', duration: '2-4 hrs', desc: 'Research and summarize legal precedents for IP case', models: ['GPT-4o', 'Claude 3.5'], status: 'available' },
+  { id: 'cw-6', profession: 'Healthcare Analysis', sector: 'Healthcare', difficulty: 'Intermediate', payout: '$70-100', duration: '2-3 hrs', desc: 'Analyze patient data patterns and generate clinical insights', models: ['GPT-4o'], status: 'completed' },
+  { id: 'cw-7', profession: 'DevOps Engineering', sector: 'Technology', difficulty: 'Advanced', payout: '$90-140', duration: '2-4 hrs', desc: 'Setup K8s cluster with CI/CD pipeline and monitoring', models: ['Claude 3.5', 'GPT-4o'], status: 'available' },
+  { id: 'cw-8', profession: 'Translation', sector: 'Media', difficulty: 'Beginner', payout: '$20-35', duration: '1-2 hrs', desc: 'Translate technical documentation EN→VI with context accuracy', models: ['GPT-4o', 'Gemini 3.1 Pro', 'Qwen-3.5'], status: 'available' },
+];
+
+const CLAWHUB_SKILLS = [
+  { id: 'ch-1', name: 'web-scraper', version: '2.3.1', author: 'openclaw', stars: 1247, installs: 8920, desc: 'Scrape any website with anti-detection and structured output', tags: ['scraping', 'data', 'automation'], verified: true },
+  { id: 'ch-2', name: 'code-reviewer', version: '3.1.0', author: 'budai-team', stars: 2103, installs: 15800, desc: 'AI code review with security audit, performance tips, and best practices', tags: ['code', 'review', 'security'], verified: true },
+  { id: 'ch-3', name: 'sql-master', version: '1.8.2', author: 'dataforge', stars: 892, installs: 6340, desc: 'Generate, optimize, and explain complex SQL queries across databases', tags: ['sql', 'database', 'optimization'], verified: true },
+  { id: 'ch-4', name: 'email-crafter', version: '2.0.0', author: 'growthlab', stars: 567, installs: 4210, desc: 'Write high-converting email campaigns with A/B test variations', tags: ['email', 'marketing', 'copywriting'], verified: false },
+  { id: 'ch-5', name: 'api-tester', version: '1.5.3', author: 'qa-ninjas', stars: 743, installs: 5670, desc: 'Auto-generate API test suites from OpenAPI specs with edge cases', tags: ['testing', 'api', 'automation'], verified: true },
+  { id: 'ch-6', name: 'doc-generator', version: '2.2.0', author: 'devtools-io', stars: 1056, installs: 8120, desc: 'Generate beautiful documentation from code comments and READMEs', tags: ['docs', 'markdown', 'generation'], verified: true },
+  { id: 'ch-7', name: 'css-wizard', version: '1.9.4', author: 'design-lab', stars: 445, installs: 3280, desc: 'Convert any mockup to pixel-perfect responsive CSS with modern techniques', tags: ['css', 'design', 'responsive'], verified: false },
+  { id: 'ch-8', name: 'deploy-hero', version: '3.0.1', author: 'infra-team', stars: 1389, installs: 11200, desc: 'One-command deploy to any cloud (AWS, GCP, Vercel, Railway)', tags: ['deploy', 'cloud', 'devops'], verified: true },
+];
+
+const T3CODE_SESSIONS = [
+  { id: 't3-1', name: 'MVP Builder', desc: 'Build complete MVP from spec file', agent: 'Codex', status: 'ready', files: 12, linesWritten: 0, duration: '~2hrs' },
+  { id: 't3-2', name: 'Bug Hunter', desc: 'Scan codebase for bugs and auto-fix', agent: 'Claude Code', status: 'ready', files: 0, linesWritten: 0, duration: '~30min' },
+  { id: 't3-3', name: 'Refactor Pro', desc: 'Refactor legacy code to modern patterns', agent: 'Codex', status: 'ready', files: 0, linesWritten: 0, duration: '~1hr' },
+  { id: 't3-4', name: 'Test Generator', desc: 'Generate unit & E2E tests for entire project', agent: 'Claude Code', status: 'ready', files: 0, linesWritten: 0, duration: '~45min' },
+];
+
+var _wsFilter = 'all';
+
+function renderAgentWorkspace() {
+  // KPIs
+  const stats = $('#ws-stats');
+  if (stats) {
+    const availTasks = CLAWWORK_TASKS.filter(t => t.status === 'available').length;
+    const totalEarning = '$1,850';
+    stats.innerHTML = `
+      <div class="ws-kpi"><strong class="ws-kpi--green">${availTasks}</strong><span>Tasks Available</span></div>
+      <div class="ws-kpi"><strong class="ws-kpi--gold">${totalEarning}</strong><span>Potential Earnings</span></div>
+      <div class="ws-kpi"><strong class="ws-kpi--blue">${CLAWHUB_SKILLS.length}</strong><span>Skills Installable</span></div>
+      <div class="ws-kpi"><strong class="ws-kpi--purple">${T3CODE_SESSIONS.length}</strong><span>Code Sessions</span></div>
+    `;
+  }
+
+  // ClawWork Tasks
+  const taskGrid = $('#clawwork-tasks');
+  if (taskGrid) {
+    const filtered = _wsFilter === 'all' ? CLAWWORK_TASKS : CLAWWORK_TASKS.filter(t => t.sector.toLowerCase() === _wsFilter);
+    taskGrid.innerHTML = filtered.map((task, idx) => {
+      const statusColors = { available: '#4ade80', 'in-progress': '#fbbf24', completed: '#60a5fa' };
+      const statusLabels = { available: '🟢 Available', 'in-progress': '🟡 In Progress', completed: '🔵 Completed' };
+      return `
+        <div class="cw-task-card" style="animation-delay:${idx * 0.06}s">
+          <div class="cw-task-top">
+            <span class="cw-task-sector">${task.sector}</span>
+            <span class="cw-task-status" style="color:${statusColors[task.status]}">${statusLabels[task.status]}</span>
+          </div>
+          <div class="cw-task-profession">${task.profession}</div>
+          <p class="cw-task-desc">${task.desc}</p>
+          <div class="cw-task-meta">
+            <span>💰 ${task.payout}</span>
+            <span>⏱️ ${task.duration}</span>
+            <span class="cw-task-diff cw-task-diff--${task.difficulty.toLowerCase()}">${task.difficulty}</span>
+          </div>
+          <div class="cw-task-models">
+            ${task.models.map(m => `<span class="cw-model-tag">${m}</span>`).join('')}
+          </div>
+          ${task.status === 'available' ? `<button class="btn btn--primary btn--sm" onclick="launchClawWorkTask('${task.id}')">🐻 Launch Task</button>` : task.status === 'completed' ? `<span class="cw-completed">✅ Completed — $${60 + Math.floor(Math.random()*80)} earned</span>` : `<span class="cw-in-progress">⏳ Agent đang làm...</span>`}
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ClawHub Skills
+  const skillGrid = $('#clawhub-skills');
+  if (skillGrid) {
+    skillGrid.innerHTML = CLAWHUB_SKILLS.map((skill, idx) => `
+      <div class="ch-skill-card" style="animation-delay:${idx * 0.06}s">
+        <div class="ch-skill-top">
+          <div class="ch-skill-name">📦 ${skill.name}<span class="ch-skill-ver">v${skill.version}</span></div>
+          ${skill.verified ? '<span class="ch-verified">✅ Verified</span>' : '<span class="ch-unverified">⏳ Pending</span>'}
+        </div>
+        <p class="ch-skill-desc">${skill.desc}</p>
+        <div class="ch-skill-tags">
+          ${skill.tags.map(t => `<span class="ch-tag">#${t}</span>`).join('')}
+        </div>
+        <div class="ch-skill-stats">
+          <span>⭐ ${skill.stars.toLocaleString()}</span>
+          <span>📥 ${skill.installs.toLocaleString()}</span>
+          <span>👤 ${skill.author}</span>
+        </div>
+        <button class="btn btn--sm ${skill.verified ? 'btn--primary' : 'btn--secondary'}" onclick="installClawHubSkill('${skill.id}')">
+          🦀 Install Skill
+        </button>
+      </div>
+    `).join('');
+  }
+
+  // T3Code Sessions
+  const codeGrid = $('#t3code-sessions');
+  if (codeGrid) {
+    codeGrid.innerHTML = T3CODE_SESSIONS.map((session, idx) => `
+      <div class="t3-session-card" style="animation-delay:${idx * 0.08}s">
+        <div class="t3-session-top">
+          <span class="t3-session-name">⚡ ${session.name}</span>
+          <span class="t3-session-agent">${session.agent}</span>
+        </div>
+        <p class="t3-session-desc">${session.desc}</p>
+        <div class="t3-session-meta">
+          <span>⏱️ ${session.duration}</span>
+          <span>📄 ${session.files} files</span>
+        </div>
+        <button class="btn btn--primary btn--sm" onclick="startT3CodeSession('${session.id}')">
+          ⚡ Start Coding Session
+        </button>
+      </div>
+    `).join('');
+  }
+}
+
+function filterWorkspaceTasks(sector) {
+  _wsFilter = sector;
+  document.querySelectorAll('.ws-filter').forEach(f => f.classList.remove('active'));
+  event.target.classList.add('active');
+  renderAgentWorkspace();
+}
+
+function launchClawWorkTask(taskId) {
+  const task = CLAWWORK_TASKS.find(t => t.id === taskId);
+  if (!task) return;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'cw-launch-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:520px">
+      <div class="modal__header">
+        <h3>🐻 Launch ClawWork Task</h3>
+        <button class="modal__close" onclick="document.getElementById('cw-launch-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <div class="recruit-info">
+          <div>
+            <div style="font-weight:800;font-size:1.1rem">${task.profession}</div>
+            <div style="color:var(--text-tertiary)">${task.sector} · ${task.difficulty}</div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);margin:0.75rem 0">${task.desc}</p>
+        <div class="recruit-cost">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem">
+            <span>💰 Payout:</span><strong style="color:#4ade80">${task.payout}</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem">
+            <span>⏱️ Duration:</span><strong>${task.duration}</strong>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem">
+          <div class="recruit-label">🤖 Chọn AI Model:</div>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+            ${task.models.map((m, i) => `<label style="display:flex;align-items:center;gap:0.3rem;font-size:0.82rem;padding:0.3rem 0.6rem;background:var(--bg-glass);border-radius:var(--radius-md);cursor:pointer"><input type="radio" name="cw-model" value="${m}" ${i===0?'checked':''}/>${m}</label>`).join('')}
+          </div>
+        </div>
+        <div class="recruit-compare">
+          <div class="recruit-label">📊 Economics</div>
+          <div class="recruit-compare-row"><span>Agent starts with</span><span style="color:#4ade80">$10 balance</span><span></span></div>
+          <div class="recruit-compare-row"><span>Token cost/task</span><span style="color:#fbbf24">$0.50-5.00</span><span></span></div>
+          <div class="recruit-compare-row"><span>Net profit range</span><span style="color:#4ade80">${task.payout}</span><span></span></div>
+        </div>
+        <button class="btn btn--primary" style="width:100%;margin-top:1rem" onclick="document.getElementById('cw-launch-modal').remove();showToast('🐻 Task launched! Agent đang bắt đầu: ${task.profession}. Theo dõi tiến trình tại ClawWork Arena.','success')">
+          🚀 Launch Task Now
+        </button>
+        <a href="https://hkuds.github.io/ClawWork/" target="_blank" class="btn btn--secondary" style="width:100%;margin-top:0.5rem;text-align:center;text-decoration:none;display:block">
+          🔴 Xem Live Arena
+        </a>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function installClawHubSkill(skillId) {
+  const skill = CLAWHUB_SKILLS.find(s => s.id === skillId);
+  if (!skill) return;
+  showToast(`🦀 Installing ${skill.name} v${skill.version}... clawhub install ${skill.name}`, 'success');
+  setTimeout(() => {
+    showToast(`✅ ${skill.name} installed! Agent đã có skill mới: ${skill.desc.substring(0, 50)}...`, 'success');
+  }, 1500);
+}
+
+function startT3CodeSession(sessionId) {
+  const session = T3CODE_SESSIONS.find(s => s.id === sessionId);
+  if (!session) return;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 't3-session-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:480px">
+      <div class="modal__header">
+        <h3>⚡ T3Code: ${session.name}</h3>
+        <button class="modal__close" onclick="document.getElementById('t3-session-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <div class="recruit-info">
+          <span style="font-size:2rem">⚡</span>
+          <div>
+            <div style="font-weight:800">${session.name}</div>
+            <div style="color:var(--text-tertiary);font-size:0.82rem">${session.agent} · ${session.duration}</div>
+          </div>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-secondary);margin:0.75rem 0">${session.desc}</p>
+        <div class="recruit-cost">
+          <div style="display:flex;justify-content:space-between;margin-bottom:0.4rem">
+            <span>🤖 Agent:</span><strong>${session.agent}</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between">
+            <span>⏱️ Est. time:</span><strong>${session.duration}</strong>
+          </div>
+        </div>
+        <div style="background:var(--bg-glass);border-radius:var(--radius-md);padding:0.75rem;margin:0.75rem 0;font-family:monospace;font-size:0.78rem;color:var(--text-secondary)">
+          <div style="color:#4ade80;margin-bottom:0.3rem">$ npx t3</div>
+          <div>→ Starting ${session.name} session...</div>
+          <div>→ Agent: ${session.agent}</div>
+          <div>→ Mode: ${session.desc}</div>
+          <div style="color:#fbbf24;margin-top:0.3rem">Ready to connect ▌</div>
+        </div>
+        <button class="btn btn--primary" style="width:100%;margin-top:0.75rem" onclick="document.getElementById('t3-session-modal').remove();showToast('⚡ T3Code session started: ${session.name}. ${session.agent} đang bắt đầu coding...','success')">
+          ⚡ Start Session
+        </button>
+        <a href="https://t3.codes" target="_blank" class="btn btn--secondary" style="width:100%;margin-top:0.5rem;text-align:center;text-decoration:none;display:block">
+          🖥️ Mở T3Code Desktop App
+        </a>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
