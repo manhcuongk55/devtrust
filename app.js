@@ -598,6 +598,9 @@ function switchView(viewName) {
   if (viewName === 'academy') {
     renderAcademy();
   }
+  if (viewName === 'comeback') {
+    renderDevComeback();
+  }
 }
 
 // ============ 🧑‍💼 INVESTOR DASHBOARD ENGINE ============
@@ -7047,4 +7050,333 @@ function completeLesson(courseId, lessonId, el) {
 
 function joinCohort(name) {
   showToast('🚀 Đăng ký ' + name + ' thành công! Check email nhận onboarding kit.', 'success');
+}
+
+// ============ 🔥 DEV COMEBACK + TEACH TO EARN ============
+
+const COMEBACK_DAYS = [
+  { day:'Ngày 1-3', icon:'💸', title:'Kiếm tiền đầu tiên', action:'Đăng ký ClawWork → Nhận task Software Engineering $85-120 → Hoàn thành → Nhận tiền', cta:'Mở ClawWork', view:'workspace', color:'#4ade80' },
+  { day:'Ngày 4-7', icon:'🧠', title:'Validate idea trong 48h', action:'Dùng Discovery Hub → Tạo landing page → Share Zalo/FB → Đếm signups. Nếu >10% → idea tốt', cta:'Mở Discovery', view:'discovery', color:'#fbbf24' },
+  { day:'Ngày 8-14', icon:'🔧', title:'Build MVP với AI', action:'Product Studio → Nhập tên sản phẩm → AI chọn tech stack → T3Code viết code trong 2h → Deploy Vercel', cta:'Mở Studio', view:'studio', color:'#60a5fa' },
+  { day:'Ngày 15-21', icon:'🚀', title:'Launch và charge khách đầu tiên', action:'Setup Stripe → Share lên Product Hunt VN → DM 20 potential users → Charge 5 người đầu tiên → MRR đầu tiên', cta:'Xem Portfolio', view:'portfolio', color:'#a78bfa' },
+  { day:'Ngày 22-30', icon:'📈', title:'Scale và tìm co-founder', action:'Growth Hub → Viral sharing → Referral program → Tìm co-builder trên DevTrust → Chia revenue fair bằng trust score', cta:'Mở Growth', view:'growth', color:'#f97316' },
+];
+
+const MENTOR_TRACKS = [
+  { icon:'🎬', track:'Tạo Khoá Học', how:'Upload video + bài tập → DevTrust Academy phân phối → 70% doanh thu về bạn', earn:'$500-5,000/tháng passive', req:'3+ năm kinh nghiệm · Bất kỳ tech stack', color:'#fbbf24' },
+  { icon:'🧑‍🏫', track:'Mentor 1:1', how:'Profile mentor → Learner book session → 45 phút pair programming + career advice → Nhận thanh toán instant', earn:'$40-120/giờ', req:'Senior level · Có portfolio thật', color:'#4ade80' },
+  { icon:'🏫', track:'Dạy Cohort Live', how:'Đăng ký dạy Cohort → 15-20 học viên × $99 → 4 tuần × 2 buổi/tuần → Cộng đồng hỗ trợ bạn', earn:'$1,000-2,000/cohort', req:'Kinh nghiệm team lead hoặc senior', color:'#6366f1' },
+  { icon:'⚡', track:'Consulting via ClawWork', how:'Post profile → Company đặt lịch tư vấn → Architecture review, Code audit, Team training theo giờ', earn:'$100-250/giờ', req:'10+ năm · Expert domain knowledge', color:'#a78bfa' },
+];
+
+// Viral feed content targeting both segments
+const COMEBACK_POSTS = [
+  {
+    id:'cp1', type:'comeback', urgent:true,
+    author:'DevTrust Platform', avatar:'🔥', role:'Community',
+    title:'Dev thất nghiệp đọc cái này',
+    content:`Năm 2024, hơn 2,000 dev Việt Nam bị layoff.\n\nCâu hỏi không phải là "AI có thay thế tôi không?"\nCâu hỏi đúng là: "Tôi có đang dùng AI để trở nên không thể thay thế không?"\n\n🔥 Dev với AI agents = 1 người làm việc của 10 người\n💸 ClawWork: Kiếm $85-120/task ngay hôm nay\n🚀 30 ngày: Từ thất nghiệp → Có product + revenue\n\nDevTrust không cho bạn việc làm.\nDevTrust cho bạn con đường TỰ TẠO VIỆC LÀM.`,
+    cta:'Xem lộ trình 30 ngày', view:'comeback', likes:847, comments:234, time:'2h'
+  },
+  {
+    id:'cp2', type:'mentor', urgent:false,
+    author:'Senior Dev Community', avatar:'🎓', role:'Mentor Network',
+    title:'15 năm kinh nghiệm của bạn đang bị bỏ phí',
+    content:`Bạn có 10-15 năm làm dev.\nBạn biết những gì junior không bao giờ học được từ sách:\n→ Tại sao hệ thống thật khác hệ thống demo\n→ Cách debug production incident lúc 3am\n→ Sai lầm khiến startup chết trong tháng 6\n→ Cách thuyết phục CEO không làm điều ngớ ngẩn đó\n\nKiến thức đó đáng giá $40-250/giờ.\nNhưng chỉ khi bạn biết cách monetize nó.\n\n🎬 Tạo khoá học: $500-5K/tháng passive\n🧑‍🏫 Mentor 1:1: $40-120/giờ\n🏫 Dạy cohort: $1-2K/cohort\n\nBạn không cần viết thêm 1 dòng code nào nữa.`,
+    cta:'Trở thành Mentor', view:'comeback', likes:612, comments:189, time:'4h'
+  },
+  {
+    id:'cp3', type:'story', urgent:false,
+    author:'Minh D.', avatar:'👨‍💻', role:'Ex-Grab Dev · Now Indie Hacker',
+    title:'Tôi bị layoff tháng 3. Tháng 4 tôi có $4,200 đầu tiên.',
+    content:`Tháng 3/2025: Mất việc ở Grab sau 5 năm. Sốc toàn tập.\n\nTháng 4, tuần 1: Làm ClawWork tasks → $380 đầu tiên\nTháng 4, tuần 2: Validate idea (Invoice tool cho freelancer)\nTháng 4, tuần 3: AI build MVP → Deploy Vercel\nTháng 4, tuần 4: 17 khách đầu tiên × $29 = $493 MRR\n\nTháng 5: $1,200 MRR (product) + $800 (ClawWork) = $2,000\nTháng 6: $3,100\nTháng 7: $4,200 🎉\n\nBây giờ tôi teach lại cho 8 dev thất nghiệp khác.\n3 người họ đã có revenue rồi.\n\nThứ AI không lấy được của bạn: Judgment. Context. Trust.`,
+    cta:'Xem lộ trình của Minh', view:'comeback', likes:1203, comments:567, time:'1d'
+  },
+  {
+    id:'cp4', type:'mentor', urgent:false,
+    author:'Dr. Hương N.', avatar:'👩‍🏫', role:'PhD CS · Ex-VinAI · Mentor',
+    title:'Tôi có bằng tiến sĩ nhưng công ty không cần nữa. Rồi tôi tìm ra cách khác.',
+    content:`Sau 12 năm research và 200+ papers, VinAI restructure.\nCâu hỏi: Bằng PhD của tôi có giá trị gì không?\n\nCâu trả lời: Chỉ khi bạn teach nó cho người khác.\n\nTôi tạo khoá "ML cho startup founder" trên DevTrust Academy.\n→ Tháng đầu: 23 học viên × $49 = $1,127\n→ Tháng 3: 89 học viên = $4,361/tháng passive\n\nTôi không code production nữa.\nTôi teach người khác build ML products.\nVà tôi kiếm nhiều hơn lúc đi làm.\n\nKiến thức chuyên sâu của bạn + Platform đúng = Passive income.`,
+    cta:'Tạo khoá học của bạn', view:'comeback', likes:934, comments:412, time:'2d'
+  },
+];
+
+function renderDevComeback() {
+  // Hero emotion
+  const hero = $('#comeback-hero');
+  if (hero) {
+    hero.innerHTML = `
+      <div class="comeback-alert">
+        <div class="comeback-alert-icon">⚠️</div>
+        <div>
+          <strong>Nếu bạn vừa mất việc hoặc đang sợ AI thay thế —</strong>
+          <span style="color:var(--text-secondary)"> đây là trang dành cho bạn.</span>
+        </div>
+      </div>
+      <div class="comeback-two-paths">
+        <div class="comeback-path" onclick="scrollToSection('comeback-path-A')">
+          <div class="comeback-path-icon" style="background:linear-gradient(135deg,#22c55e,#4ade80)">💸</div>
+          <strong>Tôi là dev bị layoff / thất nghiệp</strong>
+          <p>30 ngày roadmap · Income từ ngày 1 · Build sản phẩm riêng</p>
+          <span class="comeback-path-cta" style="color:#22c55e">→ Bắt đầu ngay</span>
+        </div>
+        <div class="comeback-path" onclick="scrollToSection('comeback-path-B')">
+          <div class="comeback-path-icon" style="background:linear-gradient(135deg,#6366f1,#a78bfa)">🎓</div>
+          <strong>Tôi có nhiều năm kinh nghiệm muốn dạy</strong>
+          <p>Monetize expertise · Passive income · Dạy thế hệ tiếp theo</p>
+          <span class="comeback-path-cta" style="color:#6366f1">→ Trở thành Mentor</span>
+        </div>
+      </div>`;
+  }
+
+  // 30-day roadmap
+  const roadmap = $('#comeback-roadmap');
+  if (roadmap) {
+    roadmap.innerHTML = COMEBACK_DAYS.map((d, i) => `
+      <div class="comeback-day" style="border-left:3px solid ${d.color};animation-delay:${i*0.1}s">
+        <div class="comeback-day-header">
+          <span class="comeback-day-num" style="color:${d.color}">${d.day}</span>
+          <span class="comeback-day-icon">${d.icon}</span>
+          <strong>${d.title}</strong>
+        </div>
+        <p class="comeback-day-action">${d.action}</p>
+        <button class="btn btn--sm" style="background:${d.color}20;border:1px solid ${d.color};color:${d.color};font-weight:700" onclick="switchView('${d.view}')">
+          ${d.cta} →
+        </button>
+      </div>
+    `).join('');
+  }
+
+  // Mentor tracks
+  const tracks = $('#comeback-mentor-tracks');
+  if (tracks) {
+    tracks.innerHTML = MENTOR_TRACKS.map((t, i) => `
+      <div class="mentor-track" style="animation-delay:${i*0.08}s;border-left:4px solid ${t.color}">
+        <div style="font-size:2rem">${t.icon}</div>
+        <div style="flex:1">
+          <strong style="font-size:0.95rem">${t.track}</strong>
+          <p style="font-size:0.78rem;color:var(--text-secondary);margin:0.25rem 0">${t.how}</p>
+          <div style="display:flex;gap:0.75rem;margin-top:0.3rem;flex-wrap:wrap">
+            <span style="font-size:0.75rem;font-weight:800;color:${t.color}">💰 ${t.earn}</span>
+            <span style="font-size:0.72rem;color:var(--text-tertiary)">📋 ${t.req}</span>
+          </div>
+        </div>
+        <button class="btn btn--sm btn--primary" style="flex-shrink:0;background:${t.color}20;border-color:${t.color};color:${t.color}" onclick="applyMentor('${t.track}')">Apply →</button>
+      </div>
+    `).join('');
+  }
+
+  // Feed posts
+  const feed = $('#comeback-feed');
+  if (feed) {
+    feed.innerHTML = COMEBACK_POSTS.map(p => `
+      <div class="comeback-post ${p.urgent ? 'comeback-post--urgent' : ''}">
+        <div class="comeback-post-header">
+          <span style="font-size:1.5rem">${p.avatar}</span>
+          <div style="flex:1">
+            <strong style="font-size:0.85rem">${p.author}</strong>
+            <div style="font-size:0.68rem;color:var(--text-tertiary)">${p.role} · ${p.time}</div>
+          </div>
+          ${p.urgent ? '<span class="comeback-urgent-badge">🔥 Trending</span>' : ''}
+        </div>
+        <h4 class="comeback-post-title">${p.title}</h4>
+        <pre class="comeback-post-body">${p.content}</pre>
+        <div class="comeback-post-footer">
+          <div style="display:flex;gap:0.75rem;font-size:0.72rem;color:var(--text-tertiary)">
+            <span>❤️ ${p.likes.toLocaleString()}</span>
+            <span>💬 ${p.comments}</span>
+          </div>
+          <button class="btn btn--sm btn--primary" onclick="switchView('${p.view}');showToast('🚀 Chào mừng đến DevTrust!','success')">${p.cta} →</button>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function applyMentor(track) {
+  showToast('✅ Đăng ký "' + track + '" thành công! Team review trong 24h.', 'success');
+}
+
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============ 👤 REGISTRATION + PROFILE CREATION ============
+
+window._userProfile = null;
+
+const PROFILE_SKILLS = ['JavaScript','TypeScript','Python','Go','Rust','Java','PHP','React','Next.js','Vue','Node.js','FastAPI','PostgreSQL','MongoDB','Docker','K8s','AI/ML','Cloud AWS','Cloud GCP','Mobile','UI/UX Design','Product Management','Data Science'];
+
+function openRegister() {
+  if (window._userProfile) { openProfile(); return; }
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'register-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:520px">
+      <div class="modal__header">
+        <h3>🚀 Tham gia DevTrust</h3>
+        <button class="modal__close" onclick="document.getElementById('register-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem" id="register-body"></div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+  renderRegisterStep(1, {});
+}
+
+function renderRegisterStep(step, data) {
+  const body = document.getElementById('register-body');
+  if (!body) return;
+  if (step === 1) {
+    body.innerHTML = `
+      <div style="text-align:center;margin-bottom:1.25rem">
+        <div style="font-size:0.68rem;color:var(--text-tertiary);margin-bottom:0.5rem">Bước 1 / 3 · Bạn là ai?</div>
+        <div style="height:4px;background:var(--bg-glass);border-radius:99px;overflow:hidden;margin:0 auto;max-width:200px">
+          <div style="height:100%;width:33%;background:linear-gradient(90deg,#6366f1,#a78bfa);border-radius:99px"></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.6rem">
+        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'unemployed'})" style="border-left:4px solid #22c55e">
+          <span style="font-size:1.5rem">💸</span>
+          <div><strong>Dev bị layoff / Đang tìm hướng mới</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi muốn kiếm tiền ngay và build product riêng</div></div>
+        </button>
+        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'mentor'})" style="border-left:4px solid #6366f1">
+          <span style="font-size:1.5rem">🎓</span>
+          <div><strong>Senior dev / Có bằng cấp muốn dạy lại</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi có 5+ năm kinh nghiệm, muốn monetize expertise</div></div>
+        </button>
+        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'founder'})" style="border-left:4px solid #f97316">
+          <span style="font-size:1.5rem">🚀</span>
+          <div><strong>Builder / Founder muốn build startup</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi có idea và muốn build nhanh nhất có thể</div></div>
+        </button>
+        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'student'})" style="border-left:4px solid #fbbf24">
+          <span style="font-size:1.5rem">📚</span>
+          <div><strong>Sinh viên / Junior đang học</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi muốn học và bắt đầu hành trình khởi nghiệp</div></div>
+        </button>
+      </div>`;
+  } else if (step === 2) {
+    const whoLabel = {unemployed:'Dev Comeback',mentor:'Mentor / Instructor',founder:'Founder / Builder',student:'Learner'}[data.who];
+    body.innerHTML = `
+      <div style="text-align:center;margin-bottom:1.25rem">
+        <div style="font-size:0.68rem;color:var(--text-tertiary);margin-bottom:0.5rem">Bước 2 / 3 · Tạo profile của bạn</div>
+        <div style="height:4px;background:var(--bg-glass);border-radius:99px;overflow:hidden;margin:0 auto;max-width:200px">
+          <div style="height:100%;width:66%;background:linear-gradient(90deg,#6366f1,#a78bfa);border-radius:99px"></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div><label class="reg-label">Tên của bạn *</label><input class="studio-input" id="reg-name" placeholder="Nguyễn Văn A"></div>
+          <div><label class="reg-label">Nickname / Handle</label><input class="studio-input" id="reg-handle" placeholder="@yourhandle"></div>
+        </div>
+        <div><label class="reg-label">Bạn giỏi nhất về gì? (chọn 1-3)</label>
+          <div style="display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.3rem" id="reg-skills">
+            ${PROFILE_SKILLS.map(s => `<button class="reg-skill-btn" onclick="toggleRegSkill(this,'${s}')">${s}</button>`).join('')}
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div><label class="reg-label">Số năm kinh nghiệm</label>
+            <select class="studio-input" id="reg-yoe">
+              <option value="0">Mới bắt đầu</option><option value="1">1-2 năm</option>
+              <option value="3">3-5 năm</option><option value="7">5-10 năm</option><option value="10">10+ năm</option>
+            </select></div>
+          <div><label class="reg-label">GitHub (tùy chọn)</label><input class="studio-input" id="reg-github" placeholder="github.com/user"></div>
+        </div>
+        <div><label class="reg-label">Mục tiêu trong 30 ngày tới</label>
+          <input class="studio-input" id="reg-goal" placeholder="VD: Kiếm $500/tháng đầu tiên, launch MVP..."></div>
+        <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
+          <button class="btn btn--secondary btn--sm" style="flex:0" onclick="renderRegisterStep(1,{})">← Quay lại</button>
+          <button class="btn btn--primary" style="flex:1" onclick="registerStep3(${JSON.stringify({...data}).split('}')[0]},'who':'${data.who}'})">Tiếp → Chọn con đường 🗺️</button>
+        </div>
+      </div>`;
+  } else if (step === 3) {
+    const paths = {
+      unemployed: { icon:'💸', title:'Dev Comeback — 30 ngày roadmap', desc:'Kiếm tiền ngay (ClawWork), validate idea, build MVP, có revenue trước ngày 30', view:'comeback', color:'#22c55e', cta:'Bắt đầu Comeback' },
+      mentor:     { icon:'🎓', title:'Teach to Earn — Biến expertise thành income', desc:'Tạo khoá học + mentor 1:1 + consulting. Passive income từ kiến thức bạn đã có', view:'comeback', color:'#6366f1', cta:'Trở thành Mentor' },
+      founder:    { icon:'🚀', title:'Startup Builder — Think → Money', desc:'Product Studio + YC Portfolio + Discovery Hub. Build, ship, kiếm tiền', view:'studio', color:'#f97316', cta:'Mở Product Studio' },
+      student:    { icon:'📚', title:'Academy — Học từ A đến Z', desc:'5 khoá học từ mindset đến revenue. 3 khoá miễn phí. Cohort + mentor support', view:'academy', color:'#fbbf24', cta:'Vào Academy' },
+    };
+    const path = paths[data.who] || paths.founder;
+    body.innerHTML = `
+      <div style="text-align:center;margin-bottom:1.25rem">
+        <div style="font-size:0.68rem;color:var(--text-tertiary);margin-bottom:0.5rem">Bước 3 / 3 · Con đường của bạn</div>
+        <div style="height:4px;background:var(--bg-glass);border-radius:99px;overflow:hidden;margin:0 auto;max-width:200px">
+          <div style="height:100%;width:100%;background:linear-gradient(90deg,#6366f1,#22c55e);border-radius:99px"></div>
+        </div>
+      </div>
+      <div class="reg-profile-preview" id="reg-preview"></div>
+      <div class="reg-path-card" style="border-color:${path.color}">
+        <div style="font-size:2.5rem;text-align:center">${path.icon}</div>
+        <h4 style="font-size:1rem;font-weight:800;color:${path.color};text-align:center">${path.title}</h4>
+        <p style="font-size:0.82rem;color:var(--text-secondary);text-align:center">${path.desc}</p>
+      </div>
+      <button class="btn btn--primary" style="width:100%;margin-top:1rem;font-size:1rem;font-weight:800" id="reg-finish-btn">
+        ${path.cta} 🚀
+      </button>`;
+    // Fill preview
+    setTimeout(() => {
+      const name = document.getElementById('reg-name')?.value || 'Bạn';
+      const preview = document.getElementById('reg-preview');
+      if (preview) preview.innerHTML = `
+        <div class="reg-profile-card">
+          <div class="reg-avatar">${name.charAt(0).toUpperCase()}</div>
+          <div style="flex:1">
+            <strong>${name}</strong>
+            <div style="font-size:0.72rem;color:${path.color}">${{unemployed:'Dev Comeback',mentor:'Mentor',founder:'Founder',student:'Learner'}[data.who]}</div>
+          </div>
+          <div class="reg-trust-badge">🛡️ Trust Score: 10</div>
+        </div>`;
+      const finBtn = document.getElementById('reg-finish-btn');
+      if (finBtn) finBtn.onclick = () => {
+        window._userProfile = { name, who: data.who, path };
+        document.getElementById('register-modal')?.remove();
+        document.getElementById('user-name-display') && (document.getElementById('user-name-display').textContent = name);
+        showToast('🎉 Chào mừng ' + name + '! Profile đã tạo xong.', 'success');
+        setTimeout(() => switchView(path.view), 500);
+      };
+    }, 100);
+  }
+}
+
+function registerStep3(data) {
+  const name = document.getElementById('reg-name')?.value || '';
+  const skills = [...document.querySelectorAll('.reg-skill-btn.selected')].map(b => b.textContent);
+  const yoe = document.getElementById('reg-yoe')?.value || '0';
+  const github = document.getElementById('reg-github')?.value || '';
+  const goal = document.getElementById('reg-goal')?.value || '';
+  if (!name.trim()) { showToast('Nhập tên của bạn!', 'error'); return; }
+  renderRegisterStep(3, { ...data, name, skills, yoe, github, goal });
+}
+
+function toggleRegSkill(btn, skill) {
+  const selected = document.querySelectorAll('.reg-skill-btn.selected');
+  if (!btn.classList.contains('selected') && selected.length >= 3) {
+    showToast('Chọn tối đa 3 skills!', 'error'); return;
+  }
+  btn.classList.toggle('selected');
+}
+
+function openProfile() {
+  const p = window._userProfile;
+  if (!p) { openRegister(); return; }
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:440px">
+      <div class="modal__header"><h3>👤 Profile của tôi</h3><button class="modal__close" onclick="this.closest('.modal-overlay').remove()">✕</button></div>
+      <div style="padding:1.25rem">
+        <div class="reg-profile-card" style="margin-bottom:1rem">
+          <div class="reg-avatar">${p.name.charAt(0).toUpperCase()}</div>
+          <div><strong style="font-size:1rem">${p.name}</strong><div style="font-size:0.78rem;color:${p.path.color}">${p.path.title}</div></div>
+        </div>
+        <div class="reg-path-card" style="border-color:${p.path.color}">
+          <div style="font-size:2rem;text-align:center">${p.path.icon}</div>
+          <p style="font-size:0.78rem;color:var(--text-secondary);text-align:center;margin:0.25rem 0">${p.path.desc}</p>
+        </div>
+        <button class="btn btn--primary" style="width:100%;margin-top:1rem" onclick="this.closest('.modal-overlay').remove();switchView('${p.path.view}')">
+          ${p.path.cta} →
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
 }

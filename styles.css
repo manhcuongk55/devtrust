@@ -6219,3 +6219,83 @@ input:focus, textarea:focus, select:focus {
   font-size: 0.68rem; font-weight: 800; border: 2px solid var(--border-color); color: var(--text-tertiary); flex-shrink: 0;
 }
 @media (max-width: 768px) { .yc-grid { grid-template-columns: 1fr; } .academy-grid { grid-template-columns: 1fr; } .yc-metrics { grid-template-columns: repeat(2,1fr); } }
+
+/* ================ 🔥 DEV COMEBACK HUB ================ */
+.comeback-alert {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem;
+  background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--radius-md); margin-bottom: 1rem; font-size: 0.85rem;
+}
+.comeback-alert-icon { font-size: 1.25rem; }
+.comeback-two-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.comeback-path {
+  background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+  padding: 1.25rem; cursor: pointer; transition: all var(--transition); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+}
+.comeback-path:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.15); }
+.comeback-path-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+.comeback-path strong { font-size: 0.88rem; }
+.comeback-path p { font-size: 0.72rem; color: var(--text-secondary); margin: 0; }
+.comeback-path-cta { font-size: 0.78rem; font-weight: 700; }
+.comeback-day {
+  background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md);
+  padding: 0.85rem 1rem; animation: fadeInUp 0.3s ease both;
+}
+.comeback-day-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
+.comeback-day-num { font-size: 0.72rem; font-weight: 800; white-space: nowrap; }
+.comeback-day-icon { font-size: 1.1rem; }
+.comeback-day-action { font-size: 0.78rem; color: var(--text-secondary); margin: 0 0 0.5rem; line-height: 1.5; }
+.mentor-track {
+  background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md);
+  padding: 1rem; display: flex; align-items: flex-start; gap: 1rem; animation: fadeInUp 0.3s ease both;
+  transition: all var(--transition);
+}
+.mentor-track:hover { transform: translateX(4px); }
+.comeback-post {
+  background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+  padding: 1.1rem; transition: all var(--transition);
+}
+.comeback-post:hover { border-color: rgba(99,102,241,0.3); }
+.comeback-post--urgent { border-left: 3px solid #f87171; }
+.comeback-post-header { display: flex; align-items: flex-start; gap: 0.6rem; margin-bottom: 0.6rem; }
+.comeback-post-title { font-size: 0.95rem; font-weight: 800; margin: 0 0 0.5rem; }
+.comeback-post-body {
+  font-family: inherit; font-size: 0.78rem; color: var(--text-secondary);
+  line-height: 1.65; white-space: pre-wrap; margin: 0 0 0.75rem; padding: 0;
+  background: transparent; border: none;
+}
+.comeback-post-footer { display: flex; justify-content: space-between; align-items: center; }
+.comeback-urgent-badge { font-size: 0.65rem; font-weight: 700; background: rgba(248,113,113,0.15); color: #f87171; padding: 0.15rem 0.5rem; border-radius: 99px; white-space: nowrap; }
+
+/* ================ 👤 REGISTRATION + PROFILE ================ */
+.reg-who-btn {
+  display: flex; align-items: center; gap: 0.75rem; width: 100%; padding: 0.85rem 1rem;
+  background: var(--bg-glass); border: 1px solid var(--border-color); border-radius: var(--radius-md);
+  cursor: pointer; text-align: left; transition: all var(--transition-fast); color: var(--text-primary);
+  font-family: inherit;
+}
+.reg-who-btn:hover { background: var(--bg-card); border-color: rgba(99,102,241,0.4); transform: translateX(4px); }
+.reg-label { font-size: 0.78rem; font-weight: 700; display: block; margin-bottom: 0.25rem; }
+.reg-skill-btn {
+  font-size: 0.68rem; padding: 0.2rem 0.55rem; border-radius: 99px;
+  background: var(--bg-glass); border: 1px solid var(--border-color);
+  cursor: pointer; color: var(--text-secondary); font-family: inherit; transition: all var(--transition-fast);
+}
+.reg-skill-btn:hover { border-color: rgba(99,102,241,0.5); color: var(--text-primary); }
+.reg-skill-btn.selected { background: rgba(99,102,241,0.15); border-color: #6366f1; color: #6366f1; font-weight: 700; }
+.reg-profile-preview { margin-bottom: 0.75rem; }
+.reg-profile-card {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem;
+  background: var(--bg-glass); border: 1px solid var(--border-color); border-radius: var(--radius-md);
+}
+.reg-avatar {
+  width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg,#6366f1,#a78bfa);
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 900; color: #fff; flex-shrink: 0;
+}
+.reg-trust-badge { font-size: 0.68rem; font-weight: 700; color: #fbbf24; white-space: nowrap; }
+.reg-path-card {
+  padding: 1.25rem; background: var(--bg-glass); border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg); display: flex; flex-direction: column; gap: 0.35rem;
+}
+@media (max-width: 640px) { .comeback-two-paths { grid-template-columns: 1fr; } }
