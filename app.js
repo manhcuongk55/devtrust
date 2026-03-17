@@ -601,6 +601,10 @@ function switchView(viewName) {
   if (viewName === 'comeback') {
     renderDevComeback();
   }
+  if (viewName === 'news') {
+    window._newsFilter = 'Tất cả'; window._newsSearch = '';
+    renderNewsFeed();
+  }
 }
 
 // ============ 🧑‍💼 INVESTOR DASHBOARD ENGINE ============
@@ -7379,4 +7383,145 @@ function openProfile() {
     </div>`;
   document.body.appendChild(modal);
   modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+// ============ 📰 TECH NEWS FEED ============
+
+const NEWS_ARTICLES = [
+  // AI
+  { id:'n01', cat:'AI', emoji:'🤖', title:'GPT-5 ra mắt: Reasoning nhanh gấp 10x, giá rẻ hơn 5x — Tác động đến dev Việt?', summary:'OpenAI công bố GPT-5 với khả năng lập luận vượt trội, hỗ trợ code generation tốt hơn 40%. Chi phí API giảm mạnh mở ra cơ hội cho indie hackers Việt Nam build AI products.', source:'TechCrunch', time:'2h trước', readTime:'3 phút', trending:true, tags:['AI','OpenAI','API'] },
+  { id:'n02', cat:'AI', emoji:'🧠', title:'Anthropic Claude 4 đạt PhD-level trên mọi benchmark — Thời đại "AI làm thay" đã đến?', summary:'Claude 4 vượt GPT-4o và Gemini 1.5 trên SWE-bench, MMLU, và HumanEval. Câu hỏi: AI sẽ làm thay junior dev trong 2 năm tới? Hay mở ra cơ hội mới?', source:'The Verge', time:'4h trước', readTime:'5 phút', trending:true, tags:['AI','Anthropic','Future'] },
+  { id:'n03', cat:'AI', emoji:'⚡', title:'Vibe Coding: Trend mới 2025 — Dev giỏi nhất không phải người code giỏi nhất', summary:'"Vibe coding" là phong cách dev dùng AI agents để iterate nhanh, không lo syntax. 10K GitHub stars trong 3 ngày. Liệu đây là tương lai của software development?', source:'Hacker News', time:'6h trước', readTime:'4 phút', trending:true, tags:['AI','Dev','Trend'] },
+  { id:'n04', cat:'AI', emoji:'🔧', title:'LangChain vs LlamaIndex 2025: Chọn framework nào để build AI app nhanh nhất?', summary:'Comparison chi tiết giữa 2 framework phổ biến nhất cho RAG và AI agents. Khi nào dùng LangChain, khi nào LlamaIndex, và khi nào tự build từ đầu.', source:'Towards Data Science', time:'1 ngày', readTime:'8 phút', trending:false, tags:['AI','LangChain','Dev'] },
+  { id:'n05', cat:'AI', emoji:'🎯', title:'Cursor AI đạt 1 triệu devs — Copilot đang thua?', summary:'Cursor IDE vừa công bố 1M active devs, tăng 5x so với 6 tháng trước. Github Copilot vẫn chiếm thị phần lớn hơn nhưng chênh lệch đang thu hẹp nhanh chóng.', source:'Bloomberg', time:'1 ngày', readTime:'3 phút', trending:false, tags:['AI','Tools','DevTools'] },
+  { id:'n06', cat:'AI', emoji:'🌍', title:'Vietnam AI Fund: $50M đầu tư vào AI startups Việt Nam — Danh sách 10 startup được chọn', summary:'Quỹ đầu tư mới nhắm vào AI, với focus chính vào healthtech, edtech, và fintech. 3 trong 10 startup là về AI agents cho SMEs và lĩnh vực ngôn ngữ tiếng Việt.', source:'VnExpress Tech', time:'2 ngày', readTime:'6 phút', trending:true, tags:['AI','Vietnam','Funding'] },
+  // Startup
+  { id:'n07', cat:'Startup', emoji:'🚀', title:'YC W25: 5 startup nổi bật nhất — Và tại sao tất cả đều AI-first', summary:'Y Combinator Winter 2025 batch ra mắt với 200+ công ty. Đây là 5 startup đáng chú ý nhất: AgentPay, PromptOS, ShadowDev, và 2 cái tên bí ẩn chưa public.', source:'TechCrunch', time:'3h trước', readTime:'5 phút', trending:true, tags:['YC','Startup','AI'] },
+  { id:'n08', cat:'Startup', emoji:'💡', title:'Indie Hackers: $0 đến $10K MRR trong 90 ngày — Framework thật sự hoạt động', summary:'Phân tích 50 case studies từ Indie Hackers. Pattern chung: giải bài toán nhỏ, charge ngay từ ngày 1, không raise funding đến khi profitable. Và AI đang rút ngắn timeline xuống 1/3.', source:'Indie Hackers', time:'5h trước', readTime:'7 phút', trending:true, tags:['Startup','Revenue','Solo'] },
+  { id:'n09', cat:'Startup', emoji:'⚖️', title:'Layoff Wave 2025: 50,000 dev bị sa thải toàn cầu — Và 30% đang build startup', summary:'Dữ liệu từ Layoffs.fyi: 50K tech workers bị sa thải Q1/2025. Nhưng 30% báo cáo đang build sản phẩm riêng. Trend "bất đắc dĩ khởi nghiệp" đang tăng mạnh ở Việt Nam.', source:'Reuters', time:'8h trước', readTime:'4 phút', trending:true, tags:['Startup','Layoff','Trend'] },
+  { id:'n10', cat:'Startup', emoji:'🌱', title:'Pre-Seed 2025: Investor muốn gì? — 3 điều KHÔNG cần: team lớn, traction lớn, deck đẹp', summary:'Founder-led content marketing, product-market fit tối thiểu, và founder biết dùng AI build nhanh — đó là 3 thứ pre-seed investor để ý nhất năm 2025.', source:'First Round Review', time:'1 ngày', readTime:'6 phút', trending:false, tags:['Startup','Funding','PreSeed'] },
+  { id:'n11', cat:'Startup', emoji:'📈', title:'Micro-SaaS: Tại sao startup $5K MRR hạnh phúc hơn startup $5M ARR?', summary:'James Clear gặp Paul Graham ở góc nào đó của internet? Không, đây là câu hỏi thật: tại sao ngày càng nhiều founder chọn profitable nhỏ hơn là growth lớn nhưng không sustainable.', source:'Less Wrong', time:'2 ngày', readTime:'5 phút', trending:false, tags:['Startup','SaaS','Mindset'] },
+  { id:'n12', cat:'Startup', emoji:'🤝', title:'DevTrust xuất hiện trong top 10 "Best Startup Tools" tháng 3/2025 của Product Hunt VN', summary:'Nền tảng Think→Money nhận được 847 upvotes và nhiều review tích cực từ cộng đồng dev Việt. "Đây là thứ tôi cần khi bị layoff tháng trước" — một user chia sẻ.', source:'Product Hunt', time:'2 ngày', readTime:'2 phút', trending:true, tags:['DevTrust','Startup','Vietnam'] },
+  // Fintech
+  { id:'n13', cat:'Fintech', emoji:'💸', title:'Crypto Q1/2025: Bitcoin $95K, Solana bùng nổ — Cơ hội nào cho dev build DeFi?', summary:'BTC consolidate ở $95K sau ATH $108K. Solana ecosystem bùng nổ với 2,000 new dApps trong Q1. Cơ hội build on Solana cho dev Việt: grant $50K từ Solana Foundation.', source:'CoinDesk', time:'1h trước', readTime:'4 phút', trending:true, tags:['Crypto','Solana','DeFi'] },
+  { id:'n14', cat:'Fintech', emoji:'🏦', title:'VNPay vs MoMo vs ZaloPay 2025: Ai đang thắng và tại sao developer quan trọng?', summary:'Cuộc chiến super-app Việt Nam ngày càng gay cấn. Và developer ecosystem là chiến trường tiếp theo — ai có API tốt nhất và partner program hấp dẫn nhất sẽ thắng.', source:'VnEconomy', time:'3h trước', readTime:'5 phút', trending:false, tags:['Fintech','Vietnam','API'] },
+  { id:'n15', cat:'Fintech', emoji:'🌐', title:'Stripe cho Việt Nam: Cuối cùng cũng được support đầy đủ — Hướng dẫn setup trong 30 phút', summary:'Stripe chính thức hỗ trợ VN founder nhận thanh toán quốc tế. Setup cần: DĐKKD hoặc Stripe Atlas, tài khoản ngân hàng, và 30 phút. Đây là bước đổi game cho indie hackers VN.', source:'Stripe Blog', time:'5h trước', readTime:'6 phút', trending:true, tags:['Fintech','Stripe','Vietnam'] },
+  { id:'n16', cat:'Fintech', emoji:'📊', title:'AI trong tài chính: Cách JPMorgan dùng LLM phân tích 10,000 hợp đồng trong 1 giây', summary:'Case study từ JPMorgan về AI contract analysis. Tiết kiệm 360,000 giờ làm việc/năm. Bài học cho fintech startup: AI không thay thế lawyer, nhưng giúp review nhanh hơn 1000x.', source:'Financial Times', time:'1 ngày', readTime:'7 phút', trending:false, tags:['AI','Fintech','Enterprise'] },
+  { id:'n17', cat:'Fintech', emoji:'💎', title:'Web3 Grant 2025: 5 chương trình tốt nhất để dev Việt kiếm $10K-100K xây dựng DeFi', summary:'Ethereum Foundation, Solana Foundation, Polkadot, Arbitrum, và Optimism đều có grant program. Đây là guide đầy đủ: apply thế nào, pitcth gì, và timeline từ apply đến nhận tiền.', source:'DefiLlama', time:'2 ngày', readTime:'8 phút', trending:false, tags:['Web3','Grant','Funding'] },
+  { id:'n18', cat:'Fintech', emoji:'⚡', title:'CBDC Việt Nam: SBV thử nghiệm giai đoạn 2 — Cơ hội và rủi ro cho fintech startup', summary:'Ngân hàng Nhà nước VN bước vào giai đoạn 2 thí điểm CBDC. Fintech startup nào có thể integrate và build trên nền tảng mới này? Phân tích chi tiết.', source:'CafeF', time:'3 ngày', readTime:'5 phút', trending:false, tags:['Fintech','CBDC','Vietnam'] },
+  // VN Tech
+  { id:'n19', cat:'VN Tech', emoji:'🇻🇳', title:'VinAI, VNG, và FPT Software đang chạy đua AI: Ai sẽ thắng thị trường enterprise VN?', summary:'Ba ông lớn công nghệ Việt đều đầu tư mạnh vào AI cho doanh nghiệp. VinAI có model riêng, VNG có data lớn, FPT có đội sales. Phân tích lợi thế cạnh tranh.', source:'Tech in Asia', time:'2h trước', readTime:'6 phút', trending:true, tags:['Vietnam','AI','Enterprise'] },
+  { id:'n20', cat:'VN Tech', emoji:'👨‍💻', title:'Lương dev Việt Nam 2025: Backend Python $2,000-5,000/tháng — Nhưng AI skill thêm +50%', summary:'Báo cáo lương Q1/2025 từ TopDev: senior backend Python $2-5K/tháng, nhưng ai có AI/ML experience thêm $800-1,500/tháng. Junior có AI skill = senior không có.', source:'TopDev', time:'4h trước', readTime:'4 phút', trending:true, tags:['Vietnam','Salary','Career'] },
+  { id:'n21', cat:'VN Tech', emoji:'🎓', title:'RMIT, FUNiX, và Coursera VN: Đâu là cách học AI tốt nhất cho dev Việt năm 2025?', summary:'Comparison chi tiết: RMIT ($20K/năm), FUNiX ($500/khóa), Coursera ($50/tháng), tự học YouTube ($0). ROI thực tế từ góc nhìn của 50 dev đã học và apply vào công việc.', source:'VietnamWorks', time:'1 ngày', readTime:'7 phút', trending:false, tags:['Vietnam','Education','Career'] },
+  { id:'n22', cat:'VN Tech', emoji:'🏙️', title:'Hà Nội vs TP.HCM: Đâu là startup hub tốt hơn năm 2025?', summary:'Ecosystem startup hai miền ngày càng khác nhau. HCM: fintech, marketplace, B2C. HN: deeptech, enterprise, govtech. Và remote work đang xóa nhòa ranh giới địa lý.', source:'Nikkei Asia', time:'2 ngày', readTime:'5 phút', trending:false, tags:['Vietnam','Startup','Ecosystem'] },
+  { id:'n23', cat:'VN Tech', emoji:'💰', title:'Dragon Capital rót $200M vào tech VN 2025: Ngành nào được đầu tư nhiều nhất?', summary:'Dragon Capital công bố fund mới $200M, focus vào tech Việt Nam. Health tech (35%), Fintech (30%), EdTech (20%), và AI Infrastructure (15%). Chi tiết thesis đầu tư.', source:'DealStreetAsia', time:'3 ngày', readTime:'4 phút', trending:false, tags:['Vietnam','VC','Funding'] },
+  { id:'n24', cat:'VN Tech', emoji:'🌏', title:'Dev Việt xuất khẩu phần mềm: $7 tỷ năm 2024 và target $10 tỷ 2025 — Con đường nào?', summary:'Xuất khẩu phần mềm VN tăng 15% YoY. Nhưng 80% vẫn là outsourcing, chỉ 20% là product. Bài toán: làm sao shift từ outsource sang build product riêng hưởng margin cao hơn.', source:'VINASA', time:'4 ngày', readTime:'6 phút', trending:false, tags:['Vietnam','Export','Product'] },
+];
+
+var _newsFilter = 'Tất cả';
+var _newsSearch = '';
+var _newsBookmarks = new Set();
+
+function renderNewsFeed() {
+  const filtersEl = $('#news-filters');
+  const gridEl = $('#news-grid');
+  const cats = ['Tất cả', 'AI', 'Startup', 'Fintech', 'VN Tech'];
+
+  if (filtersEl) {
+    filtersEl.innerHTML = cats.map(c => `
+      <button class="news-filter-btn ${c === _newsFilter ? 'active' : ''}" onclick="window._newsFilter='${c}';renderNewsFeed()">
+        ${{  'Tất cả':'🌐','AI':'🤖','Startup':'🚀','Fintech':'💸','VN Tech':'🇻🇳'}[c]} ${c}
+      </button>`).join('');
+  }
+
+  let articles = NEWS_ARTICLES
+    .filter(a => _newsFilter === 'Tất cả' || a.cat === _newsFilter)
+    .filter(a => !_newsSearch || a.title.toLowerCase().includes(_newsSearch) || a.summary.toLowerCase().includes(_newsSearch));
+
+  if (gridEl) {
+    gridEl.innerHTML = articles.map((a, i) => `
+      <article class="news-card ${a.trending ? 'news-card--trending' : ''}" style="animation-delay:${i*0.04}s">
+        <div class="news-card-top">
+          <div class="news-emoji">${a.emoji}</div>
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;gap:0.35rem;align-items:center;flex-wrap:wrap;margin-bottom:0.3rem">
+              <span class="news-cat-badge news-cat--${a.cat.toLowerCase().replace(' ','-')}">${a.cat}</span>
+              ${a.trending ? '<span class="news-trending">🔥 Trending</span>' : ''}
+            </div>
+            <h4 class="news-title">${a.title}</h4>
+          </div>
+        </div>
+        <p class="news-summary">${a.summary}</p>
+        <div class="news-tags">${a.tags.map(t => `<span class="yc-tag">${t}</span>`).join('')}</div>
+        <div class="news-footer">
+          <div class="news-meta">
+            <span>📰 ${a.source}</span>
+            <span>🕐 ${a.time}</span>
+            <span>⏱ ${a.readTime}</span>
+          </div>
+          <div style="display:flex;gap:0.35rem">
+            <button class="news-action-btn ${_newsBookmarks.has(a.id) ? 'bookmarked' : ''}" onclick="toggleBookmark('${a.id}',this)" title="Lưu lại">
+              ${_newsBookmarks.has(a.id) ? '🔖' : '📌'}
+            </button>
+            <button class="news-action-btn" onclick="shareNews('${a.id}')" title="Chia sẻ">📤</button>
+            <button class="btn btn--sm btn--primary" onclick="openNewsDetail('${a.id}')">Đọc →</button>
+          </div>
+        </div>
+      </article>
+    `).join('');
+  }
+}
+
+function toggleBookmark(id, btn) {
+  if (_newsBookmarks.has(id)) { _newsBookmarks.delete(id); btn.textContent = '📌'; btn.classList.remove('bookmarked'); }
+  else { _newsBookmarks.add(id); btn.textContent = '🔖'; btn.classList.add('bookmarked'); showToast('📌 Đã lưu bài viết!', 'success'); }
+}
+
+function openNewsDetail(id) {
+  const a = NEWS_ARTICLES.find(x => x.id === id);
+  if (!a) return;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:620px">
+      <div class="modal__header">
+        <div>
+          <span class="news-cat-badge news-cat--${a.cat.toLowerCase().replace(' ','-')}">${a.cat}</span>
+          ${a.trending ? '<span class="news-trending" style="margin-left:0.4rem">🔥 Trending</span>' : ''}
+        </div>
+        <button class="modal__close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem">
+        <h2 style="font-size:1.15rem;font-weight:900;margin-bottom:0.75rem;line-height:1.4">${a.emoji} ${a.title}</h2>
+        <div class="news-meta" style="margin-bottom:1rem">
+          <span>📰 ${a.source}</span><span>🕐 ${a.time}</span><span>⏱ ${a.readTime}</span>
+        </div>
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.75;margin-bottom:1rem">${a.summary}</p>
+        <div style="background:rgba(99,102,241,0.05);border:1px solid rgba(99,102,241,0.15);border-radius:var(--radius-md);padding:0.85rem;font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem">
+          💡 <strong>Liên quan đến bạn:</strong> ${
+            a.cat === 'AI' ? 'Dùng AI agents trong DevTrust để ứng dụng ngay xu hướng này vào product của bạn.' :
+            a.cat === 'Startup' ? 'Xem YC Portfolio và Startup Academy trong DevTrust để học từ những case tương tự.' :
+            a.cat === 'Fintech' ? 'ClawPay và SplitDAO trong Portfolio đang giải bài toán liên quan. Clone và launch trong 2 tuần.' :
+            'Tham gia cộng đồng DevTrust VN Tech để cùng build và scale với thị trường trong nước.'
+          }
+        </div>
+        <div class="news-tags" style="margin-bottom:1rem">${a.tags.map(t => `<span class="yc-tag">${t}</span>`).join('')}</div>
+        <div style="display:flex;gap:0.5rem">
+          <button class="btn btn--secondary" style="flex:1" onclick="toggleBookmark('${a.id}',this);this.textContent='🔖 Đã lưu'">📌 Lưu lại</button>
+          <button class="btn btn--primary" style="flex:1" onclick="shareGrowthResult('news','${a.title.substring(0,40)}...','${a.source}')">📤 Chia sẻ</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function shareNews(id) {
+  const a = NEWS_ARTICLES.find(x => x.id === id);
+  if (a) { shareGrowthResult('news', a.title.substring(0, 50), a.source); }
+}
+
+function newsSearch(q) {
+  _newsSearch = q.toLowerCase();
+  renderNewsFeed();
 }

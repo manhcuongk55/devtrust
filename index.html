@@ -145,6 +145,10 @@
           <span>🔥 Comeback</span>
           <span class="sidebar__badge sidebar__badge--new">♥ Free</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="news" id="nav-news">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+          <span>📰 News Feed</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="studio" id="nav-studio">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
           <span>🏭 Studio</span>
@@ -1221,6 +1225,23 @@
           <h3>💡 Feature Requests</h3>
           <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:0.75rem">Khách hàng vote feature họ muốn — build đúng thứ người dùng cần</p>
           <div class="disc-features-list" id="discovery-features"><!-- JS --></div>
+        </div>
+      </section>
+
+      <!-- ===== TECH NEWS FEED ===== -->
+      <section class="view view--news" id="view-news">
+        <div class="disc-hero" style="border-color:rgba(59,130,246,0.2)">
+          <div class="disc-hero__glow" style="background:radial-gradient(ellipse,rgba(59,130,246,0.07) 0%,rgba(99,102,241,0.05) 60%,transparent 70%)"></div>
+          <div class="disc-hero__eyebrow" style="color:#60a5fa"><span class="disc-hero__pulse" style="background:#60a5fa"></span> Cập nhật mỗi ngày</div>
+          <h1 class="disc-hero__title">📰 Tech <span style="background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">News Feed</span></h1>
+          <p class="disc-hero__desc">Tin tức AI · Startup · Fintech · VN Tech — Cuất lọc, dịch gọn, liên quan cực kỳ đến builder Việt Nam</p>
+        </div>
+        <div class="disc-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.75rem;margin-bottom:1rem">
+            <div class="news-filter-row" id="news-filters"><!-- JS --></div>
+            <input type="text" placeholder="🔍 Tìm bài viết..." oninput="newsSearch(this.value)" style="padding:0.4rem 0.75rem;border-radius:var(--radius-md);border:1px solid var(--border-color);background:var(--bg-glass);color:var(--text-primary);font-size:0.8rem;width:180px">
+          </div>
+          <div class="news-grid" id="news-grid"><!-- JS --></div>
         </div>
       </section>
 
