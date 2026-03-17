@@ -591,6 +591,13 @@ function switchView(viewName) {
   if (viewName === 'studio') {
     renderProductStudio();
   }
+  if (viewName === 'portfolio') {
+    window._ycFilter = 'all'; window._ycSearch = '';
+    renderStartupPortfolio();
+  }
+  if (viewName === 'academy') {
+    renderAcademy();
+  }
 }
 
 // ============ 🧑‍💼 INVESTOR DASHBOARD ENGINE ============
@@ -6717,4 +6724,327 @@ function studioNext() {
   }
   _studioStep = Math.min(_studioStep + 1, STUDIO_STEPS.length - 1);
   renderProductStudio();
+}
+
+// ============ 🚀 YC-STYLE STARTUP PORTFOLIO ============
+
+const YC_STARTUPS = [
+  // AI
+  { id:'s01', name:'AgentPay', sector:'AI', stage:'Seed', emoji:'🤖', pitch:'Stripe cho AI agents — billing và payments cho autonomous AI workflows', team:2, mrr:8200, users:340, tech:'Python, Stripe API, LangChain', raised:'$180K', status:'active', hot:true, problem:'AI agents cần thanh toán tự động nhưng không có API phù hợp', solution:'SDK 5 dòng code để AI agent tự charge khách hàng' },
+  { id:'s02', name:'PromptOS', sector:'AI', stage:'Pre-seed', emoji:'🧠', pitch:'Hệ điều hành cho prompts — version control, A/B test, và analytics cho LLM prompts', team:3, mrr:3100, users:890, tech:'TypeScript, PostgreSQL, OpenAI', raised:'$50K', status:'active', hot:true, problem:'Prompts là IP quan trọng nhưng không ai quản lý được', solution:'Git cho prompts với drift detection và cost analytics' },
+  { id:'s03', name:'ShadowDev', sector:'AI', stage:'Series A', emoji:'👻', pitch:'AI pair programmer học cách bạn code — match hoàn toàn style và architecture của từng dev', team:8, mrr:42000, users:2100, tech:'VSCode Extension, Python, RLHF', raised:'$2.1M', status:'active', hot:true, problem:'GitHub Copilot không biết context codebase của bạn', solution:'AI học từ toàn bộ git history và code pattern của team' },
+  { id:'s04', name:'VoiceBase', sector:'AI', stage:'Seed', emoji:'🎙️', pitch:'API giọng nói tiếng Việt tốt nhất thế giới — latency 80ms, accent-aware', team:4, mrr:12000, users:450, tech:'PyTorch, FastAPI, WebSocket', raised:'$320K', status:'active', hot:false, problem:'Google/Azure speech recognition sai 30% tiếng Việt', solution:'Fine-tuned model 50M câu tiếng Việt, real-time streaming' },
+  { id:'s05', name:'MindMap AI', sector:'AI', stage:'Pre-seed', emoji:'🗺️', pitch:'Biến bất kỳ văn bản nào thành mind map tương tác — học và nhớ nhanh hơn 5x', team:2, mrr:800, users:3200, tech:'React, D3.js, GPT-4', raised:'$20K', status:'building', hot:false, problem:'Reading comprehension kém vì không có visual structure', solution:'Auto-extract concepts và relationships, exportable mindmap' },
+  // Fintech
+  { id:'s06', name:'ClawPay', sector:'Fintech', stage:'Seed', emoji:'💸', pitch:'Payroll cho AI agents — trả lương tự động theo performance và on-chain verification', team:3, mrr:15000, users:120, tech:'Solana, Python, FastAPI', raised:'$400K', status:'active', hot:true, problem:'Ai trả lương cho AI khi nó hoàn thành task?', solution:'Smart contract + off-chain oracle để verify task completion' },
+  { id:'s07', name:'TrustLoan', sector:'Fintech', stage:'Pre-seed', emoji:'🏦', pitch:'Vay tiền dựa trên trust score GitHub — không cần thế chấp, phê duyệt 2 phút', team:2, mrr:2200, users:67, tech:'Node.js, GitHub API, TensorFlow', raised:'$80K', status:'active', hot:false, problem:'Dev giỏi không có tài sản thế chấp để vay vốn', solution:'Credit score từ code quality, commit history, OSS contributions' },
+  { id:'s08', name:'SplitDAO', sector:'Fintech', stage:'Pre-seed', emoji:'⚖️', pitch:'Revenue splitting cho co-founders — tự động chia tiền theo contribution on-chain', team:2, mrr:0, users:890, tech:'Ethereum, React, Hardhat', raised:'$30K', status:'building', hot:false, problem:'Co-founders tranh cãi về equity và revenue chia bao nhiêu', solution:'Smart contract tự theo dõi commits, hours, decisions để chia' },
+  { id:'s09', name:'MicroVC', sector:'Fintech', stage:'Seed', emoji:'💎', pitch:'Đầu tư $500-5000 vào các indie hackers — portfolio of 100 micro-startups', team:4, mrr:28000, users:890, tech:'Next.js, Stripe, Plaid', raised:'$1.2M', status:'active', hot:true, problem:'VCs chỉ đầu tư $500K+ nhưng indie hackers cần $2-10K', solution:'Syndicate nhỏ với deal flow từ Product Hunt, HN, DevTrust' },
+  // EdTech
+  { id:'s10', name:'CodeBattle', sector:'EdTech', stage:'Seed', emoji:'⚔️', pitch:'LeetCode nhưng competitive — tournament coding với prize pool crypto thật', team:3, mrr:9500, users:5400, tech:'React, WebSocket, Go', raised:'$180K', status:'active', hot:true, problem:'Luyện code một mình chán, không có động lực thật', solution:'Real-time 1v1 coding battles, weekly tournaments, USDC prizes' },
+  { id:'s11', name:'AITutor VN', sector:'EdTech', stage:'Pre-seed', emoji:'👨‍🏫', pitch:'Gia sư AI cá nhân hóa hoàn toàn theo learning style của từng học sinh Việt Nam', team:3, mrr:4200, users:1200, tech:'React Native, FastAPI, GPT-4', raised:'$60K', status:'active', hot:false, problem:'Học sinh Việt thiếu gia sư chất lượng, giá cao', solution:'AI adapt theo learning style, pacing, và curriculum VN' },
+  { id:'s12', name:'SkillSwap', sector:'EdTech', stage:'Pre-seed', emoji:'🔄', pitch:'Dạy nhau + học nhau — marketplace trao đổi skills không cần tiền', team:2, mrr:1100, users:3400, tech:'React, Node.js, Socket.io', raised:'$40K', status:'active', hot:false, problem:'Ai cũng có skill người khác cần nhưng không có cách exchange', solution:'Time-banking: 1h dạy = 1 credit = 1h học bất kỳ skill nào' },
+  // HealthTech
+  { id:'s13', name:'MentalOS', sector:'HealthTech', stage:'Seed', emoji:'🧘', pitch:'Hệ thống quản lý sức khỏe tinh thần cho dev — detect burnout sớm 2 tuần', team:4, mrr:6800, users:780, tech:'Wearable API, Python, TensorFlow', raised:'$250K', status:'active', hot:true, problem:'Developer burnout cost $1.5T/năm nhưng không ai detect sớm', solution:'AI phân tích typing patterns, commit frequency, sleep để cảnh báo' },
+  { id:'s14', name:'DrBot', sector:'HealthTech', stage:'Pre-seed', emoji:'🏥', pitch:'Bác sĩ AI 24/7 — triage thông minh, đặt lịch, và pre-diagnosis cho phòng khám VN', team:3, mrr:3300, users:2100, tech:'React Native, FastAPI, ViHEALTH', raised:'$90K', status:'active', hot:false, problem:'Đặt lịch khám ở VN mất 30-60 phút và sai phòng', solution:'AI triage → đúng chuyên khoa → slot trống gần nhất trong 60s' },
+  { id:'s15', name:'NutriTrack AI', sector:'HealthTech', stage:'Pre-seed', emoji:'🥗', pitch:'Chụp ảnh món ăn → AI tính ngay calories, protein, carbs cho người Việt', team:2, mrr:1800, users:4500, tech:'React Native, YOLOv8, Python', raised:'$25K', status:'active', hot:false, problem:'MyFitnessPal không có 90% món ăn Việt Nam', solution:'Dataset 50K món Việt, nhận diện thời gian thực, gợi ý thay thế' },
+  // ClimaTech
+  { id:'s16', name:'CarbonClaw', sector:'ClimaTech', stage:'Seed', emoji:'🌱', pitch:'Carbon credit marketplace cho SMEs Việt Nam — mua offset, báo cáo ESG tự động', team:4, mrr:18000, users:89, tech:'Next.js, Polygon, FastAPI', raised:'$600K', status:'active', hot:true, problem:'SMEs VN phải ESG report nhưng không biết bắt đầu từ đâu', solution:'API tích hợp với hóa đơn điện/nước → auto carbon footprint report' },
+  { id:'s17', name:'SolarGrid', sector:'ClimaTech', stage:'Pre-seed', emoji:'☀️', pitch:'P2P trading điện mặt trời — nhà có solar panel bán điện thừa cho hàng xóm', team:3, mrr:2100, users:340, tech:'IoT, Ethereum, React Native', raised:'$120K', status:'building', hot:false, problem:'Điện mặt trời thừa trả về EVN giá rất thấp', solution:'Smart meter + smart contract: tự trade điện với hàng xóm realtime' },
+  { id:'s18', name:'WasteMap', sector:'ClimaTech', stage:'Pre-seed', emoji:'♻️', pitch:'Gamify tái chế rác thải — scan rác, earn tokens, đổi quà tại siêu thị', team:2, mrr:500, users:8900, tech:'React Native, IoT, Solana', raised:'$30K', status:'active', hot:false, problem:'Người dân không có động lực tái chế vì không reward', solution:'QR code trên rác → verify → token reward → brand partnerships' },
+  // SaaS
+  { id:'s19', name:'MeetingKill', sector:'SaaS', stage:'Seed', emoji:'🗓️', pitch:'AI quyết định meeting nào không cần thiết — auto decline và gửi lý do lịch sự', team:2, mrr:11000, users:1200, tech:'Outlook API, GPT-4, Chrome Extension', raised:'$180K', status:'active', hot:true, problem:'Dev mất 23h/tuần cho meetings không productive', solution:'AI phân tích agenda, attendees, alternatives → decline hoặc optimize' },
+  { id:'s20', name:'DocuAI', sector:'SaaS', stage:'Seed', emoji:'📄', pitch:'API documentation tự viết từ code — never out of sync, always accurate', team:3, mrr:14500, users:340, tech:'TypeScript, AST parser, GPT-4', raised:'$280K', status:'active', hot:true, problem:'API docs luôn outdated và dev ghét viết docs', solution:'Parse source code + git diff → auto-generate và update docs realtime' },
+  { id:'s21', name:'OnCallBot', sector:'SaaS', stage:'Pre-seed', emoji:'🔔', pitch:'On-call management thông minh — AI phân loại alert và chỉ wake bạn dậy khi thật sự cần', team:2, mrr:4200, users:89, tech:'Python, PagerDuty API, GPT-4', raised:'$60K', status:'active', hot:false, problem:'Engineers bị wake up 3am cho alerts không quan trọng', solution:'ML classifier: severity + blast radius → auto-fix hoặc escalate' },
+  { id:'s22', name:'HireIQ', sector:'SaaS', stage:'Seed', emoji:'🎯', pitch:'Technical interview platform với AI grader — unbiased, async, và bias-free scoring', team:4, mrr:22000, users:450, tech:'React, Node.js, CodeMirror, GPT-4', raised:'$350K', status:'active', hot:true, problem:'Technical interviews bias và tốn 40h/hire', solution:'AI grade code quality, logic, style → standardized rubric per company' },
+  { id:'s23', name:'CRMZero', sector:'SaaS', stage:'Pre-seed', emoji:'📊', pitch:'CRM không cần nhập data — AI tự extract deals từ email, Slack, Zoom calls', team:3, mrr:6800, users:123, tech:'Gmail API, Slack API, NLP, React', raised:'$100K', status:'active', hot:false, problem:'Sales reps mất 3h/ngày nhập data vào Salesforce', solution:'AI agent listen email/Slack → auto-populate CRM với zero input' },
+  // Marketplace
+  { id:'s24', name:'FreelanceDAO', sector:'Marketplace', stage:'Seed', emoji:'🌐', pitch:'Upwork on blockchain — escrow tự động, review không fake, payment instant', team:4, mrr:31000, users:2400, tech:'NEAR Protocol, Next.js, IPFS', raised:'$800K', status:'active', hot:true, problem:'Upwork fee 20% và review system dễ bị game', solution:'Smart contract escrow + on-chain review history + USDC instant pay' },
+  { id:'s25', name:'DesignDrop', sector:'Marketplace', stage:'Pre-seed', emoji:'🎨', pitch:'Figma gặp Airbnb — rent design assets, templates, và UI kits theo giờ', team:2, mrr:2800, users:4500, tech:'React, Stripe, Figma Plugin', raised:'$40K', status:'active', hot:false, problem:'Designer mua template $200 dùng 1 lần rồi để đó', solution:'Subscription per project: $5/project thay vì $200/template' },
+  { id:'s26', name:'HardwareBay', sector:'Marketplace', stage:'Pre-seed', emoji:'🔧', pitch:'Rent server và GPU theo giờ từ idle machines của SMEs — cheaper than AWS 60%', team:3, mrr:8900, users:234, tech:'HyperVisor, Kubernetes, Stripe', raised:'$150K', status:'active', hot:false, problem:'A100 GPU $3/hr trên AWS, nhiều công ty có GPU idle ban đêm', solution:'P2P GPU rental: verify hardware + uptime SLA + automatic payment' },
+  // Consumer
+  { id:'s27', name:'DailyDev VN', sector:'Consumer', stage:'Seed', emoji:'📰', pitch:'Daily.dev cho Việt Nam — tech news cá nhân hóa bằng AI, 100% tiếng Việt', team:3, mrr:5400, users:18000, tech:'React, Redis, NLP, FastAPI', raised:'$200K', status:'active', hot:true, problem:'Tech news tiếng Việt scatter khắp nơi, chất lượng thấp', solution:'AI aggregate + summarize + personalize từ 200+ nguồn VN+global' },
+  { id:'s28', name:'FoodTruck', sector:'Consumer', stage:'Pre-seed', emoji:'🚚', pitch:'Đặt food truck đến sự kiện của bạn — book trong 60 giây, thanh toán instant', team:2, mrr:3200, users:890, tech:'React Native, Google Maps, Stripe', raised:'$50K', status:'active', hot:false, problem:'Book food truck ở VN là gọi điện, thương lượng, chuyển khoản', solution:'1-click booking với availability calendar và deposit auto-release' },
+  { id:'s29', name:'LocalMint', sector:'Consumer', stage:'Pre-seed', emoji:'🏪', pitch:'Loyalty program cho cửa hàng nhỏ — stamp card số, analytics, và customer insights', team:2, mrr:1900, users:3400, tech:'React Native, NFC, Node.js', raised:'$35K', status:'active', hot:false, problem:'Quán cafe nhỏ không có loyalty program vì tốn kém', solution:'App miễn phí, NFC tap để stamp, analytics dashboard cho chủ quán' },
+  // Deep Tech
+  { id:'s30', name:'QuantumSQL', sector:'DeepTech', stage:'Pre-seed', emoji:'⚛️', pitch:'Query optimizer dùng quantum computing — 100x faster cho complex joins', team:3, mrr:0, users:12, tech:'Qiskit, PostgreSQL, Python', raised:'$500K', status:'building', hot:true, problem:'Complex SQL joins trên TB data mất giờ dù đã optimize', solution:'Quantum annealing để tìm optimal query plan — research phase' },
+  { id:'s31', name:'BioCode', sector:'DeepTech', stage:'Seed', emoji:'🧬', pitch:'Code DNA như code software — visual IDE để design protein sequences', team:5, mrr:28000, users:89, tech:'Python, WebGL, BioPython', raised:'$1.5M', status:'active', hot:true, problem:'Biotech cần 5 năm để design protein, AI giảm còn 3 tháng', solution:'Visual drag-drop protein design với AlphaFold integration và auto-synthesis order' },
+];
+
+function renderStartupPortfolio() {
+  const container = $('#yc-portfolio-grid');
+  const statsEl = $('#yc-stats');
+  const filter = window._ycFilter || 'all';
+  const sort = window._ycSort || 'traction';
+  const search = (window._ycSearch || '').toLowerCase();
+
+  const sectors = ['all', ...new Set(YC_STARTUPS.map(s => s.sector))];
+
+  // Stats
+  if (statsEl) {
+    const totalMRR = YC_STARTUPS.reduce((a, s) => a + s.mrr, 0);
+    const totalUsers = YC_STARTUPS.reduce((a, s) => a + s.users, 0);
+    const active = YC_STARTUPS.filter(s => s.status === 'active').length;
+    statsEl.innerHTML = `
+      <div class="disc-kpi"><strong>${YC_STARTUPS.length}</strong><span>Startups</span></div>
+      <div class="disc-kpi"><strong>$${(totalMRR/1000).toFixed(0)}K</strong><span>Total MRR</span></div>
+      <div class="disc-kpi"><strong>${(totalUsers/1000).toFixed(0)}K+</strong><span>Total Users</span></div>
+      <div class="disc-kpi"><strong>${active}</strong><span>Active</span></div>
+      <div class="disc-kpi"><strong>8</strong><span>Sectors</span></div>
+    `;
+  }
+
+  // Sector filters
+  const filtersEl = $('#yc-filters');
+  if (filtersEl) {
+    filtersEl.innerHTML = sectors.map(s =>
+      `<button class="inv-filter ${s === filter ? 'active' : ''}" onclick="window._ycFilter='${s}';renderStartupPortfolio()">${s === 'all' ? '🌎 All' : s}</button>`
+    ).join('');
+  }
+
+  // Sort
+  let filtered = YC_STARTUPS
+    .filter(s => filter === 'all' || s.sector === filter)
+    .filter(s => !search || s.name.toLowerCase().includes(search) || s.pitch.toLowerCase().includes(search) || s.sector.toLowerCase().includes(search));
+
+  if (sort === 'traction') filtered.sort((a, b) => (b.mrr + b.users) - (a.mrr + a.users));
+  else if (sort === 'hot') filtered = filtered.filter(s => s.hot).concat(filtered.filter(s => !s.hot));
+  else if (sort === 'stage') { const o = {'Series A':0,'Seed':1,'Pre-seed':2}; filtered.sort((a,b) => (o[a.stage]||3) - (o[b.stage]||3)); }
+
+  if (container) {
+    container.innerHTML = filtered.length ? filtered.map((s, idx) => `
+      <div class="yc-card" style="animation-delay:${idx * 0.04}s">
+        <div class="yc-card-top">
+          <div class="yc-logo">${s.emoji}</div>
+          <div class="yc-card-header">
+            <div style="display:flex;align-items:center;gap:0.4rem">
+              <strong class="yc-name">${s.name}</strong>
+              ${s.hot ? '<span class="yc-hot">🔥 Hot</span>' : ''}
+            </div>
+            <span class="yc-sector">${s.sector}</span>
+          </div>
+          <span class="yc-stage yc-stage--${s.stage.toLowerCase().replace('-','')}">${s.stage}</span>
+        </div>
+        <p class="yc-pitch">${s.pitch}</p>
+        <div class="yc-metrics">
+          <div class="yc-metric"><strong>${s.mrr > 0 ? '$'+s.mrr.toLocaleString() : '--'}</strong><span>MRR</span></div>
+          <div class="yc-metric"><strong>${s.users.toLocaleString()}</strong><span>Users</span></div>
+          <div class="yc-metric"><strong>${s.raised}</strong><span>Raised</span></div>
+          <div class="yc-metric"><strong>${s.team}</strong><span>Team</span></div>
+        </div>
+        <div class="yc-tech">${s.tech.split(',').slice(0,3).map(t => `<span class="yc-tag">${t.trim()}</span>`).join('')}</div>
+        <div class="yc-actions">
+          <button class="btn btn--sm btn--primary" onclick="showYCDetail('${s.id}')">📋 View Pitch</button>
+          <button class="btn btn--sm btn--secondary" onclick="launchYCStartup('${s.id}')">🚀 Launch Clone</button>
+        </div>
+      </div>
+    `).join('') : `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-tertiary)">Không tìm thấy startup nào 🔍</div>`;
+  }
+}
+
+function showYCDetail(id) {
+  const s = YC_STARTUPS.find(x => x.id === id);
+  if (!s) return;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:580px">
+      <div class="modal__header">
+        <h3>${s.emoji} ${s.name} <span style="font-size:0.75rem;color:var(--text-tertiary);font-weight:400">— ${s.sector}</span></h3>
+        <button class="modal__close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:1rem">
+        <div class="yc-detail-pitch">"${s.pitch}"</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div class="yc-detail-block"><div class="yc-detail-label">❌ Problem</div><div class="yc-detail-text">${s.problem}</div></div>
+          <div class="yc-detail-block"><div class="yc-detail-label">✅ Solution</div><div class="yc-detail-text">${s.solution}</div></div>
+        </div>
+        <div class="yc-metrics" style="grid-template-columns:repeat(4,1fr)">
+          <div class="yc-metric"><strong style="color:#4ade80">${s.mrr > 0 ? '$'+s.mrr.toLocaleString() : '$0'}</strong><span>MRR</span></div>
+          <div class="yc-metric"><strong style="color:#60a5fa">${s.users.toLocaleString()}</strong><span>Users</span></div>
+          <div class="yc-metric"><strong style="color:#fbbf24">${s.raised}</strong><span>Raised</span></div>
+          <div class="yc-metric"><strong>${s.team} người</strong><span>Team</span></div>
+        </div>
+        <div><strong style="font-size:0.82rem">🛠️ Tech Stack:</strong><div class="yc-tech" style="margin-top:0.3rem">${s.tech.split(',').map(t => `<span class="yc-tag">${t.trim()}</span>`).join('')}</div></div>
+        <div style="display:flex;gap:0.5rem">
+          <button class="btn btn--primary" style="flex:1" onclick="this.closest('.modal-overlay').remove();launchYCStartup('${s.id}')">🚀 Clone & Launch với AI</button>
+          <button class="btn btn--secondary" style="flex:1" onclick="shareGrowthResult('idea','${s.name}','${s.stage} · ${s.mrr ? '$'+s.mrr.toLocaleString()+'/mo' : 'Pre-revenue'}')">📤 Share</button>
+        </div>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function launchYCStartup(id) {
+  const s = YC_STARTUPS.find(x => x.id === id);
+  if (!s) return;
+  _studioStep = 0;
+  _studioProduct = { name: s.name + ' Clone', tagline: s.pitch, category: {
+    'AI':'ai','Fintech':'saas','EdTech':'saas','HealthTech':'saas',
+    'ClimaTech':'saas','SaaS':'saas','Marketplace':'marketplace','Consumer':'saas','DeepTech':'ai'
+  }[s.sector] || 'saas', target: '' };
+  switchView('studio');
+  showToast('🚀 Cloning ' + s.name + ' — Studio đã load!', 'success');
+}
+
+function ycSearch(q) {
+  window._ycSearch = q;
+  renderStartupPortfolio();
+}
+
+// ============ 🎓 STARTUP ACADEMY ============
+
+const ACADEMY_COURSES = [
+  { id:'c01', emoji:'💡', title:'Think → Money: Mindset Khởi Nghiệp', subtitle:'Từ suy nghĩ đến revenue trong 3 tuần', level:'Beginner', duration:'4h 30m', students:1240, rating:4.9, price:'Free', color:'#fbbf24', tags:['Mindset','Strategy','Framework'],
+    lessons:[
+      { id:'l1', title:'Why Think→Money không phải Build→Pray', duration:'22m', type:'video', done:true },
+      { id:'l2', title:'Bài toán thật vs Bài toán tưởng tượng', duration:'18m', type:'video', done:true },
+      { id:'l3', title:'Lab: Viết 5 idea + validate trong 1h', duration:'45m', type:'lab', done:true },
+      { id:'l4', title:'The Ramen Profitable Mindset', duration:'15m', type:'video', done:false },
+      { id:'l5', title:'Lab: Tính break-even bằng Cost Calculator', duration:'30m', type:'lab', done:false },
+      { id:'l6', title:'Case Study: ShadowDev — từ side project đến $42K MRR', duration:'25m', type:'case', done:false },
+    ]},
+  { id:'c02', emoji:'🤖', title:'Build with AI Agents', subtitle:'Dùng ClawWork, ClawHub, T3Code để build 10x nhanh', level:'Intermediate', duration:'6h 15m', students:890, rating:4.8, price:'Free', color:'#6366f1', tags:['AI','T3Code','ClawWork','ClawHub'],
+    lessons:[
+      { id:'l1', title:'Hiểu AI Agent Fleet — CTO, Design, Growth', duration:'20m', type:'video', done:false },
+      { id:'l2', title:'Lab: Setup T3Code coding session đầu tiên', duration:'40m', type:'lab', done:false },
+      { id:'l3', title:'ClawHub: Install & manage skills như npm', duration:'25m', type:'video', done:false },
+      { id:'l4', title:'Lab: Build MVP SaaS in 2 hours with AI', duration:'90m', type:'lab', done:false },
+      { id:'l5', title:'ClawWork: Kiếm tiền từ ngày 1 khi chờ product', duration:'30m', type:'video', done:false },
+      { id:'l6', title:'Lab: Launch 3 ClawWork tasks và thu $200+', duration:'45m', type:'lab', done:false },
+    ]},
+  { id:'c03', emoji:'🎯', title:'Customer Discovery Thực Chiến', subtitle:'Validate idea, phỏng vấn khách, và pivot đúng lúc', level:'Beginner', duration:'3h 45m', students:650, rating:4.7, price:'Free', color:'#f97316', tags:['Discovery','PMF','Interview'],
+    lessons:[
+      { id:'l1', title:'Mom Test — Hỏi mà không bị nói dối', duration:'25m', type:'video', done:false },
+      { id:'l2', title:'Lab: 3 user interviews với Discovery Hub', duration:'60m', type:'lab', done:false },
+      { id:'l3', title:'Signals: khi nào pivot, khi nào tiếp tục', duration:'20m', type:'video', done:false },
+      { id:'l4', title:'Launch campaign — đo conversion trong 48h', duration:'35m', type:'lab', done:false },
+    ]},
+  { id:'c04', emoji:'💰', title:'Revenue & Monetize từ Ngày 1', subtitle:'Pricing, charge khách, tăng MRR mỗi tuần', level:'Intermediate', duration:'5h 00m', students:480, rating:4.8, price:'$39', color:'#4ade80', tags:['Revenue','Pricing','SaaS','MRR'],
+    lessons:[
+      { id:'l1', title:'4 mô hình pricing — khi nào dùng cái nào', duration:'30m', type:'video', done:false },
+      { id:'l2', title:'Lab: Setup Stripe trong 30 phút', duration:'30m', type:'lab', done:false },
+      { id:'l3', title:'Freemium trap và cách tránh', duration:'25m', type:'video', done:false },
+      { id:'l4', title:'Churn analysis và cách giữ khách hàng', duration:'35m', type:'video', done:false },
+      { id:'l5', title:'Case: DocuAI — $0 đến $14.5K MRR trong 4 tháng', duration:'30m', type:'case', done:false },
+    ]},
+  { id:'c05', emoji:'📈', title:'Growth Without Burning', subtitle:'Tăng trưởng bền vững, không đốt tiền', level:'Advanced', duration:'4h 00m', students:320, rating:4.9, price:'$59', color:'#a78bfa', tags:['Growth','Referral','Community','SEO'],
+    lessons:[
+      { id:'l1', title:'Viral loops — tại sao product tự lan truyền', duration:'25m', type:'video', done:false },
+      { id:'l2', title:'Lab: Setup referral program trong 1 tiếng', duration:'40m', type:'lab', done:false },
+      { id:'l3', title:'Build-in-public — content as distribution', duration:'30m', type:'video', done:false },
+      { id:'l4', title:'Lab: Product Hunt launch + HN post', duration:'45m', type:'lab', done:false },
+      { id:'l5', title:'North Star Metric và cách đo đúng', duration:'30m', type:'video', done:false },
+    ]},
+];
+
+const COHORTS = [
+  { name:'Cohort 4 — Tháng 4/2026', status:'open', seats:47, start:'2026-04-01', mentor:'Weekly 1:1 với alumni founder', price:'$99' },
+  { name:'Cohort 5 — Tháng 5/2026', status:'waitlist', seats:0, start:'2026-05-01', mentor:'Group office hours mỗi tuần', price:'$99' },
+];
+
+function renderAcademy() {
+  const stats = $('#academy-stats');
+  if (stats) {
+    const totalStudents = ACADEMY_COURSES.reduce((a, c) => a + c.students, 0);
+    stats.innerHTML = `
+      <div class="disc-kpi"><strong>${ACADEMY_COURSES.length}</strong><span>Khoá học</span></div>
+      <div class="disc-kpi"><strong>${totalStudents.toLocaleString()}+</strong><span>Students</span></div>
+      <div class="disc-kpi"><strong>3</strong><span>Miễn phí</span></div>
+      <div class="disc-kpi"><strong>4.8★</strong><span>Avg Rating</span></div>
+    `;
+  }
+  const grid = $('#academy-courses');
+  if (grid) {
+    grid.innerHTML = ACADEMY_COURSES.map((c, idx) => {
+      const done = c.lessons.filter(l => l.done).length;
+      const pct = Math.round((done / c.lessons.length) * 100);
+      return `<div class="academy-card" style="animation-delay:${idx*0.06}s;border-top:3px solid ${c.color}">
+        <div class="academy-card-top">
+          <span class="academy-emoji">${c.emoji}</span>
+          <div style="display:flex;gap:0.4rem;align-items:center">
+            <span class="academy-level academy-level--${c.level.toLowerCase().replace(' ','-')}">${c.level}</span>
+            <span style="font-size:0.75rem;font-weight:800;color:${c.price==='Free'?'#4ade80':'#fbbf24'}">${c.price}</span>
+          </div>
+        </div>
+        <h4 class="academy-title">${c.title}</h4>
+        <p class="academy-subtitle">${c.subtitle}</p>
+        <div class="academy-tags">${c.tags.map(t=>`<span class="yc-tag">${t}</span>`).join('')}</div>
+        <div class="academy-meta"><span>⏱️ ${c.duration}</span><span>👥 ${c.students.toLocaleString()}</span><span>⭐ ${c.rating}</span><span>📚 ${c.lessons.length} bài</span></div>
+        ${pct>0?`<div style="margin-top:0.5rem"><div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--text-tertiary);margin-bottom:0.2rem"><span>Progress</span><span>${done}/${c.lessons.length}</span></div><div style="height:4px;background:var(--bg-glass);border-radius:99px"><div style="height:100%;width:${pct}%;background:${c.color};border-radius:99px"></div></div></div>`:''}
+        <button class="btn btn--sm" style="width:100%;margin-top:0.75rem;background:${c.color}1a;border:1px solid ${c.color};color:${c.color};font-weight:700" onclick="openCourse('${c.id}')">
+          ${pct>0?'▶️ Tiếp tục học':'🚀 Bắt đầu — '+c.price}
+        </button>
+      </div>`;
+    }).join('');
+  }
+  const cohorts = $('#academy-cohorts');
+  if (cohorts) {
+    cohorts.innerHTML = COHORTS.map(co => `
+      <div class="academy-cohort">
+        <div>
+          <div style="font-weight:800;font-size:0.9rem">${co.name}</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary)">📅 ${co.start} · 🧑‍🏫 ${co.mentor}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <div style="text-align:center">
+            <div style="font-size:1.1rem;font-weight:900;color:${co.seats>10?'#4ade80':co.seats>0?'#fbbf24':'#f87171'}">${co.seats}</div>
+            <div style="font-size:0.62rem;color:var(--text-tertiary)">seats</div>
+          </div>
+          <button class="btn btn--primary btn--sm" onclick="joinCohort('${co.name}')">
+            ${co.status==='open'?'🚀 Đăng ký — '+co.price:'📋 Waitlist'}
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function openCourse(id) {
+  const c = ACADEMY_COURSES.find(x => x.id === id);
+  if (!c) return;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:580px;max-height:80vh;display:flex;flex-direction:column">
+      <div class="modal__header" style="border-bottom:3px solid ${c.color}">
+        <h3>${c.emoji} ${c.title}</h3>
+        <button class="modal__close" onclick="this.closest('.modal-overlay').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem;overflow-y:auto;flex:1">
+        <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.75rem">${c.subtitle}</p>
+        <div style="font-size:0.72rem;color:var(--text-tertiary);margin-bottom:1rem">⏱️ ${c.duration} · ${c.students} students · ⭐ ${c.rating} · ${c.lessons.length} bài</div>
+        <div style="display:flex;flex-direction:column;gap:0.3rem">
+          ${c.lessons.map((l, i) => `
+            <div class="academy-lesson ${l.done?'done':''}" onclick="completeLesson('${c.id}','${l.id}',this)">
+              <div class="academy-lesson-num" style="${l.done?'background:#22c55e;border-color:#22c55e;color:#fff':''}">${l.done?'✓':i+1}</div>
+              <div style="flex:1">
+                <div style="font-size:0.82rem;font-weight:600;${l.done?'color:var(--text-tertiary);text-decoration:line-through':''}">${l.title}</div>
+                <div style="font-size:0.65rem;color:var(--text-tertiary)">${l.type==='video'?'🎬':l.type==='lab'?'🔬':'📋'} ${l.type} · ${l.duration}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <button class="btn btn--primary" style="width:100%;margin-top:1rem;background:${c.color}20;border:1px solid ${c.color};color:${c.color}" onclick="this.closest('.modal-overlay').remove();showToast('✅ Enrolled: ${c.title}!','success')">
+          ${c.price==='Free'?'🎓 Enroll Miễn Phí':'💳 Enroll — '+c.price}
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function completeLesson(courseId, lessonId, el) {
+  const c = ACADEMY_COURSES.find(x => x.id === courseId);
+  const l = c && c.lessons.find(x => x.id === lessonId);
+  if (l && !l.done) {
+    l.done = true;
+    el.classList.add('done');
+    showToast('✅ Bài học xong! Tiếp tục 🔥', 'success');
+  }
+}
+
+function joinCohort(name) {
+  showToast('🚀 Đăng ký ' + name + ' thành công! Check email nhận onboarding kit.', 'success');
 }

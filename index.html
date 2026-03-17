@@ -142,6 +142,16 @@
           <span>🏭 Studio</span>
           <span class="sidebar__badge sidebar__badge--new">🔥</span>
         </a>
+        <a href="#" class="sidebar__link" data-view="portfolio" id="nav-portfolio">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          <span>🚀 Portfolio</span>
+          <span class="sidebar__badge sidebar__badge--new">YC</span>
+        </a>
+        <a href="#" class="sidebar__link" data-view="academy" id="nav-academy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span>🎓 Academy</span>
+          <span class="sidebar__badge sidebar__badge--new">NEW</span>
+        </a>
         <a href="#" class="sidebar__link" data-view="discovery" id="nav-discovery">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <span>🎯 Discovery</span>
@@ -1203,6 +1213,52 @@
           <h3>💡 Feature Requests</h3>
           <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:0.75rem">Khách hàng vote feature họ muốn — build đúng thứ người dùng cần</p>
           <div class="disc-features-list" id="discovery-features"><!-- JS --></div>
+        </div>
+      </section>
+
+      <!-- ===== YC STARTUP PORTFOLIO ===== -->
+      <section class="view view--portfolio" id="view-portfolio">
+        <div class="disc-hero" style="border-color:rgba(249,115,22,0.2)">
+          <div class="disc-hero__glow" style="background:radial-gradient(ellipse,rgba(249,115,22,0.08) 0%,rgba(250,204,21,0.05) 60%,transparent 70%)"></div>
+          <div class="disc-hero__eyebrow" style="color:#f97316"><span class="disc-hero__pulse" style="background:#f97316"></span> Y Combinator Style</div>
+          <h1 class="disc-hero__title">🚀 Startup <span style="background:linear-gradient(135deg,#f97316,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Portfolio</span></h1>
+          <p class="disc-hero__desc">31 startup sáng tạo · 8 sectors · Filter, search, và clone bất kỳ startup bằng AI trong 2 tuần</p>
+          <div class="disc-hero__kpis" id="yc-stats"><!-- JS --></div>
+        </div>
+        <div class="disc-section">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-bottom:1rem">
+            <div class="inv-filters" id="yc-filters"><!-- JS --></div>
+            <div style="display:flex;gap:0.5rem;align-items:center">
+              <input type="text" placeholder="🔍 Search startups..." oninput="ycSearch(this.value)" style="padding:0.4rem 0.75rem;border-radius:var(--radius-md);border:1px solid var(--border-color);background:var(--bg-glass);color:var(--text-primary);font-size:0.8rem;width:180px">
+              <select onchange="window._ycSort=this.value;renderStartupPortfolio()" style="padding:0.4rem 0.6rem;border-radius:var(--radius-md);border:1px solid var(--border-color);background:var(--bg-glass);color:var(--text-primary);font-size:0.78rem">
+                <option value="traction">By Traction</option>
+                <option value="hot">🔥 Hot First</option>
+                <option value="stage">By Stage</option>
+              </select>
+            </div>
+          </div>
+          <div class="yc-grid" id="yc-portfolio-grid"><!-- JS --></div>
+        </div>
+      </section>
+
+      <!-- ===== STARTUP ACADEMY ===== -->
+      <section class="view view--academy" id="view-academy">
+        <div class="disc-hero" style="border-color:rgba(99,102,241,0.2)">
+          <div class="disc-hero__glow" style="background:radial-gradient(ellipse,rgba(99,102,241,0.08) 0%,rgba(167,139,250,0.06) 60%,transparent 70%)"></div>
+          <div class="disc-hero__eyebrow" style="color:#6366f1"><span class="disc-hero__pulse" style="background:#6366f1"></span> Dev Startup School</div>
+          <h1 class="disc-hero__title">🎓 Startup <span style="background:linear-gradient(135deg,#6366f1,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Academy</span></h1>
+          <p class="disc-hero__desc">Lớp học hướng dẫn dev khởi nghiệp · Từ mindset → AI build → Customer discovery → Revenue → Scale</p>
+          <div class="disc-hero__kpis" id="academy-stats"><!-- JS --></div>
+        </div>
+        <div class="disc-section">
+          <h3>📚 Khoá Học</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:0.75rem">3 khoá miễn phí · Videos + Labs thực hành + Case studies · Bắt đầu ngay</p>
+          <div class="academy-grid" id="academy-courses"><!-- JS --></div>
+        </div>
+        <div class="disc-section">
+          <h3>👥 Live Cohorts — Học Cùng Builder Community</h3>
+          <p style="color:var(--text-tertiary);font-size:0.82rem;margin-bottom:0.75rem">Mentor 1:1 · Peer accountability · Demo day · Investor introductions</p>
+          <div id="academy-cohorts"><!-- JS --></div>
         </div>
       </section>
 
