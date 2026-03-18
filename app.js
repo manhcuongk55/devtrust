@@ -7209,6 +7209,7 @@ function scrollToSection(id) {
 // ============ 👤 REGISTRATION + PROFILE CREATION ============
 
 window._userProfile = null;
+window._regWho = 'founder';
 
 const PROFILE_SKILLS = ['JavaScript','TypeScript','Python','Go','Rust','Java','PHP','React','Next.js','Vue','Node.js','FastAPI','PostgreSQL','MongoDB','Docker','K8s','AI/ML','Cloud AWS','Cloud GCP','Mobile','UI/UX Design','Product Management','Data Science'];
 
@@ -7241,19 +7242,19 @@ function renderRegisterStep(step, data) {
         </div>
       </div>
       <div style="display:flex;flex-direction:column;gap:0.6rem">
-        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'unemployed'})" style="border-left:4px solid #22c55e">
+        <button class="reg-who-btn" onclick="window._regWho='unemployed';renderRegisterStep(2,{who:'unemployed'})" style="border-left:4px solid #22c55e">
           <span style="font-size:1.5rem">💸</span>
           <div><strong>Dev bị layoff / Đang tìm hướng mới</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi muốn kiếm tiền ngay và build product riêng</div></div>
         </button>
-        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'mentor'})" style="border-left:4px solid #6366f1">
+        <button class="reg-who-btn" onclick="window._regWho='mentor';renderRegisterStep(2,{who:'mentor'})" style="border-left:4px solid #6366f1">
           <span style="font-size:1.5rem">🎓</span>
           <div><strong>Senior dev / Có bằng cấp muốn dạy lại</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi có 5+ năm kinh nghiệm, muốn monetize expertise</div></div>
         </button>
-        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'founder'})" style="border-left:4px solid #f97316">
+        <button class="reg-who-btn" onclick="window._regWho='founder';renderRegisterStep(2,{who:'founder'})" style="border-left:4px solid #f97316">
           <span style="font-size:1.5rem">🚀</span>
           <div><strong>Builder / Founder muốn build startup</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi có idea và muốn build nhanh nhất có thể</div></div>
         </button>
-        <button class="reg-who-btn" onclick="renderRegisterStep(2,{who:'student'})" style="border-left:4px solid #fbbf24">
+        <button class="reg-who-btn" onclick="window._regWho='student';renderRegisterStep(2,{who:'student'})" style="border-left:4px solid #fbbf24">
           <span style="font-size:1.5rem">📚</span>
           <div><strong>Sinh viên / Junior đang học</strong><div style="font-size:0.72rem;color:var(--text-secondary)">Tôi muốn học và bắt đầu hành trình khởi nghiệp</div></div>
         </button>
@@ -7289,7 +7290,7 @@ function renderRegisterStep(step, data) {
           <input class="studio-input" id="reg-goal" placeholder="VD: Kiếm $500/tháng đầu tiên, launch MVP..."></div>
         <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
           <button class="btn btn--secondary btn--sm" style="flex:0" onclick="renderRegisterStep(1,{})">← Quay lại</button>
-          <button class="btn btn--primary" style="flex:1" onclick="registerStep3(${JSON.stringify({...data}).split('}')[0]},'who':'${data.who}'})">Tiếp → Chọn con đường 🗺️</button>
+          <button class="btn btn--primary" style="flex:1" onclick="registerStep3()">Tiếp → Chọn con đường 🗺️</button>
         </div>
       </div>`;
   } else if (step === 3) {
@@ -7341,14 +7342,14 @@ function renderRegisterStep(step, data) {
   }
 }
 
-function registerStep3(data) {
+function registerStep3() {
   const name = document.getElementById('reg-name')?.value || '';
   const skills = [...document.querySelectorAll('.reg-skill-btn.selected')].map(b => b.textContent);
   const yoe = document.getElementById('reg-yoe')?.value || '0';
   const github = document.getElementById('reg-github')?.value || '';
   const goal = document.getElementById('reg-goal')?.value || '';
   if (!name.trim()) { showToast('Nhập tên của bạn!', 'error'); return; }
-  renderRegisterStep(3, { ...data, name, skills, yoe, github, goal });
+  renderRegisterStep(3, { who: window._regWho || 'founder', name, skills, yoe, github, goal });
 }
 
 function toggleRegSkill(btn, skill) {
@@ -7524,4 +7525,319 @@ function shareNews(id) {
 function newsSearch(q) {
   _newsSearch = q.toLowerCase();
   renderNewsFeed();
+}
+
+// ============ ✏️ REAL CRUD — CREATE / EDIT / VIEW ============
+// Mọi form đều: mở modal → đọc input → lưu vào array → re-render section
+
+/* --------- CREATE IDEA / PROJECT --------- */
+function openCreateIdeaModal(editId) {
+  const existing = editId ? (window.IDEAS || []).find(x => x.id === editId) : null;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'crud-idea-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:520px">
+      <div class="modal__header">
+        <h3>${existing ? '✏️ Sửa Idea' : '💡 Tạo Idea Mới'}</h3>
+        <button class="modal__close" onclick="document.getElementById('crud-idea-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem">
+        <div>
+          <label class="reg-label">Tên dự án / Idea *</label>
+          <input class="studio-input" id="ci-title" placeholder="VD: AI Code Review Pro, InvoiceBot..." value="${existing ? existing.title || '' : ''}">
+        </div>
+        <div>
+          <label class="reg-label">Mô tả ngắn *</label>
+          <textarea class="studio-input" id="ci-desc" rows="3" placeholder="Giải quyết vấn đề gì? Cho ai? Bằng cách nào?">${existing ? existing.problem || '' : ''}</textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div>
+            <label class="reg-label">Lĩnh vực *</label>
+            <select class="studio-input" id="ci-sector">
+              ${['SaaS','AI','Fintech','EdTech','HealthTech','ClimaTech','Marketplace','Consumer','DeepTech'].map(s =>
+                `<option value="${s}" ${existing && existing.sector === s ? 'selected' : ''}>${s}</option>`
+              ).join('')}
+            </select>
+          </div>
+          <div>
+            <label class="reg-label">Giai đoạn</label>
+            <select class="studio-input" id="ci-stage">
+              ${['Idea','Pre-seed','Seed','Series A'].map(s =>
+                `<option value="${s}" ${existing && existing.stage === s ? 'selected' : ''}>${s}</option>`
+              ).join('')}
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="reg-label">Cần team? (roles, cách nhau dấu phẩy)</label>
+          <input class="studio-input" id="ci-roles" placeholder="VD: Backend Dev, UI/UX, Marketing" value="${existing ? (existing.rolesNeeded || []).join(', ') : ''}">
+        </div>
+        <div>
+          <label class="reg-label">Tags (cách nhau dấu phẩy)</label>
+          <input class="studio-input" id="ci-tags" placeholder="VD: AI, Automation, B2B" value="${existing ? (existing.tags || []).join(', ') : ''}">
+        </div>
+        <button class="btn btn--primary" style="width:100%;margin-top:0.25rem" onclick="saveIdea('${editId || ''}')">
+          ${existing ? '💾 Lưu thay đổi' : '🚀 Tạo Idea'} 
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function saveIdea(editId) {
+  const title = document.getElementById('ci-title')?.value.trim();
+  const desc  = document.getElementById('ci-desc')?.value.trim();
+  const sector = document.getElementById('ci-sector')?.value;
+  const stage  = document.getElementById('ci-stage')?.value;
+  const roles  = document.getElementById('ci-roles')?.value.split(',').map(s => s.trim()).filter(Boolean);
+  const tags   = document.getElementById('ci-tags')?.value.split(',').map(s => s.trim()).filter(Boolean);
+  if (!title) { showToast('Nhập tên idea!', 'error'); return; }
+  if (!desc)  { showToast('Nhập mô tả!', 'error'); return; }
+
+  if (!window.IDEAS) window.IDEAS = [];
+  if (editId) {
+    const idx = window.IDEAS.findIndex(x => String(x.id) === String(editId));
+    if (idx > -1) { window.IDEAS[idx] = { ...window.IDEAS[idx], title, problem: desc, sector, stage, rolesNeeded: roles, tags }; }
+  } else {
+    const newItem = {
+      id: Date.now(), title, problem: desc, sector, stage,
+      rolesNeeded: roles, tags,
+      team: 1, mrr: 0, users: 0, raised: 0, hot: false,
+      pitch: desc, logo: '💡',
+      techStack: [], solution: ''
+    };
+    window.IDEAS.unshift(newItem);
+  }
+  document.getElementById('crud-idea-modal')?.remove();
+  showToast(editId ? '✅ Idea đã cập nhật!' : '🎉 Idea "' + title + '" đã tạo!', 'success');
+  // Re-render relevant views if active
+  if (document.getElementById('view-portfolio')?.classList.contains('view--active')) renderStartupPortfolio();
+  if (document.getElementById('devjoin-grid')) renderDevJoinGrid(window.IDEAS);
+}
+
+/* --------- CREATE SOCIAL POST --------- */
+function openCreatePostModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'crud-post-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:500px">
+      <div class="modal__header">
+        <h3>✍️ Tạo Bài Viết</h3>
+        <button class="modal__close" onclick="document.getElementById('crud-post-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem">
+        <div>
+          <label class="reg-label">Loại bài viết</label>
+          <select class="studio-input" id="cp-tag">
+            <option>🚀 Build In Public</option>
+            <option>💡 Idea Validation</option>
+            <option>📊 Traction Update</option>
+            <option>🤝 Looking for Co-founder</option>
+            <option>💸 Revenue Milestone</option>
+            <option>🧠 Tech Deep Dive</option>
+            <option>❓ Question</option>
+          </select>
+        </div>
+        <div>
+          <label class="reg-label">Nội dung *</label>
+          <textarea class="studio-input" id="cp-content" rows="5" placeholder="Chia sẻ update, bài học, hoặc đặt câu hỏi với cộng đồng..."></textarea>
+        </div>
+        <button class="btn btn--primary" style="width:100%" onclick="savePost()">📢 Đăng bài</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function savePost() {
+  const tag = document.getElementById('cp-tag')?.value.trim();
+  const content = document.getElementById('cp-content')?.value.trim();
+  if (!content) { showToast('Nhập nội dung bài viết!', 'error'); return; }
+  const me = window._userProfile;
+  const newPost = {
+    id: Date.now(), userId: 99,
+    tag, content,
+    likes: 0, comments: 0, shares: 0,
+    reactions: [], time: 'Vừa xong',
+    commentList: [],
+    authorName: me ? me.name : 'Bạn'
+  };
+  if (typeof POSTS !== 'undefined') POSTS.unshift(newPost);
+  document.getElementById('crud-post-modal')?.remove();
+  showToast('🎉 Đã đăng bài!', 'success');
+  // Re-render feed if visible
+  if (typeof renderPosts === 'function') renderPosts();
+}
+
+/* --------- CREATE CAMPAIGN (Discovery Hub) --------- */
+function openCreateCampaignModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'crud-camp-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:500px">
+      <div class="modal__header">
+        <h3>📢 Tạo Campaign Mới</h3>
+        <button class="modal__close" onclick="document.getElementById('crud-camp-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem">
+        <div>
+          <label class="reg-label">Tên campaign *</label>
+          <input class="studio-input" id="cc-name" placeholder="VD: Beta Waitlist, Landing Page Test...">
+        </div>
+        <div>
+          <label class="reg-label">Sản phẩm đang validate *</label>
+          <input class="studio-input" id="cc-product" placeholder="VD: AI Invoice Tool, P2P Marketplace...">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div>
+            <label class="reg-label">Kênh chính</label>
+            <select class="studio-input" id="cc-channel">
+              ${['Product Hunt','Twitter/X','LinkedIn','Zalo Group','Facebook Group','Email','Reddit','TikTok'].map(c =>
+                `<option>${c}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label class="reg-label">Mục tiêu signups</label>
+            <input class="studio-input" id="cc-goal" type="number" placeholder="100" min="0">
+          </div>
+        </div>
+        <button class="btn btn--primary" style="width:100%" onclick="saveCampaign()">🚀 Tạo Campaign</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function saveCampaign() {
+  const name    = document.getElementById('cc-name')?.value.trim();
+  const product = document.getElementById('cc-product')?.value.trim();
+  const channel = document.getElementById('cc-channel')?.value;
+  const goal    = parseInt(document.getElementById('cc-goal')?.value) || 100;
+  if (!name)    { showToast('Nhập tên campaign!', 'error'); return; }
+  if (!product) { showToast('Nhập tên sản phẩm!', 'error'); return; }
+  const camp = {
+    id: 'dc-' + Date.now(), name, product, status: 'active',
+    visitors: 0, signups: 0, conversion: '0%', channel, daysActive: 0, feedback: 0, goal
+  };
+  if (typeof DISCOVERY_CAMPAIGNS !== 'undefined') DISCOVERY_CAMPAIGNS.unshift(camp);
+  document.getElementById('crud-camp-modal')?.remove();
+  showToast('🎉 Campaign "' + name + '" đã tạo! Bắt đầu share link ngay.', 'success');
+  if (typeof renderDiscoveryHub === 'function') renderDiscoveryHub();
+}
+
+/* --------- CREATE CLAWWORK TASK --------- */
+function openCreateTaskModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'crud-task-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:480px">
+      <div class="modal__header">
+        <h3>➕ Đăng Task Mới</h3>
+        <button class="modal__close" onclick="document.getElementById('crud-task-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem">
+        <div>
+          <label class="reg-label">Tên task *</label>
+          <input class="studio-input" id="ct-title" placeholder="VD: Build landing page React, API integration...">
+        </div>
+        <div>
+          <label class="reg-label">Mô tả chi tiết *</label>
+          <textarea class="studio-input" id="ct-desc" rows="3" placeholder="Yêu cầu cụ thể, tech stack, output mong đợi..."></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div>
+            <label class="reg-label">Thưởng (USD) *</label>
+            <input class="studio-input" id="ct-reward" type="number" placeholder="85" min="10">
+          </div>
+          <div>
+            <label class="reg-label">Deadline</label>
+            <input class="studio-input" id="ct-deadline" type="text" placeholder="VD: 48h, 3 ngày, 1 tuần">
+          </div>
+        </div>
+        <div>
+          <label class="reg-label">Skills cần thiết</label>
+          <input class="studio-input" id="ct-skills" placeholder="VD: React, Python, Figma (cách nhau dấu phẩy)">
+        </div>
+        <button class="btn btn--primary" style="width:100%" onclick="saveTask()">💰 Đăng Task</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function saveTask() {
+  const title   = document.getElementById('ct-title')?.value.trim();
+  const desc    = document.getElementById('ct-desc')?.value.trim();
+  const reward  = parseInt(document.getElementById('ct-reward')?.value) || 0;
+  const deadline = document.getElementById('ct-deadline')?.value.trim() || '48h';
+  const skills  = document.getElementById('ct-skills')?.value.split(',').map(s => s.trim()).filter(Boolean);
+  if (!title)  { showToast('Nhập tên task!', 'error'); return; }
+  if (!desc)   { showToast('Nhập mô tả task!', 'error'); return; }
+  if (reward < 10) { showToast('Thưởng tối thiểu $10!', 'error'); return; }
+  const task = {
+    id: 'wt-' + Date.now(), title, desc,
+    reward: '$' + reward, deadline, skills,
+    status: 'open', applicants: 0, posted: 'Vừa xong',
+    category: skills[0] || 'General'
+  };
+  if (typeof WORKSPACE_TASKS !== 'undefined') WORKSPACE_TASKS.unshift(task);
+  document.getElementById('crud-task-modal')?.remove();
+  showToast('🎉 Task "' + title + '" đã đăng! $' + reward + ' sẽ trả khi hoàn thành.', 'success');
+  if (typeof renderWorkspace === 'function') renderWorkspace();
+  else if (typeof renderWorkspaceHub === 'function') renderWorkspaceHub();
+}
+
+/* --------- EDIT PROFILE --------- */
+function openEditProfile() {
+  const p = window._userProfile;
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay'; modal.id = 'crud-profile-modal';
+  modal.innerHTML = `
+    <div class="modal card" style="max-width:440px">
+      <div class="modal__header">
+        <h3>✏️ Chỉnh sửa Profile</h3>
+        <button class="modal__close" onclick="document.getElementById('crud-profile-modal').remove()">✕</button>
+      </div>
+      <div style="padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div><label class="reg-label">Tên *</label><input class="studio-input" id="ep-name" value="${p ? p.name : ''}" placeholder="Tên của bạn"></div>
+          <div><label class="reg-label">GitHub</label><input class="studio-input" id="ep-github" value="${p ? (p.github || '') : ''}" placeholder="github.com/user"></div>
+        </div>
+        <div>
+          <label class="reg-label">Mục tiêu 30 ngày tới</label>
+          <input class="studio-input" id="ep-goal" value="${p ? (p.goal || '') : ''}" placeholder="VD: Kiếm $500/tháng, launch MVP...">
+        </div>
+        <div>
+          <label class="reg-label">Loại tài khoản</label>
+          <select class="studio-input" id="ep-who">
+            ${['unemployed','mentor','founder','student'].map(w =>
+              `<option value="${w}" ${p && p.who === w ? 'selected' : ''}>${{unemployed:'💸 Dev Comeback',mentor:'🎓 Mentor',founder:'🚀 Founder',student:'📚 Learner'}[w]}</option>`
+            ).join('')}
+          </select>
+        </div>
+        <button class="btn btn--primary" style="width:100%" onclick="saveProfile()">💾 Lưu Profile</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+  modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function saveProfile() {
+  const name   = document.getElementById('ep-name')?.value.trim();
+  const github = document.getElementById('ep-github')?.value.trim();
+  const goal   = document.getElementById('ep-goal')?.value.trim();
+  const who    = document.getElementById('ep-who')?.value;
+  if (!name) { showToast('Nhập tên!', 'error'); return; }
+  const paths = {
+    unemployed: { icon:'💸', title:'Dev Comeback', desc:'30 ngày roadmap', view:'comeback', color:'#22c55e', cta:'Mở Comeback' },
+    mentor:     { icon:'🎓', title:'Teach to Earn', desc:'Biến expertise thành income', view:'comeback', color:'#6366f1', cta:'Dạy ngay' },
+    founder:    { icon:'🚀', title:'Startup Builder', desc:'Think → Money', view:'studio', color:'#f97316', cta:'Mở Studio' },
+    student:    { icon:'📚', title:'Academy', desc:'Học từ A đến Z', view:'academy', color:'#fbbf24', cta:'Vào Academy' },
+  };
+  window._userProfile = { ...(window._userProfile || {}), name, github, goal, who, path: paths[who] };
+  const nameEl = document.getElementById('user-name-display');
+  if (nameEl) nameEl.textContent = name;
+  document.getElementById('crud-profile-modal')?.remove();
+  showToast('✅ Profile "' + name + '" đã cập nhật!', 'success');
 }
